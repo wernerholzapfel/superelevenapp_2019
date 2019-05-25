@@ -1,0 +1,46 @@
+<ion-card>
+    <ion-card-header>
+        <ion-card-title>Inloggen</ion-card-title>
+        <ion-card-subtitle>&nbsp;</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content *ngIf="!(authService.user$ | async)">
+        <ion-tabs>
+            <ion-tab-button tab="schedule">
+                <ion-icon name="calendar"></ion-icon>
+                <ion-label>Schedule</ion-label>
+            </ion-tab-button>
+        </ion-tabs>
+        <form class="login-form">
+            <ion-input placeholder="Email" name="inlogEmail" [(ngModel)]="user.email"></ion-input>
+            <ion-input type="password" autocomplete="password" name="inlogPassword" placeholder="Password"
+                       [(ngModel)]="user.password"></ion-input>
+            <ion-button expand="full" color="primary" (click)="signInWithEmail()"
+                        [disabled]="!user.email || !user.password">
+                Inloggen
+            </ion-button>
+            <div class="clickable_div" (click)="activateResetPassword(true)">Wachtwoord vergeten</div>
+        </form>
+        <form [formGroup]="userForm" class="login-form">
+            <ion-input type="text" placeholder="Naam" formControlName="displayName"
+                       [(ngModel)]="user.displayName"></ion-input>
+            <ion-input placeholder="Email" formControlName="emailFormControl"
+                       [(ngModel)]="user.email">
+            </ion-input>
+            <ion-input type="password" autocomplete="password" placeholder="Password"
+                       formControlName="passwordFormControl"
+                       [(ngModel)]="user.password">
+            </ion-input>
+            <ion-input type="text" placeholder="Teamnaam" formControlName="teamName"
+                       [(ngModel)]="user.teamName"></ion-input>
+            <ion-button expand="full" color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
+                Inschrijven
+            </ion-button>
+        </form>
+    </ion-card-content>
+    <ion-card-content *ngIf="(authService.user$ | async)">
+        Welkom {{authService.displayName}}
+        <ion-button expand="full" color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
+            {{authService.displayName}}
+        </ion-button>
+    </ion-card-content>
+</ion-card>
