@@ -1,5 +1,7 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
+$safe-area-inset-top: env(safe-area-inset-top);
+$safe-area-inset-bottom: env(safe-area-inset-bottom);
 
 /** Ionic CSS Variables **/
 :root {
@@ -65,4 +67,11 @@
   --ion-color-light-contrast-rgb: 0,0,0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+}
+ion-segment-button {
+  --indicator-color: rgba(255,255,255,0.1);
+  --indicator-color-checked: #97bf12;
+  --color-checked: #E7E5DF;
+  --color: #E7E5DF;
+  --ion-text-color-rgb: #E7E5DF;
 }

@@ -1,16 +1,16 @@
 <ion-card>
     <ion-card-header>
-        <ion-card-title>Inloggen</ion-card-title>
-        <ion-card-subtitle>&nbsp;</ion-card-subtitle>
+        <ion-segment color="primary" (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="inschrijven" [checked]="activeSegment === 'inschrijven'">
+                Inschrijven
+            </ion-segment-button>
+            <ion-segment-button value="inloggen" [checked]="activeSegment === 'inloggen'">
+                Login
+            </ion-segment-button>
+        </ion-segment>
     </ion-card-header>
-    <ion-card-content *ngIf="!(authService.user$ | async)">
-        <ion-tabs>
-            <ion-tab-button tab="schedule">
-                <ion-icon name="calendar"></ion-icon>
-                <ion-label>Schedule</ion-label>
-            </ion-tab-button>
-        </ion-tabs>
-        <form class="login-form">
+    <ion-card-content *ngIf="!(authService.user$ | async) && !wachtwoordvergeten">
+        <form *ngIf="activeSegment === 'inloggen'" class="login-form">
             <ion-input placeholder="Email" name="inlogEmail" [(ngModel)]="user.email"></ion-input>
             <ion-input type="password" autocomplete="password" name="inlogPassword" placeholder="Password"
                        [(ngModel)]="user.password"></ion-input>
@@ -20,7 +20,7 @@
             </ion-button>
             <div class="clickable_div" (click)="activateResetPassword(true)">Wachtwoord vergeten</div>
         </form>
-        <form [formGroup]="userForm" class="login-form">
+        <form *ngIf="activeSegment === 'inschrijven'" [formGroup]="userForm" class="login-form">
             <ion-input type="text" placeholder="Naam" formControlName="displayName"
                        [(ngModel)]="user.displayName"></ion-input>
             <ion-input placeholder="Email" formControlName="emailFormControl"
@@ -42,5 +42,30 @@
         <ion-button expand="full" color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
             {{authService.displayName}}
         </ion-button>
+    </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="wachtwoordvergeten" label="wachtwoord vergeten">
+    <ion-card-header>
+        <ion-label>
+            <h2>
+                Wachtwoord vergeten
+            </h2>
+        </ion-label>
+    </ion-card-header>
+    <ion-card-content>
+        <form class="login-form">
+            <ion-item lines="full">
+                <ion-input required placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
+                </ion-input>
+            </ion-item>
+            <div class="button-container">
+                <ion-button expand="full" [color]="user.email ? 'primary' : 'medium'"
+                            (click)="sendPasswordResetEmail()"
+                            [disabled]="!user.email">Reset wachtwoord
+                </ion-button>
+            </div>
+        </form>
+        <div class="clickable_div" (click)="activateResetPassword(false)">Login</div>
     </ion-card-content>
 </ion-card>

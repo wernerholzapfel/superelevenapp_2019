@@ -16,6 +16,7 @@ import {ParticipantService} from './services/participant.service';
 import {AuthService} from './services/auth.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './services/token.interceptor';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,7 @@ import {TokenInterceptor} from './services/token.interceptor';
         AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
         AngularFireAuthModule,
         StoreDevtoolsModule.instrument(),
-        // StoreModule.forRoot(reducers),
+// StoreModule.forRoot(reducers),
         // EffectsModule.forRoot(effects),
     ],
     providers: [

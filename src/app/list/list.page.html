@@ -1,27 +1,31 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons color="primary" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>
-      List
+    <ion-title color="secondary">
+     Supereleven
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of items">
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{item.title}}
-      <div class="item-note" slot="end">
-        {{item.note}}
-      </div>
-    </ion-item>
-  </ion-list>
-  <!--
-    <div *ngIf="selectedItem" padding>
-      You navigated here from <b>{{selectedItem.title }}</b>
-    </div>
-  -->
+  <ion-card>
+<ion-card-header>
+  <ion-card-title color="primary">Eindstand
+  </ion-card-title>
+  <ion-card-subtitle color="medium">Voorspel de eindstand
+  </ion-card-subtitle>
+</ion-card-header>
+  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+    <!-- Items wrapped in a reorder, entire item can be dragged -->
+    <ion-reorder *ngFor="let item of items">
+      <ion-item>
+        <ion-label>
+          {{item.title}} {{item.positie}}
+        </ion-label>
+        <ion-icon name="reorder"></ion-icon>
+      </ion-item>
+    </ion-reorder>
+  </ion-reorder-group>
+  </ion-card>
 </ion-content>

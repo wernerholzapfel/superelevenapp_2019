@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         displayName: '',
         teamName: '',
     };
+    activeSegment = 'inschrijven';
+
     unsubscribe = new Subject<void>();
 
     constructor(public authService: AuthService,
@@ -72,7 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.sendPasswordResetEmail(this.user.email)
             .then(async (res) => {
                 const toast = await this.toastController.create({
-                    message: res,
+                    message: 'Verzoek om wachtwoord te wijzigen is ontvangen.',
                     duration: 2000
                 });
                 toast.present();
@@ -123,6 +125,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.wachtwoordvergeten = isTrue;
     }
 
+    segmentChanged($event) {
+        this.activeSegment = $event.detail.value;
+    }
     ngOnDestroy() {
         this.unsubscribe.next();
         this.unsubscribe.complete();
