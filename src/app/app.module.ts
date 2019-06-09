@@ -22,12 +22,15 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {CompetitionService} from './services/competition.service';
 import {effects, metaReducers, reducers} from './store/store';
+import {AuthGuard} from './guards/auth.guard';
+import {HeaderModule} from './header/header.module';
 
 @NgModule({
     declarations: [
         AppComponent],
     entryComponents: [],
     imports: [
+        HeaderModule,
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
@@ -39,12 +42,13 @@ import {effects, metaReducers, reducers} from './store/store';
         StoreDevtoolsModule.instrument(),
     ],
     providers: [
+        AuthService,
+        AuthGuard,
         CompetitionService,
         StatusBar,
         SplashScreen,
         ParticipantService,
         PredictionsService,
-        AuthService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
             provide: HTTP_INTERCEPTORS,

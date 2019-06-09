@@ -19,36 +19,8 @@ export class AppComponent implements OnInit {
             icon: 'home'
         },
         {
-            title: 'Totaalstand',
+            title: 'Voorspellingen',
             url: '/list',
-            icon: 'list'
-        }, {
-            title: 'Teamstand',
-            url: '/stand',
-            icon: 'list'
-        }, {
-            title: 'Wedstrijdenstand',
-            url: '/stand',
-            icon: 'list'
-        }, {
-            title: 'Vragenstand',
-            url: '/stand',
-            icon: 'list'
-        }, {
-            title: 'Competitiestand',
-            url: '/stand',
-            icon: 'list'
-        }, {
-            title: 'Punten per voetballer',
-            url: '/stand',
-            icon: 'list'
-        }, {
-            title: 'Gekozen voetballers',
-            url: '/stand',
-            icon: 'list'
-        }, {
-            title: 'Deelnemers',
-            url: '/stand',
             icon: 'list'
         }
     ];

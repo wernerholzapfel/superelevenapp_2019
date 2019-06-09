@@ -1,10 +1,10 @@
-<ion-card>
+<ion-card *ngIf="!wachtwoordvergeten">
     <ion-card-header>
-        <ion-segment color="primary" (ionChange)="segmentChanged($event)">
-            <ion-segment-button value="inschrijven" [checked]="activeSegment === 'inschrijven'">
+        <ion-segment mode="md" color="primary" (ionChange)="segmentChanged($event)">
+            <ion-segment-button mode="md" value="inschrijven" [checked]="activeSegment === 'inschrijven'">
                 Inschrijven
             </ion-segment-button>
-            <ion-segment-button value="inloggen" [checked]="activeSegment === 'inloggen'">
+            <ion-segment-button mode="md" value="inloggen" [checked]="activeSegment === 'inloggen'">
                 Login
             </ion-segment-button>
         </ion-segment>
@@ -39,19 +39,18 @@
     </ion-card-content>
     <ion-card-content *ngIf="(authService.user$ | async)">
         Welkom {{authService.displayName}}
-        <ion-button expand="full" color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
-            {{authService.displayName}}
+        <ion-button expand="full" color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Uitloggen
         </ion-button>
     </ion-card-content>
 </ion-card>
 
 <ion-card *ngIf="wachtwoordvergeten" label="wachtwoord vergeten">
     <ion-card-header>
-        <ion-label>
-            <h2>
-                Wachtwoord vergeten
-            </h2>
-        </ion-label>
+        <ion-segment mode="md" color="primary">
+            <ion-segment-button mode="md" checked="true">
+               Wachtwoord vergeten
+            </ion-segment-button>
+        </ion-segment>
     </ion-card-header>
     <ion-card-content>
         <form class="login-form">

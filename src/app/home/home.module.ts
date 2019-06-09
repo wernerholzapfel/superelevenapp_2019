@@ -6,6 +6,7 @@ import {RouterModule} from '@angular/router';
 
 import {HomePage} from './home.page';
 import {LoginModule} from '../login/login.module';
+import {HeaderModule} from '../header/header.module';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import {LoginModule} from '../login/login.module';
         FormsModule,
         IonicModule,
         LoginModule,
+        HeaderModule,
         RouterModule.forChild([
             {
                 path: '',
