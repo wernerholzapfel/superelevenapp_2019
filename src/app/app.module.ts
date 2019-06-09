@@ -17,6 +17,11 @@ import {AuthService} from './services/auth.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './services/token.interceptor';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {PredictionsService} from './services/predictions.service';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {CompetitionService} from './services/competition.service';
+import {effects, metaReducers, reducers} from './store/store';
 
 @NgModule({
     declarations: [
@@ -29,14 +34,16 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
         AngularFireAuthModule,
+        StoreModule.forRoot(reducers, { metaReducers }),
+        EffectsModule.forRoot(effects),
         StoreDevtoolsModule.instrument(),
-// StoreModule.forRoot(reducers),
-        // EffectsModule.forRoot(effects),
     ],
     providers: [
+        CompetitionService,
         StatusBar,
         SplashScreen,
         ParticipantService,
+        PredictionsService,
         AuthService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {

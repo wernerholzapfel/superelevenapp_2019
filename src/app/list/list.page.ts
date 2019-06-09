@@ -1,5 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
+import {PredictionsService} from '../services/predictions.service';
+import {RankingTeam} from '../models/prediction.model';
+import {combineLatest, from, Subject} from 'rxjs';
+import {Store} from '@ngrx/store';
+import {switchMap, takeUntil} from 'rxjs/operators';
+import {Competition} from '../models/competition.model';
+import {IAppState} from '../store/store';
+import {getCompetition} from '../store/competition/competition.reducer';
+import {AuthService} from '../services/auth.service';
 
 @Component({
     selector: 'app-list',
@@ -22,35 +31,52 @@ export class ListPage implements OnInit {
         'bluetooth',
         'build'
     ];
-    public items: Array<{ title: string; note: string; icon: string, positie: number }> = [];
+    public isDirty = true;
+    public items: RankingTeam[];
+    unsubscribe = new Subject<void>();
 
-    constructor() {
-        // get teams for current competition
-        for (let i = 1; i < 11; i++) {
-            this.items.push({
-                title: 'Item ' + i,
-                note: 'This is item #' + i,
-                icon: this.icons[Math.floor(Math.random() * this.icons.length)],
-                positie: i
-            });
-        }
+    constructor(private store: Store<IAppState>, private predictionsService: PredictionsService, private authService: AuthService) {
     }
 
     ngOnInit() {
+
+        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), switchMap((competition: Competition) => {
+            if (competition && competition.id) {
+                return combineLatest(this.predictionsService.getRankingTeams(competition.id),
+                    this.predictionsService.getRankingTeamsPrediction(competition.id));
+            } else {
+                return from([]);
+            }
+        })).subscribe(
+            ([rankingTeams, rankingPrediction]) => {
+                if (rankingPrediction && rankingPrediction.length > 0) {
+                    this.isDirty = false;
+                    this.items = rankingPrediction.map((item, index) => this.addPosition(item, index));
+                } else if (!rankingPrediction || rankingPrediction.length === 0 && rankingTeams) {
+                    console.log(rankingTeams);
+                    this.items = rankingTeams.map((item, index) => this.addPosition(item, index));
+                }
+            });
     }
 
     doReorder(ev: any) {
-        // Before complete is called with the items they will remain in the
-        // order before the drag
-        console.log('Before complete', this.items);
-        console.log(ev.detail.from);
-        // Finish the reorder and position the item in the DOM based on
-        // where the gesture ended. Update the items variable to the
-        // new order of items
+        this.isDirty = true;
+        this.items = ev.detail.complete(this.items).map((item, index) => this.addPosition(item, index));
+    }
 
-        this.items = ev.detail.complete(this.items).map((item, index) => Object.assign(item, {positie: index + 1}));
+    addPosition(item, index) {
+        return Object.assign(item, {position: index + 1});
+    }
 
-        // After complete is called the items will be in the new order
-        console.log('After complete', this.items);
+    canISaveForm() {
+        return this.items && this.items.length > 0 && this.isDirty;
+    }
+
+    saveRankingPrediction() {
+        this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
+            this.isDirty = false;
+            console.log(result); // todo show toast
+
+        });
     }
 }

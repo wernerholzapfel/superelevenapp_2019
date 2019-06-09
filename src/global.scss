@@ -11,3 +11,49 @@
 @import '~@ionic/angular/css/flex-utils.css';
 
 @import "./theme/variables";
+
+:root {
+  @each $size, $size-value in (
+          xs: 0,
+          sm: 576px,
+          md: 768px,
+          lg: 992px,
+          xl: 1200px
+  ) {
+    .hide-#{$size} {
+      @media (min-width: $size-value) {
+        display: none;
+      }
+    }
+  }
+  @each $size, $size-value in (
+          xs: 0,
+          sm: 576px,
+          md: 768px,
+          lg: 992px,
+          xl: 1200px
+  ) {
+    .show-#{$size} {
+      @media (max-width: $size-value) {
+        display: none;
+      }
+    }
+  }
+
+  ion-item {
+    --padding-start: 2px;
+    --padding-end: 2px;
+  }
+
+  ion-button {
+    margin-top: 16px;
+  }
+
+  ion-card {
+    margin: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    height: calc(100vh - 44px)
+  }
+}
