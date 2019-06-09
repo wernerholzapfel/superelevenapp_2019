@@ -1,5 +1,5 @@
 export const environment = {
-    apiBaseUrl: 'https://supereleven-2019.herokuapp.com/',
+    apiBaseUrl: 'https://supereleven-2019.herokuapp.com',
     production: true,
     firebase: {
         apiKey: 'AIzaSyCbAKfD1cA5rHmHpHESD-Yen8NVRrTh5ZY',
