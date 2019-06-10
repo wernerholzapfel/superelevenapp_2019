@@ -23,7 +23,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {CompetitionService} from './services/competition.service';
 import {effects, metaReducers, reducers} from './store/store';
 import {AuthGuard} from './guards/auth.guard';
-import {HeaderModule} from './header/header.module';
+import {HeaderModule} from './components/header/header.module';
 import {HttperrorInterceptor} from './interceptors/httperror.interceptor';
 
 @NgModule({

@@ -5,8 +5,8 @@ import {IonicModule} from '@ionic/angular';
 import {RouterModule} from '@angular/router';
 
 import {HomePage} from './home.page';
-import {LoginModule} from '../login/login.module';
-import {HeaderModule} from '../header/header.module';
+import {LoginModule} from '../components/login/login.module';
+import {HeaderModule} from '../components/header/header.module';
 
 @NgModule({
     imports: [

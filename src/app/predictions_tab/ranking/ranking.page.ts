@@ -1,20 +1,20 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup, ToastController} from '@ionic/angular';
-import {PredictionsService} from '../services/predictions.service';
-import {RankingTeam} from '../models/prediction.model';
+import {PredictionsService} from '../../services/predictions.service';
+import {RankingTeam} from '../../models/prediction.model';
 import {combineLatest, from, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {switchMap, takeUntil} from 'rxjs/operators';
-import {Competition} from '../models/competition.model';
-import {IAppState} from '../store/store';
-import {getCompetition} from '../store/competition/competition.reducer';
+import {Competition} from '../../models/competition.model';
+import {IAppState} from '../../store/store';
+import {getCompetition} from '../../store/competition/competition.reducer';
 
 @Component({
-    selector: 'app-list',
-    templateUrl: 'list.page.html',
-    styleUrls: ['list.page.scss']
+    selector: 'app-ranking',
+    templateUrl: 'ranking.page.html',
+    styleUrls: ['ranking.page.scss']
 })
-export class ListPage implements OnInit {
+export class RankingPage implements OnInit {
     @ViewChild(IonReorderGroup, {static: false}) reorderGroup: IonReorderGroup;
 
     public isDirty = true;

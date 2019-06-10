@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,} from '@angular/common/http';
+import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {ToastController} from '@ionic/angular';
@@ -11,7 +11,6 @@ export class HttperrorInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('ik zit in interceptor');
         return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {

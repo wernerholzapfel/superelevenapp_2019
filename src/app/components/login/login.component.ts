@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthService} from '../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 // import {ParticipantService} from '../services/participant.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {ToastController} from '@ionic/angular';
-import {ParticipantService} from '../services/participant.service';
+import {ParticipantService} from '../../services/participant.service';
 
 @Component({
     selector: 'app-login',

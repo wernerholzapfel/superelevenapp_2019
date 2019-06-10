@@ -1,0 +1,16 @@
+<app-header></app-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="primary">Team
+      </ion-card-title>
+      <ion-card-subtitle color="medium">Stel je team samen
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="save()">
+        Opslaan
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

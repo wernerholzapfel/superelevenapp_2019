@@ -6,29 +6,35 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {IAppState} from './store/store';
 import {Store} from '@ngrx/store';
 import * as fromCompetition from './store/competition/competition.actions';
+import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 
 @Component({
     selector: 'app-root',
-    templateUrl: 'app.component.html'
+    templateUrl: 'app.component.html',
+    styleUrls: ['./app.component.scss'],
+
 })
 export class AppComponent implements OnInit {
     public appPages = [
         {
             title: 'Home',
             url: '/home',
-            icon: 'home'
+            icon: 'home',
+            active: false
         },
         {
-            title: 'Voorspellingen',
-            url: '/list',
-            icon: 'list'
+            title: 'Voorspelling',
+            url: '/prediction',
+            icon: 'list',
+            active: false
         }
     ];
 
     constructor(private store: Store<IAppState>,
                 private platform: Platform,
                 private splashScreen: SplashScreen,
-                private statusBar: StatusBar
+                private statusBar: StatusBar,
+                private router: Router
     ) {
         this.initializeApp();
 
@@ -42,6 +48,15 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-       this.store.dispatch(new fromCompetition.FetchCompetitionList());
+        this.store.dispatch(new fromCompetition.FetchCompetitionList());
+
+        // set linkactive.
+        this.router.events.subscribe((event: RouterEvent) => {
+            if (event instanceof NavigationEnd) {
+                this.appPages.map(p => {
+                    return Object.assign(p, {active: (event.url.startsWith(p.url))});
+                });
+            }
+        });
     }
 }
