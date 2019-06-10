@@ -7,11 +7,13 @@ import { IonicModule } from '@ionic/angular';
 
 import { MatchesPage } from './matches.page';
 import {HeaderModule} from '../../components/header/header.module';
+import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: MatchesPage
+    component: MatchesPage,
+    canDeactivate: [CanDeactivateGuard]
   }
 ];
 

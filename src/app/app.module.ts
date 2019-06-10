@@ -24,7 +24,9 @@ import {CompetitionService} from './services/competition.service';
 import {effects, metaReducers, reducers} from './store/store';
 import {AuthGuard} from './guards/auth.guard';
 import {HeaderModule} from './components/header/header.module';
-import {HttperrorInterceptor} from './interceptors/httperror.interceptor';
+import {HttpErrorInterceptor} from './interceptors/http-error-interceptor.service';
+import {CanDeactivateGuard} from './guards/candeactivate.guard';
+import {ToastService} from './services/toast.service';
 
 @NgModule({
     declarations: [
@@ -45,11 +47,13 @@ import {HttperrorInterceptor} from './interceptors/httperror.interceptor';
     providers: [
         AuthService,
         AuthGuard,
+        CanDeactivateGuard,
         CompetitionService,
         StatusBar,
         SplashScreen,
         ParticipantService,
         PredictionsService,
+        ToastService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
             provide: HTTP_INTERCEPTORS,
@@ -58,7 +62,7 @@ import {HttperrorInterceptor} from './interceptors/httperror.interceptor';
         },
         {
             provide: HTTP_INTERCEPTORS,
-            useClass: HttperrorInterceptor,
+            useClass: HttpErrorInterceptor,
             multi: true,
         },
     ],

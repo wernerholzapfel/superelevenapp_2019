@@ -1,13 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonReorderGroup, ToastController} from '@ionic/angular';
+import {IonReorderGroup} from '@ionic/angular';
 import {PredictionsService} from '../../services/predictions.service';
 import {RankingTeam} from '../../models/prediction.model';
-import {combineLatest, from, Subject} from 'rxjs';
+import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Competition} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
 import {getCompetition} from '../../store/competition/competition.reducer';
+import {ToastService} from '../../services/toast.service';
 
 @Component({
     selector: 'app-ranking',
@@ -23,7 +24,7 @@ export class RankingPage implements OnInit {
 
     constructor(private store: Store<IAppState>,
                 private predictionsService: PredictionsService,
-                private toastController: ToastController) {
+                private toastService: ToastService) {
     }
 
     ngOnInit() {
@@ -64,6 +65,16 @@ export class RankingPage implements OnInit {
         this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
             this.isDirty = false;
         });
+    }
+
+    canDeactivate() {
+        if (this.isDirty) {
+            return this.toastService.presentAlertConfirm().then(alertResponse => {
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
     }
 
 }
