@@ -54,6 +54,6 @@
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
-    height: calc(100vh - 44px)
+    min-height: calc(100vh - 44px)
   }
 }

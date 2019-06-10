@@ -24,6 +24,7 @@ import {CompetitionService} from './services/competition.service';
 import {effects, metaReducers, reducers} from './store/store';
 import {AuthGuard} from './guards/auth.guard';
 import {HeaderModule} from './header/header.module';
+import {HttperrorInterceptor} from './interceptors/httperror.interceptor';
 
 @NgModule({
     declarations: [
@@ -54,6 +55,11 @@ import {HeaderModule} from './header/header.module';
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,
             multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttperrorInterceptor,
+            multi: true,
         },
     ],
     bootstrap: [AppComponent]

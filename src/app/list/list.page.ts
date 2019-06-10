@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonReorderGroup} from '@ionic/angular';
+import {IonReorderGroup, ToastController} from '@ionic/angular';
 import {PredictionsService} from '../services/predictions.service';
 import {RankingTeam} from '../models/prediction.model';
 import {combineLatest, from, Subject} from 'rxjs';
@@ -8,7 +8,6 @@ import {switchMap, takeUntil} from 'rxjs/operators';
 import {Competition} from '../models/competition.model';
 import {IAppState} from '../store/store';
 import {getCompetition} from '../store/competition/competition.reducer';
-import {AuthService} from '../services/auth.service';
 
 @Component({
     selector: 'app-list',
@@ -18,24 +17,13 @@ import {AuthService} from '../services/auth.service';
 export class ListPage implements OnInit {
     @ViewChild(IonReorderGroup, {static: false}) reorderGroup: IonReorderGroup;
 
-    private selectedItem: any;
-    private icons = [
-        'flask',
-        'wifi',
-        'beer',
-        'football',
-        'basketball',
-        'paper-plane',
-        'american-football',
-        'boat',
-        'bluetooth',
-        'build'
-    ];
     public isDirty = true;
     public items: RankingTeam[];
     unsubscribe = new Subject<void>();
 
-    constructor(private store: Store<IAppState>, private predictionsService: PredictionsService, private authService: AuthService) {
+    constructor(private store: Store<IAppState>,
+                private predictionsService: PredictionsService,
+                private toastController: ToastController) {
     }
 
     ngOnInit() {
@@ -75,8 +63,7 @@ export class ListPage implements OnInit {
     saveRankingPrediction() {
         this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
             this.isDirty = false;
-            console.log(result); // todo show toast
-
         });
     }
+
 }
