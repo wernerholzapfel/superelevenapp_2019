@@ -8,6 +8,7 @@
     </ion-title>
   </ion-toolbar>
   <ion-toolbar class="show-md" color="primary">
-    <ion-button *ngFor="let p of appPages" fill="solid" [routerLink]="[p.url]" routerLinkActive="active-link">{{p.title}}</ion-button>
+    <ion-button *ngFor="let p of menuService.appPages" fill="solid" [routerLink]="[p.url]" routerLinkActive="active-link">{{p.title}}</ion-button>
   </ion-toolbar>
+  <app-loader></app-loader>
 </ion-header>

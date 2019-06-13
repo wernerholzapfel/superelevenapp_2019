@@ -14,7 +14,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(tap((event: HttpEvent<any>) => {
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {
-                this.toastService.presentToast(err.error.message ? err.error.message : 'Er is iets misgegaan');
+                this.toastService.presentToast(err.error.message ? err.error.message : 'Er is iets misgegaan', 'warning');
             }
         }));
     }

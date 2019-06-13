@@ -7,6 +7,7 @@ import {IAppState} from './store/store';
 import {Store} from '@ngrx/store';
 import * as fromCompetition from './store/competition/competition.actions';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
+import {MenuService} from './services/menu.service';
 
 @Component({
     selector: 'app-root',
@@ -15,26 +16,14 @@ import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 
 })
 export class AppComponent implements OnInit {
-    public appPages = [
-        {
-            title: 'Home',
-            url: '/home',
-            icon: 'home',
-            active: false
-        },
-        {
-            title: 'Voorspelling',
-            url: '/prediction',
-            icon: 'list',
-            active: false
-        }
-    ];
+
 
     constructor(private store: Store<IAppState>,
                 private platform: Platform,
                 private splashScreen: SplashScreen,
                 private statusBar: StatusBar,
-                private router: Router
+                private router: Router,
+                public menuService: MenuService
     ) {
         this.initializeApp();
 
@@ -53,7 +42,7 @@ export class AppComponent implements OnInit {
         // set linkactive.
         this.router.events.subscribe((event: RouterEvent) => {
             if (event instanceof NavigationEnd) {
-                this.appPages.map(p => {
+                this.menuService.appPages.map(p => {
                     return Object.assign(p, {active: (event.url.startsWith(p.url))});
                 });
             }

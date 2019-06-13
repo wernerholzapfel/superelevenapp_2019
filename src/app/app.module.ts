@@ -27,6 +27,11 @@ import {HeaderModule} from './components/header/header.module';
 import {HttpErrorInterceptor} from './interceptors/http-error-interceptor.service';
 import {CanDeactivateGuard} from './guards/candeactivate.guard';
 import {ToastService} from './services/toast.service';
+import {LoaderInterceptor} from './interceptors/loader.interceptor';
+import {LoaderService} from './services/loader.service';
+import {LoaderComponent} from './components/loader/loader.component';
+import {LoaderModule} from './components/loader/loader.module';
+import {MenuService} from './services/menu.service';
 
 @NgModule({
     declarations: [
@@ -38,6 +43,7 @@ import {ToastService} from './services/toast.service';
         IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
+        LoaderModule,
         AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
         AngularFireAuthModule,
         StoreModule.forRoot(reducers, { metaReducers }),
@@ -51,6 +57,8 @@ import {ToastService} from './services/toast.service';
         CompetitionService,
         StatusBar,
         SplashScreen,
+        LoaderService,
+        MenuService,
         ParticipantService,
         PredictionsService,
         ToastService,
@@ -63,6 +71,10 @@ import {ToastService} from './services/toast.service';
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,
+            multi: true,
+        }, {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoaderInterceptor,
             multi: true,
         },
     ],

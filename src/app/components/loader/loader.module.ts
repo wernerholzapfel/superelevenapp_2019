@@ -1,23 +1,21 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HeaderComponent} from './header.component';
 import {IonicModule} from '@ionic/angular';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {LoaderModule} from '../loader/loader.module';
+import {LoaderComponent} from './loader.component';
 
 @NgModule({
-    declarations: [HeaderComponent],
+    declarations: [LoaderComponent],
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        LoaderModule,
         RouterModule,
     ],
     exports: [
-        HeaderComponent
+        LoaderComponent
     ]
 })
-export class HeaderModule {
+export class LoaderModule {
 }

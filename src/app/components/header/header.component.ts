@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {MenuService} from '../../services/menu.service';
 
 @Component({
     selector: 'app-header',
@@ -6,20 +7,8 @@ import {Component, Input, OnInit} from '@angular/core';
     styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-    public appPages = [
-        {
-            title: 'Home',
-            url: '/home',
-            icon: 'home'
-        },
-        {
-            title: 'Voorspellingen',
-            url: '/list',
-            icon: 'list'
-        }
-    ];
 
-    constructor() {
+    constructor(public menuService: MenuService) {
     }
 
     ngOnInit() {

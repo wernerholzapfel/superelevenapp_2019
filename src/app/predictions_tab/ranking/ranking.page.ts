@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
 import {PredictionsService} from '../../services/predictions.service';
 import {RankingTeam} from '../../models/prediction.model';
-import {combineLatest, from, Observable, of, Subject} from 'rxjs';
+import {combineLatest, from, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Competition} from '../../models/competition.model';
@@ -63,6 +63,7 @@ export class RankingPage implements OnInit {
 
     saveRankingPrediction() {
         this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
+            this.toastService.presentToast('Stand opgeslagen', 'primary');
             this.isDirty = false;
         });
     }

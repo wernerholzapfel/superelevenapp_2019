@@ -9,14 +9,17 @@ export class ToastService {
     constructor(private toastController: ToastController, private alertController: AlertController) {
     }
 
-    async presentToast(message: string, duration?: number) {
-        duration = duration ? duration : 2000;
+    async presentToast(message: string,
+                       color: string,
+                       showCloseButton: boolean = true,
+                       closeButtonText: string = 'OK',
+                       duration: number = 2000) {
         const toast = await this.toastController.create({
-            color: 'warning',
+            color,
             message,
             duration,
-            showCloseButton: true,
-            closeButtonText: 'X'
+            showCloseButton,
+            closeButtonText
         });
         toast.present();
     }
