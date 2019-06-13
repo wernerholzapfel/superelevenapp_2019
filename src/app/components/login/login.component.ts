@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             .then((res) => {
                 console.log(res);
                 // this.store.dispatch(new fromParticipantForm.ClearParticipantform());
-                this.router.navigate(['/inschrijven']);
+                this.router.navigate(['/prediction']);
             })
             .catch(async (err) => {
                 const toast = await this.toastController.create({

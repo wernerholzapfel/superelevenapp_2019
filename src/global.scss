@@ -54,6 +54,8 @@
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
     border-radius: 0;
-    min-height: calc(100vh - 44px)
+    -webkit-box-shadow: transparent 0 0 0 0;
+    box-shadow: transparent 0 0 0 0;
+            //min-height: calc(100vh - 44px)
   }
 }

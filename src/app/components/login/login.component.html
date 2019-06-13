@@ -1,6 +1,6 @@
 <ion-card *ngIf="!wachtwoordvergeten">
     <ion-card-header>
-        <ion-segment mode="md" color="primary" (ionChange)="segmentChanged($event)" *ngIf="!authService.user$">
+        <ion-segment mode="md" color="primary" (ionChange)="segmentChanged($event)" *ngIf="!(authService.user$ | async)">
             <ion-segment-button mode="md" value="inschrijven" [checked]="activeSegment === 'inschrijven'">
                 Inschrijven
             </ion-segment-button>
@@ -14,7 +14,7 @@
             <ion-input placeholder="Email" name="inlogEmail" [(ngModel)]="user.email"></ion-input>
             <ion-input type="password" autocomplete="password" name="inlogPassword" placeholder="Password"
                        [(ngModel)]="user.password"></ion-input>
-            <ion-button expand="full" color="primary" (click)="signInWithEmail()"
+            <ion-button expand="full" color="secondary" (click)="signInWithEmail()"
                         [disabled]="!user.email || !user.password">
                 Inloggen
             </ion-button>
@@ -32,14 +32,14 @@
             </ion-input>
             <ion-input type="text" placeholder="Teamnaam" formControlName="teamName"
                        [(ngModel)]="user.teamName"></ion-input>
-            <ion-button expand="full" color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
+            <ion-button expand="full" color="secondary" (click)="signUpRegular()" [disabled]="userForm.invalid">
                 Inschrijven
             </ion-button>
         </form>
     </ion-card-content>
     <ion-card-content *ngIf="(authService.user$ | async)">
         Welkom {{authService.displayName}}
-        <ion-button expand="full" color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Uitloggen
+        <ion-button expand="full" color="secondary" *ngIf="(authService.user$ | async)" (click)="logout()">Uitloggen
         </ion-button>
     </ion-card-content>
 </ion-card>
@@ -48,7 +48,7 @@
     <ion-card-header>
         <ion-segment mode="md" color="primary">
             <ion-segment-button mode="md" checked="true">
-               Wachtwoord vergeten
+                Wachtwoord vergeten
             </ion-segment-button>
         </ion-segment>
     </ion-card-header>
@@ -59,7 +59,7 @@
                 </ion-input>
             </ion-item>
             <div class="button-container">
-                <ion-button expand="full" [color]="user.email ? 'primary' : 'medium'"
+                <ion-button expand="full" [color]="user.email ? 'secondary' : 'medium'"
                             (click)="sendPasswordResetEmail()"
                             [disabled]="!user.email">Reset wachtwoord
                 </ion-button>
