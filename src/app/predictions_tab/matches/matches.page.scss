@@ -4,7 +4,7 @@
     --padding-end: 0px;
     --padding-start: 0px;
     --padding-top: 0px;
-      border-bottom: 1px solid white;
+    border-bottom: 1px solid white;
   }
 
   ion-col {
@@ -23,7 +23,7 @@
 
   ion-card.match-card {
     --background: lightgray;
-    //min-height: calc(100vh - 44px)
+    border-radius: 0;
   }
 
   .match-card > ion-card-content {
