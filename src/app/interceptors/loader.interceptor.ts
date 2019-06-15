@@ -6,7 +6,9 @@ import {LoaderService} from '../services/loader.service';
 
 @Injectable()
 export class LoaderInterceptor implements HttpInterceptor {
-    constructor(public loaderService: LoaderService) { }
+    constructor(public loaderService: LoaderService) {
+    }
+
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.loaderService.isLoading.next(true);
         return next.handle(req).pipe(

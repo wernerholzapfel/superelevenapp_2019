@@ -1,0 +1,32 @@
+:host {
+  ion-input.score {
+    --padding-bottom: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --padding-top: 0px;
+      border-bottom: 1px solid white;
+  }
+
+  ion-col {
+    padding: 0;
+  }
+
+  ion-row {
+    height: 24px;
+  }
+
+  ion-grid {
+    margin-bottom: 5px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  ion-card.match-card {
+    --background: lightgray;
+    //min-height: calc(100vh - 44px)
+  }
+
+  .match-card > ion-card-content {
+    padding: 0;
+  }
+}

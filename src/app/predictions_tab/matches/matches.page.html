@@ -1,16 +1,38 @@
 <app-header></app-header>
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title color="primary">Wedstrijden
-      </ion-card-title>
-      <ion-card-subtitle color="medium">Voorspel de wedstrijden
-      </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="save()">
-        Opslaan
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
+    <ion-card class="main-card">
+        <ion-card-header>
+            <ion-card-title color="primary">Wedstrijden
+            </ion-card-title>
+            <ion-card-subtitle color="medium">Voorspel de wedstrijden
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-card *ngFor="let i of [1,2,3]" class="match-card">
+                <ion-card-content>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col align-self-center>
+                                <ion-label>Ajax</ion-label>
+                            </ion-col>
+                            <ion-col size="1" align-self-center>
+                                <ion-input type="number" min="0" max="9" text-center class="score"></ion-input>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col align-self-center>
+                                <ion-label>PSV</ion-label>
+                            </ion-col>
+                            <ion-col size="1" align-self-center>
+                                <ion-input type="number" min="0" max="9" text-center class="score"></ion-input>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card-content>
+            </ion-card>
+            <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="save()">
+                Opslaan
+            </ion-button>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

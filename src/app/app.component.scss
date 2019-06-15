@@ -1,6 +1,14 @@
 :host {
   .active-item {
-    border-left: 8px solid var(--ion-color-secondary);
+    border-left: 8px solid var(--ion-color-primary);
+  }
+ .inactive-item {
+    padding-left: 8px;
+  }
+
+  ion-item {
+    --padding-start: 0px;
+    --padding-end: 0px;
   }
 
 }
