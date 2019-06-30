@@ -8,6 +8,7 @@ import {IonicModule} from '@ionic/angular';
 import {TeamPage} from './team.page';
 import {HeaderModule} from '../../components/header/header.module';
 import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
+import {AddplayerPageModule} from './addplayer/addplayer.module';
 
 const routes: Routes = [
     {

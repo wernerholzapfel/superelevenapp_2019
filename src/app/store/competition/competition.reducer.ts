@@ -76,3 +76,7 @@ export const getCompetition = createSelector(
     getCompetitionsState,
     (state: CompetitionState) => state.competition
 );
+
+export const getPredictions = createSelector
+(getCompetitionsState,
+    (state: CompetitionState) => state.competition.predictions);

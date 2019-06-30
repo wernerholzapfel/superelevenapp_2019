@@ -32,6 +32,7 @@ import {LoaderService} from './services/loader.service';
 import {LoaderComponent} from './components/loader/loader.component';
 import {LoaderModule} from './components/loader/loader.module';
 import {MenuService} from './services/menu.service';
+import {AddplayerPageModule} from './predictions_tab/team/addplayer/addplayer.module';
 
 @NgModule({
     declarations: [
@@ -49,6 +50,7 @@ import {MenuService} from './services/menu.service';
         StoreModule.forRoot(reducers, { metaReducers }),
         EffectsModule.forRoot(effects),
         StoreDevtoolsModule.instrument(),
+        AddplayerPageModule,
     ],
     providers: [
         AuthService,

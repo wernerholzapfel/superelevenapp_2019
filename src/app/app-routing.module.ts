@@ -20,6 +20,7 @@ const routes: Routes = [
   { path: 'matches', loadChildren: './predictions_tab/matches/matches.module#MatchesPageModule' },
   { path: 'team', loadChildren: './predictions_tab/team/team.module#TeamPageModule' },
   { path: 'questions', loadChildren: './predictions_tab/questions/questions.module#QuestionsPageModule' },
+  { path: 'addplayer', loadChildren: './predictions_tab/team/addplayer/addplayer.module#AddplayerPageModule' },
 ];
 
 @NgModule({
