@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {getPredictions} from '../../store/competition/competition.reducer';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Prediction, PredictionType} from '../../models/competition.model';
@@ -14,7 +14,7 @@ import {ToastService} from '../../services/toast.service';
     templateUrl: './matches.page.html',
     styleUrls: ['./matches.page.scss'],
 })
-export class MatchesPage implements OnInit {
+export class MatchesPage implements OnInit, OnDestroy {
 
     public isDirty = false;
     public matchPredictions: MatchPrediction[];
@@ -31,7 +31,7 @@ export class MatchesPage implements OnInit {
                 return combineLatest(
                     this.predictionsService.getMatches(
                         predictions.find(p => p.predictionType === PredictionType.Matches).id),
-                    this.predictionsService.getMatchesPrediction(
+                    this.predictionsService.getMatchPredictions(
                         predictions.find(p => p.predictionType === PredictionType.Matches).id));
             } else {
                 return from([]);
@@ -55,13 +55,9 @@ export class MatchesPage implements OnInit {
             });
     }
 
-    // let arr1 = [1,2,3,4,5];
-    // let arr2 = [3,4,5,6];
-    // let result = [...new Set([...arr1, ...arr2])];
-    // console.log(result);
     save() {
         console.log('todo save matches');
-        this.predictionsService.saveMatchesPredictions(this.matchPredictions).subscribe(result => {
+        this.predictionsService.saveMatchPredictions(this.matchPredictions).subscribe(result => {
             this.matchPredictions = result; // todo store?
             this.toastService.presentToast('Wedstrijden opgeslagen', 'primary');
             this.isDirty = false;
@@ -73,8 +69,11 @@ export class MatchesPage implements OnInit {
     }
 
     transformMatchToPrediction(i): MatchPrediction {
-        console.log(i);
-        console.log({homeScore: null, awayScore: null, match: i, competition: i.competition, prediction: i.prediction});
         return {homeScore: null, awayScore: null, match: i, competition: i.competition, prediction: i.prediction};
     }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.unsubscribe();
+    }
+
 }

@@ -1,19 +1,21 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {AddPlayerPage} from './addplayer/add-player-page.component';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'app-team',
     templateUrl: './team.page.html',
     styleUrls: ['./team.page.scss'],
 })
-export class TeamPage implements OnInit {
+export class TeamPage implements OnInit, OnDestroy {
     keeper: any[] = [];
     defenders: any[] = [];
     midfielders: any[] = [];
     forwards: any[] = [];
 
     team = [];
+    unsubscribe = new Subject<void>();
 
     constructor(private modalController: ModalController) {
     }
@@ -70,4 +72,9 @@ export class TeamPage implements OnInit {
 
         return await modal.present();
     }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.unsubscribe();
+    }
+
 }

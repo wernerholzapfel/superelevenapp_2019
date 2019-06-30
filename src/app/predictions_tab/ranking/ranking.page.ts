@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
 import {PredictionsService} from '../../services/predictions.service';
 import {RankingTeam} from '../../models/prediction.model';
@@ -15,7 +15,7 @@ import {ToastService} from '../../services/toast.service';
     templateUrl: 'ranking.page.html',
     styleUrls: ['ranking.page.scss']
 })
-export class RankingPage implements OnInit {
+export class RankingPage implements OnInit, OnDestroy {
     @ViewChild(IonReorderGroup, {static: false}) reorderGroup: IonReorderGroup;
 
     public isDirty = true;
@@ -77,5 +77,10 @@ export class RankingPage implements OnInit {
             return of(true);
         }
     }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.unsubscribe();
+    }
+
 
 }
