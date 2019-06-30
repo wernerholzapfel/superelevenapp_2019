@@ -13,7 +13,28 @@ export class TeamPage implements OnInit, OnDestroy {
     defenders: any[] = [];
     midfielders: any[] = [];
     forwards: any[] = [];
-
+    numberOfKeeper: any[] = [];
+    numberOfDefenders: any[] = [];
+    numberOfMidfielders: any[] = [];
+    numberOfForwards: any[] = [];
+    players = [{name: 'Kasper Dolberg', team: 'Ajax', position: 'forward'},
+        {name: 'Hakim Ziyech', team: 'Ajax', position: 'forward'},
+        {name: 'Luuk de Jong', team: 'PSV', position: 'forward'},
+        {name: 'Vilhena', team: 'Feyenoord', position: 'midfielder'},
+        {name: 'Odegaard', team: 'Vitesse', position: 'midfielder'},
+        {name: 'Linssen', team: 'Groningen', position: 'midfielder'},
+        {name: 'Wout Brama', team: 'Twente', position: 'defender'},
+        {name: 'Beugelsdijk', team: 'Ado den Haag', position: 'defender'},
+        {name: 'Arne Slot', team: 'FC Utrecht', position: 'defender'},
+        {name: 'Swinkels', team: 'Willem II', position: 'defender'},
+        {name: 'Oscar Moens', team: 'AZ', position: 'keeper'}
+    ];
+    teams = [{name: 'Ajax'}, {name: 'PSV'},
+        {name: 'Feyenoord'}, {name: 'Vitesse'},
+        {name: 'Groningen'}, {name: 'Twente'},
+        {name: 'Ado den Haag'}, {name: 'FC Utrecht'},
+        {name: 'Willem II'}, {name: 'AZ'}
+    ];
     team = [];
     unsubscribe = new Subject<void>();
 
@@ -21,6 +42,7 @@ export class TeamPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.calculateNumberOf();
         // todo team ophalen
         // todo teams ophalen
         // todo spelers ophalen
@@ -30,20 +52,28 @@ export class TeamPage implements OnInit, OnDestroy {
         console.table(this.team);
     }
 
-    canISaveForm() {
-        return this.team.length > 1;
+    calculateNumberOf() {
+        this.numberOfKeeper = Array(1 - this.keeper.length);
+        this.numberOfDefenders = Array(4 - this.defenders.length);
+        this.numberOfMidfielders = Array(3 - this.midfielders.length);
+        this.numberOfForwards = Array(3 - this.forwards.length);
     }
 
-    async addPlayer() {
+    canISaveForm() {
+        return this.team.length === 11;
+    }
+
+    async addPlayer(position: string) {
         const modal = await this.modalController.create({
             component: AddPlayerPage,
             componentProps: {
-                players: [{name: 'Kasper Dolberg', team: 'Ajax', position: 'forward'},
-                    {name: 'Hakim Ziyech', team: 'Ajax', position: 'forward'},
-                    {name: 'Luuk de Jong', team: 'PSV', position: 'forward'},
-                    {name: 'Jeroen Zoet', team: 'PSV', position: 'keeper'}
-                ],
-                teams: [{name: 'Ajax'}, {name: 'PSV'}]
+                players: this.players.filter(p => {
+                    return this.team.filter(teamplayer => {
+                        return teamplayer.name === p.name;
+                    }).length === 0 // todo use id
+                    && p.position === position;
+                }),
+                teams: this.teams
             }
         });
 
@@ -65,7 +95,8 @@ export class TeamPage implements OnInit, OnDestroy {
                     default:
                     // code block
                 }
-                this.team = Object.assign({}, ...this.keeper, ...this.defenders, ...this.midfielders, ...this.forwards);
+                this.calculateNumberOf();
+                this.team = Array(...this.keeper, ...this.defenders, ...this.midfielders, ...this.forwards);
 
             }
         });

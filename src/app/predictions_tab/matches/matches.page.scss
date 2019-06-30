@@ -22,11 +22,15 @@
   }
 
   ion-card.match-card {
-    --background: lightgray;
+    --background: #eaeaea;
     border-radius: 0;
   }
 
   .match-card > ion-card-content {
     padding: 0;
+  }
+
+  .uitploeg {
+    margin-bottom: 8px;
   }
 }

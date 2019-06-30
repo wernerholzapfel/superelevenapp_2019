@@ -9,34 +9,15 @@
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
-                <ion-row justify-content-between align-items-stretch>
-                    <ion-col *ngFor="let forward of forwards"
-                             text-center>{{forward.name}}</ion-col>
-                </ion-row>
-                <ion-row justify-content-between align-items-stretch>
-                    <ion-col *ngFor="let midfielder of midfielders"
-                             text-center>{{midfielder.name}}</ion-col>
-                </ion-row>
-                <ion-row justify-content-between align-items-stretch>
-                    <ion-col *ngFor="let defender of defenders" text-center>
-                        <ion-row>
-                            <ion-col text-center>logo
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col text-center> {{defender.name}}
-                            </ion-col>
-                        </ion-row>
-                    </ion-col>
-                </ion-row>
-                <ion-row justify-content-between align-items-stretch>
-                    <ion-col *ngFor="let keep of keeper" text-center> {{keep.name}}</ion-col>
-                </ion-row>
+                <app-formation-line [players]="forwards" [numberOfPlayers]="numberOfForwards" position="forward" (playerAdd)="addPlayer($event)"></app-formation-line>
+                <app-formation-line [players]="midfielders" [numberOfPlayers]="numberOfMidfielders" position="midfielder" (playerAdd)="addPlayer($event)"></app-formation-line>
+                <app-formation-line [players]="defenders" [numberOfPlayers]="numberOfDefenders" position="defender" (playerAdd)="addPlayer($event)"></app-formation-line>
+                <app-formation-line [players]="keeper" [numberOfPlayers]="numberOfKeeper" position="keeper" (playerAdd)="addPlayer($event)"></app-formation-line>
             </ion-grid>
 
-            <ion-button expand="full" color="secondary" (click)="addPlayer()">
-                Voeg speler toe
-            </ion-button>
+<!--            <ion-button expand="full" color="secondary" (click)="addPlayer('all')">-->
+<!--                Voeg speler toe-->
+<!--            </ion-button>-->
             <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="save()">
                 Opslaan
             </ion-button>

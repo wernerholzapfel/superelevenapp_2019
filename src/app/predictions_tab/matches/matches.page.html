@@ -8,25 +8,31 @@
             </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-            <ion-card *ngFor="let matchPrediction of matchPredictions" class="match-card">
+            <ion-card  *ngFor="let matchPrediction of matchPredictions" class="match-card">
                 <ion-card-content>
                     <ion-grid>
-                        <ion-row>
-                            <ion-col align-self-center>
-                                <ion-label>{{matchPrediction.match.homeTeam}}</ion-label>
-                            </ion-col>
-                            <ion-col size="1" align-self-center>
-                                <ion-input type="number" min="0" max="9" text-center class="score" [(ngModel)]="matchPrediction.homeScore" [value]="matchPrediction.homeScore"></ion-input>
-                            </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col align-self-center>
-                                <ion-label>{{matchPrediction.match.awayTeam}}</ion-label>
-                            </ion-col>
-                            <ion-col size="1" align-self-center>
-                                <ion-input type="number" min="0" max="9" text-center class="score" [(ngModel)]="matchPrediction.awayScore" [value]="matchPrediction.awayScore"></ion-input>
-                            </ion-col>
-                        </ion-row>
+                        <ng-container>
+                            <ion-row>
+                                <ion-col align-self-center>
+                                    <ion-label>{{matchPrediction.match.homeTeam}}</ion-label>
+                                </ion-col>
+                                <ion-col size="1" align-self-center>
+                                    <ion-input type="number" min="0" max="9" text-center class="score"
+                                               [(ngModel)]="matchPrediction.homeScore"
+                                               [value]="matchPrediction.homeScore"></ion-input>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="uitploeg">
+                                <ion-col align-self-center>
+                                    <ion-label>{{matchPrediction.match.awayTeam}}</ion-label>
+                                </ion-col>
+                                <ion-col size="1" align-self-center>
+                                    <ion-input type="number" min="0" max="9" text-center class="score"
+                                               [(ngModel)]="matchPrediction.awayScore"
+                                               [value]="matchPrediction.awayScore"></ion-input>
+                                </ion-col>
+                            </ion-row>
+                        </ng-container>
                     </ion-grid>
                 </ion-card-content>
             </ion-card>

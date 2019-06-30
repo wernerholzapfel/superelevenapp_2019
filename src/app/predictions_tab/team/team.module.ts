@@ -8,7 +8,7 @@ import {IonicModule} from '@ionic/angular';
 import {TeamPage} from './team.page';
 import {HeaderModule} from '../../components/header/header.module';
 import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
-import {AddplayerPageModule} from './addplayer/addplayer.module';
+import {FormationLineModule} from '../../formation-line/formation-line.module';
 
 const routes: Routes = [
     {
@@ -23,6 +23,7 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         HeaderModule,
+        FormationLineModule,
         RouterModule.forChild(routes)
     ],
     declarations: [TeamPage]
