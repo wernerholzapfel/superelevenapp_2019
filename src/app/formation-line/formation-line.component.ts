@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Formation} from '../models/formation.model';
 
 @Component({
     selector: 'app-formation-line',
@@ -10,15 +11,13 @@ export class FormationLineComponent implements OnInit {
     constructor() {
     }
 
-    @Input() position: string;
-    @Input() players: any[];
-    @Input() numberOfPlayers: any[];
-    @Output() playerAdd = new EventEmitter<string>();
+    @Input() line: Formation;
+    @Output() playerAdd = new EventEmitter<{ formationIndex: number, position: string, player: any }>();
 
     ngOnInit() {
     }
 
-    addPlayer(position: string) {
-        this.playerAdd.emit(position);
+    addPlayer(formationIndex: number, position: string, player: any) {
+        this.playerAdd.emit({formationIndex, position, player});
     }
 }

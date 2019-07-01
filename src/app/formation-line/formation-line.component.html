@@ -1,15 +1,14 @@
-<ion-row justify-content-between align-items-stretch [class]="position">
-  <ion-col *ngFor="let player of players"
-           text-center>
-    <ion-chip color="primary">
-      <ion-icon name="person"></ion-icon>
-      <ion-label>{{player.name}}</ion-label>
-    </ion-chip>
-  </ion-col>
-  <ion-col text-center *ngFor="let x of numberOfPlayers">
-    <ion-chip outline color="medium" (click)="addPlayer(position)">
-      <ion-icon name="person-add"></ion-icon>
-      <ion-label>Kies</ion-label>
-    </ion-chip>
-  </ion-col>
+<ion-row align-items-stretch [ngClass]="line.class">
+    <ng-container *ngFor="let player of line.players">
+        <ion-col *ngIf="!player.hide"
+                 [ngClass]="player.class">
+            <ion-chip [outline]="!player.selected"
+                      [color]="player.selected ? 'primary' : 'medium'"
+                      (click)="addPlayer(line.index, line.position, player)">
+                <ion-icon [name]="player.selected ? 'person' : 'add'"></ion-icon>
+                <ion-label>{{player.name}}</ion-label>
+                <ion-icon *ngIf="player.selected" color="danger" name="close-circle"></ion-icon>
+            </ion-chip>
+        </ion-col>
+    </ng-container>
 </ion-row>

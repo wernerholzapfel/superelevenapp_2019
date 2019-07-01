@@ -9,15 +9,10 @@
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
-                <app-formation-line [players]="forwards" [numberOfPlayers]="numberOfForwards" position="forward" (playerAdd)="addPlayer($event)"></app-formation-line>
-                <app-formation-line [players]="midfielders" [numberOfPlayers]="numberOfMidfielders" position="midfielder" (playerAdd)="addPlayer($event)"></app-formation-line>
-                <app-formation-line [players]="defenders" [numberOfPlayers]="numberOfDefenders" position="defender" (playerAdd)="addPlayer($event)"></app-formation-line>
-                <app-formation-line [players]="keeper" [numberOfPlayers]="numberOfKeeper" position="keeper" (playerAdd)="addPlayer($event)"></app-formation-line>
+                <app-formation-line *ngFor="let line of formation"
+                                    (playerAdd)="addPlayer($event)"
+                                    [line]="line"></app-formation-line>
             </ion-grid>
-
-<!--            <ion-button expand="full" color="secondary" (click)="addPlayer('all')">-->
-<!--                Voeg speler toe-->
-<!--            </ion-button>-->
             <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="save()">
                 Opslaan
             </ion-button>

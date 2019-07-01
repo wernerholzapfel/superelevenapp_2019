@@ -1,7 +1,6 @@
 :host {
-  .forward,
-  .midfielder,
-  .defender {
-    border-bottom: 1px solid lightgrey;
+  ion-chip,
+  ion-icon {
+    height: 100%;
   }
 }

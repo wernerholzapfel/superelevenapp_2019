@@ -39,22 +39,44 @@
     }
   }
 
-  ion-item {
-    --padding-start: 2px;
-    --padding-end: 2px;
-  }
+  //ion-item {
+  //--padding-start: 2px;
+  //--padding-end: 2px;
+  //}
 
   ion-button {
     margin-top: 16px;
   }
 
   ion-card.main-card {
-      margin: 0;
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-      border-radius: 0;
-      -webkit-box-shadow: transparent 0 0 0 0;
-      box-shadow: transparent 0 0 0 0;
-      //min-height: calc(100vh - 44px)
-    }
+    margin: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: transparent 0 0 0 0;
+    box-shadow: transparent 0 0 0 0;
+    //min-height: calc(100vh - 44px)
+  }
+
+  .formation-line {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #aeaeae
+  }
+
+  .justify-content-center {
+    justify-content: center;
+  }
+
+  .text-right {
+    text-align: right !important;
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+
+  .text-left {
+    text-align: left !important;
+  }
+
 }

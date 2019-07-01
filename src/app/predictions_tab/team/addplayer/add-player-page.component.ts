@@ -8,9 +8,15 @@ import {ModalController, NavParams} from '@ionic/angular';
 })
 export class AddPlayerPage implements OnInit {
 
+    formationIndex: number;
+    position: string;
+    formationPlayer: any;
     players: any[];
     allPlayers: any[];
     teams: any[];
+    customPopoverOptions: any = {
+        header: 'Team',
+    };
 
     constructor(
         private modalController: ModalController,
@@ -23,10 +29,18 @@ export class AddPlayerPage implements OnInit {
         this.teams = this.navParams.data.teams;
         this.allPlayers = this.navParams.data.players;
         this.players = this.navParams.data.players;
+        this.formationPlayer = this.navParams.data.formationPlayer;
+        this.position = this.navParams.data.position;
+        this.formationIndex = this.navParams.data.formationIndex;
     }
 
     async addPlayer(player) {
-        await this.modalController.dismiss(player);
+        await this.modalController.dismiss({
+            formationIndex: this.formationIndex,
+            position: this.position,
+            formationPlayer: this.formationPlayer,
+            player
+        });
     }
 
     async dismiss() {
