@@ -1,11 +1,23 @@
+import {PositionType, TeamPlayer} from './teamplayer.model';
+import {Team} from './team.model';
+
 export interface Formation {
     index: number;
-    position: string;
+    position: PositionType;
     class: string[];
     disable: boolean;
     hide: boolean;
-    players: {
-        index: number, name: string, selected: boolean, initialClass: string[],
-        class: string[], hide: boolean
-    }[];
+    players: FormationPlayer[];
+}
+
+export interface FormationPlayer {
+    id: string;
+    index: number;
+    selected: boolean;
+    initialClass: string[];
+    class: string[];
+    hide: boolean;
+    position: PositionType;
+    player: TeamPlayer;
+    team?: Team;
 }

@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
-import {PredictionsService} from '../../services/predictions.service';
+import {PredictionService} from '../../services/prediction.service';
 import {ToastService} from '../../services/toast.service';
 import {getPredictions} from '../../store/competition/competition.reducer';
 import {switchMap, takeUntil} from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class QuestionsPage implements OnInit, OnDestroy {
   unsubscribe = new Subject<void>();
 
   constructor(private store: Store<IAppState>,
-              private predictionsService: PredictionsService,
+              private predictionsService: PredictionService,
               private toastService: ToastService) { }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
-import {PredictionsService} from '../../services/predictions.service';
+import {PredictionService} from '../../services/prediction.service';
 import {RankingTeam} from '../../models/prediction.model';
 import {combineLatest, from, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
@@ -23,7 +23,7 @@ export class RankingPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
 
     constructor(private store: Store<IAppState>,
-                private predictionsService: PredictionsService,
+                private predictionsService: PredictionService,
                 private toastService: ToastService) {
     }
 

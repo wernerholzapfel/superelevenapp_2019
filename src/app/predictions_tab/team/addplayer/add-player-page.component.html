@@ -11,7 +11,7 @@
         </ion-card-header>
         <ion-card-content>
             <ion-item *ngFor="let player of players" (click)="addPlayer(player)">
-                <ion-label>{{player.name}}</ion-label>
+                <ion-label>{{player.player.firstname}}</ion-label>
                 <ion-icon name="add-circle-outline"></ion-icon>
             </ion-item>
         </ion-card-content>

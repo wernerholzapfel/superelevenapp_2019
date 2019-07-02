@@ -17,7 +17,7 @@ import {AuthService} from './services/auth.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './services/token.interceptor';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PredictionsService} from './services/predictions.service';
+import {PredictionService} from './services/prediction.service';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {CompetitionService} from './services/competition.service';
@@ -62,7 +62,7 @@ import {AddplayerPageModule} from './predictions_tab/team/addplayer/addplayer.mo
         LoaderService,
         MenuService,
         ParticipantService,
-        PredictionsService,
+        PredictionService,
         ToastService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {

@@ -1,9 +1,4 @@
-export interface Team {
-    id: string;
-    name: string;
-    logoUrl: string;
-    team?: Team;
-}
+import {Team} from './team.model';
 
 export interface RankingTeam {
     id: string;

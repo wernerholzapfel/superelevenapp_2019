@@ -5,7 +5,7 @@ import {Prediction, PredictionType} from '../../models/competition.model';
 import {combineLatest, from, Subject} from 'rxjs';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
-import {PredictionsService} from '../../services/predictions.service';
+import {PredictionService} from '../../services/prediction.service';
 import {MatchPrediction} from '../../models/match.model';
 import {ToastService} from '../../services/toast.service';
 
@@ -21,7 +21,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
 
     constructor(private store: Store<IAppState>,
-                private predictionsService: PredictionsService,
+                private predictionsService: PredictionService,
                 private toastService: ToastService) {
     }
 

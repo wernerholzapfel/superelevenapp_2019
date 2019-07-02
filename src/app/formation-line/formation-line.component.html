@@ -6,7 +6,7 @@
                       [color]="player.selected ? 'primary' : 'medium'"
                       (click)="addPlayer(line.index, line.position, player)">
                 <ion-icon [name]="player.selected ? 'person' : 'add'"></ion-icon>
-                <ion-label>{{player.name}}</ion-label>
+                <ion-label>{{player?.player?.firstname}}</ion-label>
                 <ion-icon *ngIf="player.selected" color="danger" name="close-circle"></ion-icon>
             </ion-chip>
         </ion-col>

@@ -9,7 +9,7 @@ import {Question, QuestionPrediction} from '../models/question.model';
 @Injectable({
     providedIn: 'root'
 })
-export class PredictionsService {
+export class PredictionService {
 
     constructor(private http: HttpClient) {
     }
@@ -48,6 +48,14 @@ export class PredictionsService {
 
     saveQuestionPredictions(questionPredictions: QuestionPrediction[]): Observable<any> {
         return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/question-prediction`, questionPredictions);
+    }
+
+    getTeamPrediction(predictionId): Observable<QuestionPrediction[]> {
+        return this.http.get<QuestionPrediction[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionId}`);
+    }
+
+    saveTeamPredictions(teamPredictions: any[]): Observable<any> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/team-prediction`, teamPredictions);
     }
 
 }
