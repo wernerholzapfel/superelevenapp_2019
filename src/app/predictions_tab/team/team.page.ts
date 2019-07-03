@@ -119,7 +119,7 @@ export class TeamPage implements OnInit, OnDestroy {
                         }).length === 0 // todo use id
                         && p.position === request.position;
                 }),
-                teams: this.teams.filter(team => !this.team.find(pt => pt.player && pt.player.team && pt.player.team.name === team.name)),
+                teams: this.teams.filter(team => !this.team.find(pt => pt.player && pt.team && pt.team.id === team.id)),
                 formationPlayer: request.player,
                 position: request.position,
                 formationIndex: request.formationIndex
