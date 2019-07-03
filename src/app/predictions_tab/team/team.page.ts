@@ -63,7 +63,6 @@ export class TeamPage implements OnInit, OnDestroy {
                     this.players = players;
                     this.teams = teams;
 
-                    // todo predictionTeam ID meegeven op 1 of andere manier.
                     // predictionTeam doorlopen en toevoegen aan juiste formationline positie
                     predictionTeam.map(teamPlayer => {
                         this.formation.find(f => {
@@ -91,7 +90,6 @@ export class TeamPage implements OnInit, OnDestroy {
                 .filter(player => player.selected)
                 .map(player => Object.assign({},
                     {teamPlayer: {id: player.id}},
-                    {roundId: 1}, // todo iets met de roundid op backend ipv frontend?
                     {prediction: {id: this.prediction.id}},
                     {competition: {id: this.competition.id}})))
             .subscribe(result => {
