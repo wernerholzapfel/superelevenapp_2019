@@ -62,7 +62,24 @@ export class TeamPage implements OnInit, OnDestroy {
                     this.formation = formation;
                     this.players = players;
                     this.teams = teams;
-                    this.team = predictionTeam;
+
+                    // todo predictionTeam ID meegeven op 1 of andere manier.
+                    // predictionTeam doorlopen en toevoegen aan juiste formationline positie
+                    predictionTeam.map(teamPlayer => {
+                        this.formation.find(f => {
+                            return f.position === teamPlayer.teamPlayer.position &&
+                                f.players.filter(ftp => !ftp.selected).length > 0;
+                        }).players.filter(ftp => !ftp.selected).map((player, index) => {
+                            return index === 0 ? Object.assign(player,
+                                {id: teamPlayer.teamPlayer.id},
+                                {player: teamPlayer.teamPlayer.player},
+                                {team: teamPlayer.teamPlayer.team},
+                                {selected: true}) :
+                                player;
+                        });
+                    });
+
+                    this.createTeam();
                 }
             });
     }
