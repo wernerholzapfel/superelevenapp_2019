@@ -5,33 +5,33 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
 
-import {PredictionsTabPage} from './predictions_tab.page';
 import {CanDeactivateGuard} from '../guards/candeactivate.guard';
+import {PreperationsTabPage} from './preperations_tab.page';
 
 const routes: Routes = [
     {
-        path: 'prediction',
-        component: PredictionsTabPage,
+        path: 'preperation',
+        component: PreperationsTabPage,
         canDeactivate: [CanDeactivateGuard],
         children: [
             {
-                path: 'team',
-                loadChildren: '../predictions_tab/team/team.module#TeamPageModule',
+                path: 'players',
+                loadChildren: '../preperations_tab/players/players.module#PlayersPageModule',
             },
             {
                 path: 'matches',
-                loadChildren: '../predictions_tab/matches/matches.module#MatchesPageModule',
+                loadChildren: '../preperations_tab/matches/matches.module#MatchesPageModule',
             }, {
                 path: 'questions',
-                loadChildren: '../predictions_tab/questions/questions.module#QuestionsPageModule',
+                loadChildren: '../preperations_tab/questions/questions.module#QuestionsPageModule',
             },
             {
                 path: 'ranking',
-                loadChildren: '../predictions_tab/ranking/ranking.module#RankingPageModule',
+                loadChildren: '../preperations_tab/ranking/ranking.module#RankingPageModule',
             }]
     }, {
         path: '',
-        redirectTo: 'prediction/team',
+        redirectTo: 'preperation/players',
         pathMatch: 'full'
     }
 ];
@@ -43,7 +43,7 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes)
     ],
-    declarations: [PredictionsTabPage]
+    declarations: [PreperationsTabPage]
 })
-export class PredictionsTabModule {
+export class PreperationsTabModule {
 }

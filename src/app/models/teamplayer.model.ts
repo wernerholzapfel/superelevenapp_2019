@@ -10,15 +10,21 @@ export interface TeamPlayer {
 
 export interface Player {
     id: string;
-    firstname: string;
-    lastname: string;
+    playerReference: number;
+    teamReference: number;
+    team: number;
+    name: string;
+    dateOfBirth: string;
+    countryOfBirth: string;
+    nationality: string;
+    position: string;
 }
 
 export enum PositionType {
-    Keeper = 'Keeper',
+    Goalkeeper = 'Goalkeeper',
     Defender = 'Defender',
     Midfielder = 'Midfielder',
-    Forward = 'Forward'
+    Attacker = 'Attacker'
 }
 
 

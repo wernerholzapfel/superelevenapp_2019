@@ -50,8 +50,6 @@ export class AddPlayerPage implements OnInit {
     }
 
     filterPlayers(event) {
-        this.players = this.allPlayers.filter(p => {
-            return p.team.id === event.detail.value;
-        });
+        this.players = this.allPlayers.filter(p => p.team === event.detail.value);
     }
 }

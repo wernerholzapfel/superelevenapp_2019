@@ -20,5 +20,11 @@ export class MenuService {
       icon: 'list',
       active: false
     }
+    // , {
+    //   title: 'Voorbereiding',
+    //   url: '/preperation',
+    //   icon: 'list',
+    //   active: false
+    // }
   ];
 }

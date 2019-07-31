@@ -1,0 +1,35 @@
+<app-header></app-header>
+<ion-content>
+    <div cdkDropListGroup>
+        <ion-row>
+        <ng-container *ngFor="let club of clubs">
+            <ng-container *ngFor="let formation of club.formation">
+                <ion-card style="max-width: 150px;"
+                          cdkDropList
+                          [cdkDropListData]="formation.players"
+                          (cdkDropListDropped)="drop($event)">
+                    <ion-card-header>
+                        <ion-card-subtitle>
+                            {{club.name}} / {{formation.type}} ({{formation.players.length}})
+                        </ion-card-subtitle>
+                    </ion-card-header>
+<!--                    <ion-item *ngFor="let item of formation.players" cdkDrag>{{item}}</ion-item>-->
+<!--                    <ion-item *ngIf="formation.players.length === 0">drop place</ion-item>-->
+                </ion-card>
+            </ng-container>
+        </ng-container>
+        </ion-row>
+        <div class="example-container">
+            <h2>Done</h2>
+            <ion-card
+                    cdkDropList
+                    [cdkDropListData]="spelers"
+                    class="example-list"
+                    (cdkDropListDropped)="drop($event)">
+                <ion-item class="example-box" *ngFor="let item of spelers" cdkDrag>{{item}}</ion-item>
+                <ion-item>{{spelers.length}} Spelers</ion-item>
+            </ion-card>
+        </div>
+    </div>
+    <ion-button (click)="save()"></ion-button>
+</ion-content>

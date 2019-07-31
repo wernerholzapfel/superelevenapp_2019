@@ -102,7 +102,7 @@ export class TeamPage implements OnInit, OnDestroy {
         if (request.player.selected) {
             this.formation[request.formationIndex].players.map(
                 p => p.index === request.player.index ?
-                    Object.assign(request.player, {player: {firstname: 'Kies'}}, {selected: false}, {team: null}) :
+                    Object.assign(request.player, {player: {name: 'Kies'}}, {selected: false}, {team: null}) :
                     Object.assign(p));
             this.createTeam();
 
@@ -158,15 +158,17 @@ export class TeamPage implements OnInit, OnDestroy {
             this.toastService.presentToast('Je mag maximaal 11 spelers kiezen, verwijder 1 speler uit je team', 'warning',
                 true, 'OK', 3000);
         }
+        this.hideNotSelectedPlayer(this.canISaveForm()); // todo only when change has been triggered
+
     }
 
     canISaveForm() {
-        const numberOfKeepers = this.team.filter(player => player.selected && player.position === PositionType.Keeper).length;
-        const numberOfDefenders = this.team.filter(player => player.selected && player.position === PositionType.Defender).length;
+        const numberOfKeepers = this.team.filter(player => player.selected && player.player.position === PositionType.Goalkeeper).length;
+        const numberOfDefenders = this.team.filter(player => player.selected && player.player.position === PositionType.Defender).length;
 
         const numberOfMidfielders = this.team.filter(
-            player => player.selected && player.position === PositionType.Midfielder).length;
-        const numberOfForwards = this.team.filter(player => player.selected && player.position === PositionType.Forward).length;
+            player => player.selected && player.player.position === PositionType.Midfielder).length;
+        const numberOfForwards = this.team.filter(player => player.selected && player.player.position === PositionType.Attacker).length;
 
         const isTeamComplete: boolean = this.team.filter(player => player.selected).length === 11 &&
             numberOfKeepers === 1 &&
@@ -177,11 +179,10 @@ export class TeamPage implements OnInit, OnDestroy {
             numberOfForwards >= 2 &&
             numberOfForwards <= 3;
 
-        this.hideNotSelectedPlayer(isTeamComplete); // todo only when change has been triggered
 
         // todo change return item
-        // return isTeamComplete;
-        return true;
+        return isTeamComplete;
+        // return true;
     }
 
     hideNotSelectedPlayer(teamCompleted: boolean) {

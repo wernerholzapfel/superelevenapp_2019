@@ -1,4 +1,4 @@
-import {PositionType, TeamPlayer} from './teamplayer.model';
+import {Player, PositionType, TeamPlayer} from './teamplayer.model';
 import {Team} from './team.model';
 
 export interface Formation {
@@ -18,6 +18,6 @@ export interface FormationPlayer {
     class: string[];
     hide: boolean;
     position: PositionType;
-    player: TeamPlayer;
+    player: Player;
     team?: Team;
 }
