@@ -3,7 +3,7 @@ node_js:
 - "10.9.0"
 branches:
   only:
-  - master
+  - cypress
 before_script:
 - npm install -g @angular/cli
 script:
