@@ -1,7 +1,7 @@
 const loaders = [{
     test: /\.ts$/,
     use: {
-        loader: 'istanbul-instrumenter-loader',
+        loader: 'babel-plugin-istanbul',
         options: {esModules: true}
     },
     enforce: 'post',

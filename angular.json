@@ -12,8 +12,12 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./cypress-test-webpack.js",
+              "replaceDuplicatePlugins": true
+            },
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
