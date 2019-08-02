@@ -9,7 +9,7 @@ before_script:
 script:
 - echo "Deploy!!"
 - npm install
-- ng build --prod
+- ng build
 install:
 - npm install -g firebase-tools
 after_success:

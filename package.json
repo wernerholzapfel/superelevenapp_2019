@@ -4,12 +4,14 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "test": "start-test 4200 cypress:run",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "start": "NODE_ENV=test ng serve",
+    "dev": "NODE_ENV=test start-test 4200 cypress:open",
+    "report:coverage": "nyc report --reporter=html",
+    "report:coverage:text": "nyc report --reporter=text",
+    "coveralls": "cat coverage/lcov.info | coveralls"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +40,7 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^8.1.0",
     "@angular-devkit/architect": "~0.800.2",
     "@angular-devkit/build-angular": "~0.800.2",
     "@angular-devkit/core": "~8.0.2",
@@ -46,6 +49,7 @@
     "@angular/compiler": "~8.0.0",
     "@angular/compiler-cli": "~8.0.0",
     "@angular/language-service": "~8.0.0",
+    "@cypress/code-coverage": "^1.8.0",
     "@cypress/webpack-preprocessor": "^4.1.0",
     "@ionic/angular-toolkit": "~1.5.1",
     "@types/jasmine": "~3.3.13",
@@ -53,6 +57,8 @@
     "@types/node": "~12.0.7",
     "codelyzer": "~5.1.0",
     "cypress": "^3.4.1",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "istanbul-lib-coverage": "^2.0.5",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
@@ -60,8 +66,10 @@
     "karma-coverage-istanbul-reporter": "~2.0.5",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
+    "nyc": "^14.1.1",
     "protractor": "~5.4.2",
-    "ts-loader": "^6.0.4",
+    "start-server-and-test": "^1.9.1",
+    "ts-loader": "^5.4.5",
     "ts-node": "~8.2.0",
     "tslint": "~5.17.0",
     "typescript": "~3.4.5"

@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {PredictionsTabPage} from '../predictions_tab/predictions_tab.page';
 
-import { PredictionsTabPage } from './predictions_tab.page';
 
 describe('Predictions_tabPage', () => {
   let component: PredictionsTabPage;
