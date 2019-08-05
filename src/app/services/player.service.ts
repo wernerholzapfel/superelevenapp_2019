@@ -16,4 +16,8 @@ export class PlayerService {
         return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-player/prediction/${predictionId}`);
     }
 
+    getPlayersScore(predictionId: string, roundId: string): Observable<RankingTeam[]> {
+        return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-player/prediction/${predictionId}/round/${roundId}`);
+    }
+
 }

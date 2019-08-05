@@ -6,6 +6,20 @@ export interface TeamPlayer {
     active?: boolean;
     player?: Player;
     team?: Team;
+    teamplayerscores?: {
+        played: boolean,
+        win: boolean,
+        draw: boolean,
+        cleansheet: boolean,
+        yellow: boolean,
+        secondyellow: boolean,
+        red: boolean,
+        penaltymissed: number,
+        penaltystopped: number,
+        goals: number,
+        assists: number
+        owngoal: number
+    };
 }
 
 export interface Player {

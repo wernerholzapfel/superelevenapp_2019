@@ -22,6 +22,11 @@ const routes: Routes = [
         loadChildren: './preperations_tab/preperations_tab.module#PreperationsTabModule',
         canActivate: [AuthGuard] // todo adminGuard
     },
+    {
+        path: 'results',
+        loadChildren: './results_tab/results_tab.module#ResultsTabModule',
+        canActivate: [AuthGuard] // todo adminGuard
+    },
 ];
 
 @NgModule({

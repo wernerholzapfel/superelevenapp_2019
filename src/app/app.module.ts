@@ -33,6 +33,8 @@ import {LoaderComponent} from './components/loader/loader.component';
 import {LoaderModule} from './components/loader/loader.module';
 import {MenuService} from './services/menu.service';
 import {AddplayerPageModule} from './predictions_tab/team/addplayer/addplayer.module';
+import {PlayerScoreformComponent} from './results_tab/players/playerScoreform/player-scoreform.component';
+import {PlayerScoreformModule} from './results_tab/players/playerScoreform/player-scoreform.module';
 
 @NgModule({
     declarations: [
@@ -51,6 +53,7 @@ import {AddplayerPageModule} from './predictions_tab/team/addplayer/addplayer.mo
         EffectsModule.forRoot(effects),
         StoreDevtoolsModule.instrument(),
         AddplayerPageModule,
+        PlayerScoreformModule
     ],
     providers: [
         AuthService,
