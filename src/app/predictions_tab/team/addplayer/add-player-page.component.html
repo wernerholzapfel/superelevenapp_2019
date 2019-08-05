@@ -4,14 +4,17 @@
         <ion-card-header>
             <ion-item>
                 <ion-label>Club</ion-label>
-                <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select One" (ionChange)="filterPlayers($event)">
-                    <ion-select-option *ngFor="let team of teams" value="{{team.id}}">{{team.name}}</ion-select-option>
+                <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select One"
+                            (ionChange)="filterPlayers($event)">
+                    <ion-select-option *ngFor="let team of teams" value="{{team.id}}">
+                        <img class="logo-avatar" [src]="team.logoUrl"> {{team.name}}</ion-select-option>
                 </ion-select>
             </ion-item>
         </ion-card-header>
         <ion-card-content>
             <ion-item *ngFor="let player of players" (click)="addPlayer(player)">
-                <ion-label>{{player.player.name}} ({{player.player.team}})</ion-label>
+                <img class="logo-avatar" [src]="player.team.logoUrl">
+                <ion-label>{{player.player.name}}</ion-label>
                 <ion-icon name="add-circle-outline"></ion-icon>
             </ion-item>
         </ion-card-content>
