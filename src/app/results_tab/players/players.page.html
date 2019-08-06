@@ -11,3 +11,6 @@
         Opslaan
     </ion-button>
 </ion-content>
+<ion-toolbar>
+    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek speler" debounce="500"></ion-searchbar>
+</ion-toolbar>

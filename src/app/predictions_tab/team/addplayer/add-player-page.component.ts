@@ -1,14 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
 import {TeamPlayer} from '../../../models/teamplayer.model';
 import {Team} from '../../../models/team.model';
+import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {ScoreformUiService} from '../../../services/scoreform-ui.service';
 
 @Component({
     selector: 'app-addplayer',
     templateUrl: './add-player-page.component.html',
     styleUrls: ['./add-player-page.component.scss'],
 })
-export class AddPlayerPage implements OnInit {
+export class AddPlayerPage implements OnInit, OnDestroy {
 
     formationIndex: number;
     position: string;
@@ -19,10 +22,14 @@ export class AddPlayerPage implements OnInit {
     customPopoverOptions: any = {
         header: 'Team',
     };
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
+    teamFilter$: BehaviorSubject<string> = new BehaviorSubject('');
+    unsubscribe = new Subject<void>();
 
     constructor(
         private modalController: ModalController,
-        private navParams: NavParams
+        private navParams: NavParams,
+        private scoreformUiService: ScoreformUiService
     ) {
     }
 
@@ -34,6 +41,16 @@ export class AddPlayerPage implements OnInit {
         this.formationPlayer = this.navParams.data.formationPlayer;
         this.position = this.navParams.data.position;
         this.formationIndex = this.navParams.data.formationIndex;
+
+        combineLatest(this.searchTerm$, this.teamFilter$)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(([searchTerm, teamFilter]) => {
+                this.players = this.scoreformUiService.filterPlayers(searchTerm, teamFilter, this.allPlayers);
+            });
+    }
+
+    search($event) {
+        this.searchTerm$.next($event.detail.value);
     }
 
     async addPlayer(player) {
@@ -50,8 +67,11 @@ export class AddPlayerPage implements OnInit {
     }
 
     filterPlayers(event) {
-        this.players = this.allPlayers.filter(p => {
-            return p.team.id === event.detail.value;
-        });
+       this.teamFilter$.next(event.detail.value);
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.unsubscribe();
     }
 }

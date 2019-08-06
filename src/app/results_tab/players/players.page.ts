@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {combineLatest, from, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, from, Subject} from 'rxjs';
 import {Formation, FormationPlayer} from '../../models/formation.model';
 import {ToastService} from '../../services/toast.service';
 import {PlayerService} from '../../services/player.service';
@@ -32,6 +32,8 @@ export class PlayersPage implements OnInit, OnDestroy {
     players: TeamPlayer[];
     teams: Team[];
     team: FormationPlayer[] = []; // todo check typedefintion
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
+
     unsubscribe = new Subject<void>();
 
     constructor(private store: Store<IAppState>,
@@ -53,14 +55,15 @@ export class PlayersPage implements OnInit, OnDestroy {
                 this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
                 return combineLatest(
                     this.playerService.getPlayersScore(this.prediction.id, 'b0fde487-fcdf-4e2a-ace3-b4dd84511774'),
-                    this.teamService.getTeams());
+                    this.teamService.getTeams(),
+                    this.searchTerm$);
             } else {
                 return from([]);
             }
         })).subscribe(
-            ([players, teams]) => {
+            ([players, teams, searchTerm]) => {
                 if (players && teams) {
-                    this.scoreformUiService.scoreformPlayersList$.next(players);
+                    this.scoreformUiService.scoreformPlayersList$.next(this.scoreformUiService.filterPlayers(searchTerm, null, players));
                     this.teams = teams;
                 }
             });
@@ -70,6 +73,11 @@ export class PlayersPage implements OnInit, OnDestroy {
             }
         );
 
+    }
+
+
+    search($event) {
+        this.searchTerm$.next($event.detail.value);
     }
 
     save() {
