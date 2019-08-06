@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {TeamPlayer} from '../../../models/teamplayer.model';
+import {Teamplayer} from '../../../models/teamplayer.model';
 import {Team} from '../../../models/team.model';
 
 @Component({
@@ -13,8 +13,8 @@ export class AddPlayerPage implements OnInit {
     formationIndex: number;
     position: string;
     formationPlayer: any;
-    players: TeamPlayer[];
-    allPlayers: TeamPlayer[];
+    players: Teamplayer[];
+    allPlayers: Teamplayer[];
     teams: Team[];
     customPopoverOptions: any = {
         header: 'Team',

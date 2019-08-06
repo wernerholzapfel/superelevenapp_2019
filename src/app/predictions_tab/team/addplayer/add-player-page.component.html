@@ -1,6 +1,6 @@
 <app-header></app-header>
-<ion-toolbar>
-    <ion-item>
+<ion-toolbar color="light">
+    <ion-item color="light">
         <ion-label>Filter Team</ion-label>
         <ion-select [interfaceOptions]="customPopoverOptions" interface="popover"
                     (ionChange)="filterPlayers($event)">
@@ -12,9 +12,6 @@
 </ion-toolbar>
 <ion-content>
     <ion-card class="main-card">
-        <ion-card-header>
-
-        </ion-card-header>
         <ion-card-content>
             <ion-item *ngFor="let player of players" (click)="addPlayer(player)">
                 <img class="logo-avatar" [src]="player.team.logoUrl">

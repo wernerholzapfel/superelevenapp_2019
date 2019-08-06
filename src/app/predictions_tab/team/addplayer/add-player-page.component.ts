@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController, NavParams} from '@ionic/angular';
-import {TeamPlayer} from '../../../models/teamplayer.model';
+import {Teamplayer} from '../../../models/teamplayer.model';
 import {Team} from '../../../models/team.model';
 import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -16,8 +16,8 @@ export class AddPlayerPage implements OnInit, OnDestroy {
     formationIndex: number;
     position: string;
     formationPlayer: any;
-    players: TeamPlayer[];
-    allPlayers: TeamPlayer[];
+    players: Teamplayer[];
+    allPlayers: Teamplayer[];
     teams: Team[];
     customPopoverOptions: any = {
         header: 'Team',

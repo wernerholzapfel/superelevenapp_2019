@@ -1,26 +1,35 @@
 import {Team} from './team.model';
+import {Competition, Prediction} from './competition.model';
 
-export interface TeamPlayer {
+export interface Teamplayer {
     id?: string;
     position?: PositionType;
     active?: boolean;
     player?: Player;
     team?: Team;
-    teamplayerscores?: {
-        played: boolean,
-        win: boolean,
-        draw: boolean,
-        cleansheet: boolean,
-        yellow: boolean,
-        secondyellow: boolean,
-        red: boolean,
-        penaltymissed: number,
-        penaltystopped: number,
-        goals: number,
-        assists: number
-        owngoal: number
-    };
+    teamplayerscores?: TeamplayerScore;
 }
+
+export interface TeamplayerScore {
+    id?: string;
+    played: boolean;
+    win: boolean;
+    draw: boolean;
+    cleansheet: boolean;
+    yellow: boolean;
+    secondyellow: boolean;
+    red: boolean;
+    penaltymissed: number;
+    penaltystopped: number;
+    goals: number;
+    assists: number;
+    owngoal: number;
+}
+
+export interface TeamplayerResponse extends Teamplayer {
+    teamplayerscores: TeamplayerScore;
+}
+
 
 export interface Player {
     id: string;

@@ -1,4 +1,4 @@
-import {Player, PositionType, TeamPlayer} from './teamplayer.model';
+import {Player, PositionType, Teamplayer} from './teamplayer.model';
 import {Team} from './team.model';
 
 export interface Formation {

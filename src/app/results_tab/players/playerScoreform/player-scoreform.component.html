@@ -25,7 +25,7 @@
                 <ion-label>Gelijk</ion-label>
                 <ion-checkbox [(ngModel)]="player.teamplayerscores.draw"></ion-checkbox>
             </ion-item>
-            <ion-item *ngIf="player.position === PositionType.Goalkeeper  || player.position === PositionType.Defender">
+            <ion-item *ngIf="player.position === positionType.Goalkeeper  || player.position === positionType.Defender">
                 <ion-label>Clean sheet</ion-label>
                 <ion-checkbox [(ngModel)]="player.teamplayerscores.cleansheet"></ion-checkbox>
             </ion-item>
@@ -49,7 +49,7 @@
                 <ion-label position="floating">Assists</ion-label>
                 <ion-input [(ngModel)]="player.teamplayerscores.assists" type="number"></ion-input>
             </ion-item>
-            <ion-item *ngIf="player.position === PositionType.Goalkeeper">
+            <ion-item *ngIf="player.position === positionType.Goalkeeper">
                 <ion-label position="floating">Penalties gestopt</ion-label>
                 <ion-input [(ngModel)]="player.teamplayerscores.penaltystopped" type="number"></ion-input>
             </ion-item>
@@ -63,6 +63,8 @@
             </ion-item>
         </ion-card-content>
     </ion-card>
+</ion-content>
+<ion-footer>
     <ion-row>
         <ion-col size="4">
             <ion-button expand="full" [disabled]="index === 0" color="secondary" (click)="previousPlayer()">
@@ -81,4 +83,4 @@
             </ion-button>
         </ion-col>
     </ion-row>
-</ion-content>
+</ion-footer>

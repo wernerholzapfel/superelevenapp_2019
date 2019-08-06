@@ -18,7 +18,7 @@ import {ToastService} from '../../services/toast.service';
 export class RankingPage implements OnInit, OnDestroy {
     @ViewChild(IonReorderGroup, {static: false}) reorderGroup: IonReorderGroup;
 
-    public isDirty = true;
+    public isDirty = false;
     public items: RankingTeam[];
     unsubscribe = new Subject<void>();
 
@@ -58,18 +58,21 @@ export class RankingPage implements OnInit, OnDestroy {
     }
 
     canISaveForm() {
-        return this.items && this.items.length > 0 && this.isDirty;
+        return false;
+        // return this.items && this.items.length > 0 && this.isDirty;
     }
 
     saveRankingPrediction() {
-        this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
-            this.toastService.presentToast('Stand opgeslagen', 'primary');
-            this.isDirty = false;
-        });
+        // todo
+        // this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
+        //     this.toastService.presentToast('Stand opgeslagen', 'primary');
+        //     this.isDirty = false;
+        // });
     }
 
     canDeactivate() {
-        if (this.isDirty) {
+        // todo
+        if (this.isDirty && false) {
             return this.toastService.presentAlertConfirm().then(alertResponse => {
                 return alertResponse;
             });

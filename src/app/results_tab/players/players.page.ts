@@ -10,7 +10,7 @@ import {switchMap, takeUntil} from 'rxjs/operators';
 import {Competition, PredictionType} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
-import {TeamPlayer} from '../../models/teamplayer.model';
+import {Teamplayer, TeamplayerResponse} from '../../models/teamplayer.model';
 import {TeamService} from '../../services/team.service';
 import {Team} from '../../models/team.model';
 import {PredictionService} from '../../services/prediction.service';
@@ -29,7 +29,7 @@ export class PlayersPage implements OnInit, OnDestroy {
     competition: any;
     prediction: any;
     formation: Formation[];
-    players: TeamPlayer[];
+    players: TeamplayerResponse[];
     teams: Team[];
     team: FormationPlayer[] = []; // todo check typedefintion
     searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');

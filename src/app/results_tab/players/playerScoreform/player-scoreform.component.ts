@@ -1,9 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ModalController, NavParams} from '@ionic/angular';
-import {PositionType, TeamPlayer} from '../../../models/teamplayer.model';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {IonContent, ModalController, NavParams} from '@ionic/angular';
+import {PositionType, TeamplayerResponse} from '../../../models/teamplayer.model';
 import {ScoreformUiService} from '../../../services/scoreform-ui.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {TeamplayerScoresService} from '../../../services/teamplayer-scores.service';
+import {ToastService} from '../../../services/toast.service';
 
 @Component({
     selector: 'app-playerscoreform',
@@ -12,18 +14,22 @@ import {Subject} from 'rxjs';
 })
 export class PlayerScoreformComponent implements OnInit, OnDestroy {
 
+    @ViewChild(IonContent, {static: false}) content: IonContent;
+
     unsubscribe = new Subject<void>();
 
-    player: TeamPlayer;
-    players: TeamPlayer[];
+    player: TeamplayerResponse;
+    players: TeamplayerResponse[];
     index: number;
-    PositionType: typeof PositionType = PositionType;
+    positionType: typeof PositionType = PositionType;
     teams: { id: string, win: boolean, draw: boolean, cleansheet: boolean }[] = [];
 
     constructor(
         private modalController: ModalController,
         private navParams: NavParams,
-        private scoreformUiService: ScoreformUiService
+        private scoreformUiService: ScoreformUiService,
+        private toastService: ToastService,
+        private teamplayerScoresService: TeamplayerScoresService
     ) {
     }
 
@@ -42,21 +48,64 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
     }
 
     async updatePlayer() {
+        this.savePlayer();
         await this.updateTeam();
         await this.scoreformUiService.scoreformPlayersList$.next(this.players);
         await this.modalController.dismiss();
     }
 
     nextPlayer() {
+        this.savePlayer();
         this.updateTeam();
         this.index++;
         this.player = Object.assign({}, this.players[this.index]);
+        this.content.scrollToTop();
+
     }
 
     previousPlayer() {
+        this.savePlayer();
         this.updateTeam();
         this.index--;
         this.player = Object.assign({}, this.players[this.index]);
+        this.content.scrollToTop();
+    }
+
+    private savePlayer() {
+        if (this.player.teamplayerscores.played) {
+            this.teamplayerScoresService.postTeamplayerScore({
+                ...(this.player.teamplayerscores.id ? {id: this.player.teamplayerscores.id} : {}),
+                teamPlayer: {
+                    id: this.player.id
+                },
+                competition: {
+                    id: '535de68e-0e11-4b07-9977-1a8499643c09'
+                },
+                prediction: {
+                    id: 'ca6e325f-f711-4c9d-ad5d-c9ade8cd522f'
+                },
+                round: {
+                    id: 'b0fde487-fcdf-4e2a-ace3-b4dd84511774'
+                },
+                played: !!this.player.teamplayerscores.played,
+                win: !!this.player.teamplayerscores.win,
+                draw: !!this.player.teamplayerscores.draw,
+                cleansheet: !!this.player.teamplayerscores.cleansheet,
+                yellow: !!this.player.teamplayerscores.yellow,
+                secondyellow: !!this.player.teamplayerscores.secondyellow,
+                red: !!this.player.teamplayerscores.red,
+                goals: this.player.teamplayerscores.goals ? this.player.teamplayerscores.goals : 0,
+                assists: this.player.teamplayerscores.assists ? this.player.teamplayerscores.assists : 0,
+                penaltymissed: this.player.teamplayerscores.penaltymissed ? this.player.teamplayerscores.penaltymissed : 0,
+                penaltystopped: this.player.teamplayerscores.penaltystopped ? this.player.teamplayerscores.penaltystopped : 0,
+                owngoal: this.player.teamplayerscores.owngoal ? this.player.teamplayerscores.owngoal : 0
+            }).subscribe(response => {
+
+                // todo update player
+            }, error => {
+                this.toastService.presentToast(error.error, 'warning');
+            });
+        }
     }
 
     private updateTeam() {

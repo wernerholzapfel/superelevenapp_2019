@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {TeamPlayer} from '../models/teamplayer.model';
+import {Teamplayer, TeamplayerResponse} from '../models/teamplayer.model';
 
 @Injectable({
     providedIn: 'root'
@@ -10,11 +10,11 @@ export class ScoreformUiService {
     constructor() {
     }
 
-    scoreformPlayersList$: BehaviorSubject<TeamPlayer[]> = new BehaviorSubject([]);
+    scoreformPlayersList$: BehaviorSubject<TeamplayerResponse[]> = new BehaviorSubject([]);
     scoreformTeamList$: BehaviorSubject<{ id: string, win: boolean, draw: boolean, cleansheet: boolean }[]> = new BehaviorSubject([]);
 
 
-    filterPlayers(searchTerm: string, teamname: string, players: TeamPlayer[]) {
+    filterPlayers(searchTerm: string, teamname: string, players: TeamplayerResponse[] | Teamplayer[]): any[] {
         if ((searchTerm === undefined && searchTerm.length < 2 && !teamname)) {
             return players;
         } else {
