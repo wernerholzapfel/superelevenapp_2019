@@ -6,6 +6,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {TeamplayerScoresService} from '../../../services/teamplayer-scores.service';
 import {ToastService} from '../../../services/toast.service';
+import {Competition, Prediction} from '../../../models/competition.model';
 
 @Component({
     selector: 'app-playerscoreform',
@@ -23,6 +24,9 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
     index: number;
     positionType: typeof PositionType = PositionType;
     teams: { id: string, win: boolean, draw: boolean, cleansheet: boolean }[] = [];
+    roundId: string;
+    competition: Competition;
+    prediction: Prediction;
 
     constructor(
         private modalController: ModalController,
@@ -37,6 +41,9 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
         this.scoreformUiService.scoreformPlayersList$.pipe(takeUntil(this.unsubscribe)).subscribe(players => {
                 this.players = players;
                 this.index = this.navParams.data.index;
+                this.competition = this.navParams.data.competition;
+                this.prediction = this.navParams.data.prediction;
+                this.roundId = this.navParams.data.roundId;
                 this.player = players[this.index];
             }
         );
@@ -79,13 +86,13 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
                     id: this.player.id
                 },
                 competition: {
-                    id: '535de68e-0e11-4b07-9977-1a8499643c09'
+                    id: this.competition.id
                 },
                 prediction: {
-                    id: 'ca6e325f-f711-4c9d-ad5d-c9ade8cd522f'
+                    id: this.prediction.id
                 },
                 round: {
-                    id: 'b0fde487-fcdf-4e2a-ace3-b4dd84511774'
+                    id: this.roundId
                 },
                 played: !!this.player.teamplayerscores.played,
                 win: !!this.player.teamplayerscores.win,

@@ -8,8 +8,14 @@ export interface RankingTeam {
     competition: IdObject;
     participant: IdObject;
     prediction: IdObject;
+    rounds: Round[];
 }
 
 interface IdObject {
     id: string;
+}
+
+export interface Round {
+    id: string;
+    name: string;
 }

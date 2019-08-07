@@ -1,21 +1,22 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {BehaviorSubject, combineLatest, from, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, of, Subject} from 'rxjs';
 import {Formation, FormationPlayer} from '../../models/formation.model';
 import {ToastService} from '../../services/toast.service';
 import {PlayerService} from '../../services/player.service';
 import {FormationService} from '../../services/formation.service';
 import {getCompetition} from '../../store/competition/competition.reducer';
-import {switchMap, takeUntil} from 'rxjs/operators';
-import {Competition, PredictionType} from '../../models/competition.model';
+import {mergeMap, takeUntil} from 'rxjs/operators';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
-import {Teamplayer, TeamplayerResponse} from '../../models/teamplayer.model';
+import {TeamplayerResponse} from '../../models/teamplayer.model';
 import {TeamService} from '../../services/team.service';
-import {Team} from '../../models/team.model';
 import {PredictionService} from '../../services/prediction.service';
 import {PlayerScoreformComponent} from './playerScoreform/player-scoreform.component';
 import {ScoreformUiService} from '../../services/scoreform-ui.service';
+import {RankingTeam} from '../../models/prediction.model';
+import {LoaderService} from '../../services/loader.service';
+import {PredictionType} from '../../models/competition.model';
 
 @Component({
     selector: 'app-players',
@@ -30,11 +31,18 @@ export class PlayersPage implements OnInit, OnDestroy {
     prediction: any;
     formation: Formation[];
     players: TeamplayerResponse[];
-    teams: Team[];
+    teams: RankingTeam[];
     team: FormationPlayer[] = []; // todo check typedefintion
-    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
+    activeRound$: BehaviorSubject<string> = new BehaviorSubject('');
+    activeRound: string;
+
+    customPopoverOptions: any = {
+        header: 'speelronde',
+    };
     unsubscribe = new Subject<void>();
+    isLoading: Subject<boolean> = this.loaderService.isLoading;
 
     constructor(private store: Store<IAppState>,
                 private modalController: ModalController,
@@ -43,36 +51,54 @@ export class PlayersPage implements OnInit, OnDestroy {
                 private teamService: TeamService,
                 private predictionService: PredictionService,
                 private playerService: PlayerService,
-                private scoreformUiService: ScoreformUiService
+                private scoreformUiService: ScoreformUiService,
+                private loaderService: LoaderService,
     ) {
     }
 
     ngOnInit() {
+        this.predictionService.getPreviousRound().subscribe(round => {
+            this.activeRound$.next(round.id);
+        });
 
-        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), switchMap((competition: Competition) => {
-            if (competition && competition.predictions && competition.predictions.length > 0) {
-                this.competition = competition;
-                this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
-                return combineLatest(
-                    this.playerService.getPlayersScore(this.prediction.id, 'b0fde487-fcdf-4e2a-ace3-b4dd84511774'),
-                    this.teamService.getTeams(),
-                    this.searchTerm$);
-            } else {
-                return from([]);
-            }
-        })).subscribe(
-            ([players, teams, searchTerm]) => {
-                if (players && teams) {
-                    this.scoreformUiService.scoreformPlayersList$.next(this.scoreformUiService.filterPlayers(searchTerm, null, players));
-                    this.teams = teams;
+        // getcompetition  ->
+        // prediction nodig competition ->
+        // ronde nodig competition ->
+        // getplayersscore nodig prediction en round ->
+        // filter players nodig spelers, searchterm
+
+        this.store.select(getCompetition).pipe(
+            mergeMap(competition => {
+                if (competition && competition.predictions && competition.predictions.length > 0) {
+                    console.log(competition);
+                    this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
+                    return this.activeRound$;
+                } else {
+                    return of('');
+                }
+            }),
+            mergeMap(activeRound => {
+                if (activeRound) {
+                    this.activeRound = activeRound;
+                    return combineLatest([this.searchTerm$, this.playerService.getPlayersScore(this.prediction.id, activeRound)]);
+                } else {
+                    return of([]);
+                }
+            }))
+            .subscribe(([searchTerm, players]) => {
+                if (players && players.length > 0) {
+                    console.log('finish');
+                    this.scoreformUiService.scoreformPlayersList$.next(
+                        this.scoreformUiService.filterPlayers(searchTerm, null, players));
                 }
             });
 
-        this.scoreformUiService.scoreformPlayersList$.pipe(takeUntil(this.unsubscribe)).subscribe(players => {
-                this.players = players;
-            }
-        );
-
+        this.scoreformUiService.scoreformPlayersList$
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(players => {
+                    this.players = players;
+                }
+            );
     }
 
 
@@ -80,35 +106,29 @@ export class PlayersPage implements OnInit, OnDestroy {
         this.searchTerm$.next($event.detail.value);
     }
 
-    save() {
-        console.log('save button geklickec');
-    }
-
     async openScoreForm(index) {
         const modal = await this.modalController.create({
             component: PlayerScoreformComponent,
             componentProps: {
-                index
+                index,
+                roundId: this.activeRound$.getValue(),
+                competition: this.competition,
+                prediction: this.prediction,
             }
         });
 
         modal.onDidDismiss().then((event) => {
             if (event.data) {
-                // todo player updaten
-                // this.players = this.players.map((item) => {
-                //     if (item.id !== event.data.player.id) {
-                //         return item;
-                //     }
-                //     // Otherwise, this is the one we want - return an updated value
-                //     return {
-                //         ...item,
-                //         scoreform: {played: true}
-                //     };
-                // });
             }
         });
 
         return await modal.present();
+    }
+
+    filterRounds($event) {
+        this.activeRound$.next($event.detail.value);
+        // reset teamlist when new round is selected
+        this.scoreformUiService.scoreformTeamList$.next([]);
     }
 
     ngOnDestroy(): void {

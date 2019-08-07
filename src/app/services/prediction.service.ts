@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {RankingTeam} from '../models/prediction.model';
+import {RankingTeam, Round} from '../models/prediction.model';
 import {Match, MatchPrediction} from '../models/match.model';
 import {Question, QuestionPrediction} from '../models/question.model';
 
@@ -56,6 +56,11 @@ export class PredictionService {
 
     saveTeamPredictions(teamPredictions: any[]): Observable<any> {
         return this.http.post<any[]>(`${environment.apiBaseUrl}/team-prediction`, teamPredictions);
+    }
+
+    // todo verplaatsen
+    getPreviousRound(): Observable<Round> {
+        return this.http.get<Round>(`${environment.apiBaseUrl}/round/previous`);
     }
 
 }
