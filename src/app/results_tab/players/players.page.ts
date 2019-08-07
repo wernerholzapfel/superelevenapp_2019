@@ -70,7 +70,7 @@ export class PlayersPage implements OnInit, OnDestroy {
         this.store.select(getCompetition).pipe(
             mergeMap(competition => {
                 if (competition && competition.predictions && competition.predictions.length > 0) {
-                    console.log(competition);
+                    this.competition = competition
                     this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
                     return this.activeRound$;
                 } else {
@@ -87,7 +87,6 @@ export class PlayersPage implements OnInit, OnDestroy {
             }))
             .subscribe(([searchTerm, players]) => {
                 if (players && players.length > 0) {
-                    console.log('finish');
                     this.scoreformUiService.scoreformPlayersList$.next(
                         this.scoreformUiService.filterPlayers(searchTerm, null, players));
                 }
