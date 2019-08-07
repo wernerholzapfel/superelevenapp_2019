@@ -18,7 +18,13 @@ export class MenuService {
         {
             title: 'Voorspelling',
             url: '/prediction',
-            icon: 'list',
+            icon: 'podium',
+            active: false
+        },
+        {
+            title: 'Standen',
+            url: '/standen',
+            icon: 'medal',
             active: false
         },
         //  {

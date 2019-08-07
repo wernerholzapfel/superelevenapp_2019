@@ -27,6 +27,10 @@ const routes: Routes = [
         loadChildren: './results_tab/results_tab.module#ResultsTabModule',
         canActivate: [AuthGuard] // todo adminGuard
     },
+    {
+        path: 'standen',
+        loadChildren: './standen_tab/standen_tab.module#StandenTabModule',
+    },
 ];
 
 @NgModule({

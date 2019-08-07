@@ -10,7 +10,7 @@
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of menuService.appPages">
             <ion-item  [class.active-item]="p.active" [class.inactive-item]="!p.active" [routerDirection]="'root'" [routerLink]="[p.url]">
-              <ion-icon color="primary" [name]="p.icon"></ion-icon>
+              <ion-icon color="secondary" [name]="p.icon"></ion-icon>
               <ion-label color="primary">
                 {{p.title}}
               </ion-label>

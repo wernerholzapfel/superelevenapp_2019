@@ -1,0 +1,20 @@
+<app-header></app-header>
+<ion-toolbar>
+    <ion-item color="secondary">
+        <span slot="start">Pos</span>
+        <span>naam</span>
+        <span slot="end"> punten</span>
+    </ion-item>
+</ion-toolbar>
+<ion-content>
+    <ng-container *ngFor="let participant of stand; let i = index">
+        <ion-item lines="full" (click)="participant.showdetail = !participant.showdetail">
+            <span slot="start"> {{i + 1}}</span>
+            {{participant.displayName}}
+            <span slot="end">{{participant.totaalpunten}}</span>
+        </ion-item>
+        <ng-container *ngIf="participant.showdetail">
+            <app-playerStandItem *ngFor="let player of participant.teamPredictions" [player]="player"></app-playerStandItem>
+        </ng-container>
+    </ng-container>
+</ion-content>
