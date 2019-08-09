@@ -13,6 +13,12 @@
                                     (playerAdd)="addPlayer($event)"
                                     [line]="line"></app-formation-line>
             </ion-grid>
+            <ion-item>
+                <ion-label>Aanvoerder</ion-label>
+                <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select One" (ionChange)="setCaptain($event)" [(ngModel)]="captainId">
+                    <ion-select-option *ngFor="let player of this.team" value="{{player.player.id}}">{{player.player.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
             <ion-button expand="full" color="secondary" (click)="save()">
                 Opslaan
             </ion-button>

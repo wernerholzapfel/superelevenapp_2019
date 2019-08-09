@@ -41,6 +41,7 @@ export interface Player {
     countryOfBirth: string;
     nationality: string;
     position: string;
+    captain?: boolean;
 }
 
 export enum PositionType {

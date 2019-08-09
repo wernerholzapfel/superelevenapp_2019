@@ -8,6 +8,7 @@
                 <img class="logo-avatar" *ngIf="player.selected" [src]="player.team.logoUrl">
                 <ion-icon *ngIf="!player.selected" [name]="player.selected ? 'person' : 'add'"></ion-icon>
                 <ion-label>{{player?.player?.name}} <span *ngIf="player?.player?.name !== 'Kies'"></span></ion-label>
+                <ion-icon *ngIf="player.captain" name="star"></ion-icon>
                 <ion-icon *ngIf="player.selected" color="danger" name="close-circle"></ion-icon>
             </ion-chip>
         </ion-col>

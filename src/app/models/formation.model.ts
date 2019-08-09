@@ -20,4 +20,5 @@ export interface FormationPlayer {
     position: PositionType;
     player: Player;
     team?: Team;
+    captain?: boolean;
 }

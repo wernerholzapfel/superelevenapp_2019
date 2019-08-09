@@ -32,6 +32,10 @@ export class TeamPage implements OnInit, OnDestroy {
     teams: Team[];
     team: FormationPlayer[] = []; // todo check typedefintion
     unsubscribe = new Subject<void>();
+    customPopoverOptions: any = {
+        header: 'Aanvoerder',
+    };
+    captainId: FormationPlayer;
 
     constructor(private store: Store<IAppState>,
                 private modalController: ModalController,
@@ -48,11 +52,11 @@ export class TeamPage implements OnInit, OnDestroy {
             if (competition && competition.predictions && competition.predictions.length > 0) {
                 this.competition = competition;
                 this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
-                return combineLatest(
+                return combineLatest([
                     this.playerService.getPlayersByPredictionId(this.prediction.id),
                     this.formationService.getFormation(),
                     this.teamService.getTeams(),
-                    this.predictionService.getTeamPrediction(this.prediction.id));
+                    this.predictionService.getTeamPrediction(this.prediction.id)]);
             } else {
                 return from([]);
             }
@@ -62,6 +66,7 @@ export class TeamPage implements OnInit, OnDestroy {
                     this.formation = formation;
                     this.players = players;
                     this.teams = teams;
+                    this.captainId = predictionTeam.find(player => player.captain).teamPlayer.player.id;
 
                     // predictionTeam doorlopen en toevoegen aan juiste formationline positie
                     predictionTeam.map(teamPlayer => {
@@ -73,7 +78,8 @@ export class TeamPage implements OnInit, OnDestroy {
                                 {id: teamPlayer.teamPlayer.id},
                                 {player: teamPlayer.teamPlayer.player},
                                 {team: teamPlayer.teamPlayer.team},
-                                {selected: true}) :
+                                {selected: true},
+                                {captain: teamPlayer.captain}) :
                                 player;
                         });
                     });
@@ -89,6 +95,7 @@ export class TeamPage implements OnInit, OnDestroy {
             this.team
                 .filter(player => player.selected)
                 .map(player => Object.assign({},
+                    {captain: player.captain},
                     {teamPlayer: {id: player.id}},
                     {prediction: {id: this.prediction.id}},
                     {competition: {id: this.competition.id}})))
@@ -144,17 +151,9 @@ export class TeamPage implements OnInit, OnDestroy {
     }
 
     createTeam() {
-        // todo create reduce function.
-        this.team = Array(...this.formation[0].players,
-            ...this.formation[1].players,
-            ...this.formation[2].players,
-            ...this.formation[3].players,
-            ...this.formation[4].players,
-            ...this.formation[5].players,
-            ...this.formation[6].players,
-            ...this.formation[7].players);
+        this.flattenPlayers();
 
-        if (this.team.filter(player => player.selected).length === 12) {
+        if (this.team.length === 12) {
             this.toastService.presentToast('Je mag maximaal 11 spelers kiezen, verwijder 1 speler uit je team', 'warning',
                 true, 'OK', 3000);
         }
@@ -183,6 +182,41 @@ export class TeamPage implements OnInit, OnDestroy {
         // todo change return item
         return isTeamComplete;
         // return true;
+    }
+
+    flattenPlayers() {
+        // todo create reduce function.
+        this.team = this.formation && this.formation.length > 0 ? Array(...this.formation[0].players,
+            ...this.formation[1].players,
+            ...this.formation[2].players,
+            ...this.formation[3].players,
+            ...this.formation[4].players,
+            ...this.formation[5].players,
+            ...this.formation[6].players,
+            ...this.formation[7].players).filter(player => player.selected) : [];
+    }
+
+    setCaptain(event) {
+        this.captainId = event.detail.value;
+        this.formation = this.formation.map(line => {
+            return {
+                ...line,
+                players: line.players.map(player => {
+                    if (player.player.id === event.detail.value) {
+                        return {
+                            ...player,
+                            captain: true
+                        };
+                    } else {
+                        return {
+                            ...player,
+                            captain: false
+                        };
+                    }
+                })
+            };
+        });
+        this.flattenPlayers();
     }
 
     hideNotSelectedPlayer(teamCompleted: boolean) {
