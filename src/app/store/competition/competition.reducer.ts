@@ -8,6 +8,7 @@ export interface CompetitionState {
     competition: Competition;
     inProgress: boolean;
     error: any;
+    isRegistrationOpen: boolean;
 }
 
 const initalcompetitionState: CompetitionState = {
@@ -22,6 +23,7 @@ const initalcompetitionState: CompetitionState = {
         hasEnded: undefined,
         predictions: undefined
     },
+    isRegistrationOpen: undefined,
     error: undefined,
     inProgress: false,
 };
@@ -38,7 +40,7 @@ export function competitionReducer(state = initalcompetitionState, action): Comp
         case competition.FETCH_COMPETITION_SUCCESS:
             return {
                 ...state,
-                // isRegistrationOpen: Date.parse(action.payload.deadline) >= Date.now(),
+                isRegistrationOpen: Date.parse(action.payload.deadline) >= Date.now(),
                 competition: action.payload,
                 inProgress: false,
                 error: undefined
@@ -75,6 +77,10 @@ export const getCompetitions = createSelector(
 export const getCompetition = createSelector(
     getCompetitionsState,
     (state: CompetitionState) => state.competition
+);
+
+export const isRegistrationOpen = createSelector(
+    getCompetitionsState, (state: CompetitionState) => state.isRegistrationOpen
 );
 
 export const getPredictions = createSelector

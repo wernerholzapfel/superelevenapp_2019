@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AlertController, ToastController} from '@ionic/angular';
+import {of} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -49,5 +50,15 @@ export class ToastService {
             return alertResponse.data;
         });
 
+    }
+
+    canDeactivate(isDirty: boolean) {
+        if (isDirty) {
+            return this.presentAlertConfirm().then(alertResponse => {
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
     }
 }

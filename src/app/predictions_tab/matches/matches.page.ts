@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {getPredictions} from '../../store/competition/competition.reducer';
+import {getPredictions, isRegistrationOpen} from '../../store/competition/competition.reducer';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Prediction, PredictionType} from '../../models/competition.model';
-import {combineLatest, from, Subject} from 'rxjs';
+import {combineLatest, from, Observable, Subject} from 'rxjs';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {PredictionService} from '../../services/prediction.service';
@@ -20,19 +20,25 @@ export class MatchesPage implements OnInit, OnDestroy {
     public matchPredictions: MatchPrediction[];
     unsubscribe = new Subject<void>();
 
+    public isRegistrationOpen$: Observable<boolean>;
+
     constructor(private store: Store<IAppState>,
                 private predictionsService: PredictionService,
                 private toastService: ToastService) {
     }
 
+    // todo create form
+
     ngOnInit() {
+        this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
+
         this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), switchMap((predictions: Prediction[]) => {
             if (predictions && predictions.length > 0) {
-                return combineLatest(
+                return combineLatest([
                     this.predictionsService.getMatches(
                         predictions.find(p => p.predictionType === PredictionType.Matches).id),
                     this.predictionsService.getMatchPredictions(
-                        predictions.find(p => p.predictionType === PredictionType.Matches).id));
+                        predictions.find(p => p.predictionType === PredictionType.Matches).id)]);
             } else {
                 return from([]);
             }
@@ -70,6 +76,10 @@ export class MatchesPage implements OnInit, OnDestroy {
 
     transformMatchToPrediction(i): MatchPrediction {
         return {homeScore: null, awayScore: null, match: i, competition: i.competition, prediction: i.prediction};
+    }
+
+    canDeactivate() {
+        return this.toastService.canDeactivate(this.isDirty);
     }
 
     ngOnDestroy(): void {

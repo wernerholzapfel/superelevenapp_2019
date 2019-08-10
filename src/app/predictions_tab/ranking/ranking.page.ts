@@ -2,12 +2,12 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
 import {PredictionService} from '../../services/prediction.service';
 import {RankingTeam} from '../../models/prediction.model';
-import {combineLatest, from, of, Subject} from 'rxjs';
+import {combineLatest, from, Observable, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Competition} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
-import {getCompetition} from '../../store/competition/competition.reducer';
+import {getCompetition, isRegistrationOpen} from '../../store/competition/competition.reducer';
 import {ToastService} from '../../services/toast.service';
 
 @Component({
@@ -18,9 +18,10 @@ import {ToastService} from '../../services/toast.service';
 export class RankingPage implements OnInit, OnDestroy {
     @ViewChild(IonReorderGroup, {static: false}) reorderGroup: IonReorderGroup;
 
-    public isDirty = true;
+    public isDirty = false;
     public items: RankingTeam[];
     unsubscribe = new Subject<void>();
+    public isRegistrationOpen$: Observable<boolean>;
 
     constructor(private store: Store<IAppState>,
                 private predictionsService: PredictionService,
@@ -28,6 +29,8 @@ export class RankingPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+
+        this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
 
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), switchMap((competition: Competition) => {
             if (competition && competition.id) {
@@ -69,13 +72,7 @@ export class RankingPage implements OnInit, OnDestroy {
     }
 
     canDeactivate() {
-        if (this.isDirty) {
-            return this.toastService.presentAlertConfirm().then(alertResponse => {
-                return alertResponse;
-            });
-        } else {
-            return of(true);
-        }
+        return this.toastService.canDeactivate(this.isDirty);
     }
 
     ngOnDestroy(): void {

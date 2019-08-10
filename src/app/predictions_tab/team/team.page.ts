@@ -27,6 +27,7 @@ export class TeamPage implements OnInit, OnDestroy {
 
     competition: any;
     prediction: any;
+    isDirty = false;
     formation: Formation[];
     players: Teamplayer[];
     teams: Team[];
@@ -90,7 +91,6 @@ export class TeamPage implements OnInit, OnDestroy {
     }
 
     save() {
-        console.table(this.team);
         this.predictionService.saveTeamPredictions(
             this.team
                 .filter(player => player.selected)
@@ -100,6 +100,7 @@ export class TeamPage implements OnInit, OnDestroy {
                     {prediction: {id: this.prediction.id}},
                     {competition: {id: this.competition.id}})))
             .subscribe(result => {
+                this.isDirty = false;
                 this.toastService.presentToast('Team opgeslagen', 'primary');
             });
     }
@@ -107,6 +108,7 @@ export class TeamPage implements OnInit, OnDestroy {
 
     async addPlayer(request: { formationIndex: number, position: string, player: any }) {
         if (request.player.selected) {
+            this.isDirty = true;
             this.formation[request.formationIndex].players.map(
                 p => p.index === request.player.index ?
                     Object.assign(request.player, {player: {name: 'Kies'}}, {selected: false}, {team: null}) :
@@ -178,10 +180,7 @@ export class TeamPage implements OnInit, OnDestroy {
             numberOfForwards >= 2 &&
             numberOfForwards <= 3;
 
-
-        // todo change return item
         return isTeamComplete;
-        // return true;
     }
 
     flattenPlayers() {
@@ -228,6 +227,10 @@ export class TeamPage implements OnInit, OnDestroy {
                         Object.assign(pl, {hide: !pl.selected}, {class: pl.initialClass});
             }));
         }
+    }
+
+    canDeactivate() {
+        return this.toastService.canDeactivate(this.isDirty);
     }
 
     ngOnDestroy(): void {

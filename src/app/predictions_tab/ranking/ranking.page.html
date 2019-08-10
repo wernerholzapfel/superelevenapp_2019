@@ -8,7 +8,7 @@
             </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-            <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+            <ion-reorder-group (ionItemReorder)="doReorder($event)" [disabled]="!(isRegistrationOpen$ | async)">
                 <!-- Items wrapped in a reorder, entire item can be dragged -->
                 <ion-reorder *ngFor="let item of items">
                     <ion-item>
@@ -19,7 +19,7 @@
                     </ion-item>
                 </ion-reorder>
             </ion-reorder-group>
-            <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="saveRankingPrediction()">
+            <ion-button *ngIf="(isRegistrationOpen$ | async)" expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="saveRankingPrediction()">
                 Opslaan
             </ion-button>
         </ion-card-content>

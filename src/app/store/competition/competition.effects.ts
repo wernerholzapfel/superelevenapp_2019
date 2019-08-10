@@ -22,7 +22,7 @@ export class CompetitionEffects {
                     .getCompetitions()
                     .pipe(switchMap(competitionResponse =>
                             from([new competition.FetchCompetitionListSuccess(competitionResponse),
-                                new competition.FetchCompetitionSuccess(competitionResponse[0])])
+                                new competition.FetchCompetitionSuccess(competitionResponse.find(comp => comp.isActive))])
                         ),
                         catchError(err => of(new competition.FetchCompetitionListFailure(err))));
             }));

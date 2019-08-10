@@ -3,10 +3,10 @@ import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
 import {PredictionService} from '../../services/prediction.service';
 import {ToastService} from '../../services/toast.service';
-import {getPredictions} from '../../store/competition/competition.reducer';
+import {getPredictions, isRegistrationOpen} from '../../store/competition/competition.reducer';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Prediction, PredictionType} from '../../models/competition.model';
-import {combineLatest, from, Subject} from 'rxjs';
+import {combineLatest, from, Observable, Subject} from 'rxjs';
 import {MatchPrediction} from '../../models/match.model';
 import {QuestionPrediction} from '../../models/question.model';
 
@@ -19,6 +19,8 @@ export class QuestionsPage implements OnInit, OnDestroy {
 
   public isDirty = false;
   public questionPredictions: QuestionPrediction[];
+  public isRegistrationOpen$: Observable<boolean>;
+
   unsubscribe = new Subject<void>();
 
   constructor(private store: Store<IAppState>,
@@ -26,6 +28,8 @@ export class QuestionsPage implements OnInit, OnDestroy {
               private toastService: ToastService) { }
 
   ngOnInit() {
+    this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
+
     this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), switchMap((predictions: Prediction[]) => {
       if (predictions && predictions.length > 0) {
         return combineLatest(
