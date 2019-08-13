@@ -1,13 +1,5 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {IonContent, ModalController, NavParams} from '@ionic/angular';
-import {PositionType, TeamplayerResponse} from '../../../models/teamplayer.model';
-import {ScoreformUiService} from '../../../services/scoreform-ui.service';
-import {takeUntil} from 'rxjs/operators';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
-import {TeamplayerScoresService} from '../../../services/teamplayer-scores.service';
-import {ToastService} from '../../../services/toast.service';
-import {Competition, Prediction} from '../../../models/competition.model';
-import {Formation} from '../../../models/formation.model';
 
 @Component({
     selector: 'app-playerStandItem',
@@ -22,6 +14,7 @@ export class PlayerStandItemComponent implements OnInit, OnDestroy {
     }
 
     @Input() player: any;
+
     ngOnInit() {
     }
 

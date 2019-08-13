@@ -1,8 +1,12 @@
-<ion-item lines="full">
-            <span slot="start">
-                <img class="logo-avatar" [src]="player.teamPlayer.team.logoUrl">
-            </span>
-            <span>{{player.teamPlayer.player.name}}</span>
-            <span slot="end">{{player?.teamPlayer?.totaalpuntenspeler}}</span>
+<ion-item lines="inset">
+    <ion-label [color]="player.isActive ? 'dark' : 'medium'">
+    <span slot="start">
+        <img class="logo-avatar" [src]="player.teamPlayer.team.logoUrl">
+    </span>
+        <span>
+        {{player.teamPlayer.player.name}}
+            <ion-icon *ngIf="player.captain" name="star"></ion-icon>
+    </span>
+        <span slot="end">{{player?.teamPlayer?.totaalpuntenspeler}}</span>
+    </ion-label>
 </ion-item>
-

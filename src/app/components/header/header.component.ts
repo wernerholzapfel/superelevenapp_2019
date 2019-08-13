@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuService} from '../../services/menu.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'app-header',
@@ -8,11 +9,17 @@ import {MenuService} from '../../services/menu.service';
 })
 export class HeaderComponent implements OnInit {
 
-    constructor(public menuService: MenuService) {
+    appPages: any[];
+
+    constructor(private menuService: MenuService, private authService: AuthService) {
     }
 
     ngOnInit() {
-
+        this.appPages = this.menuService.appPages;
     }
 
+    showMenuItem(p) {
+        return p.onlyForAdmin ? this.authService.isAdmin :
+            p.onlyForUser ? this.authService.isLoggedIn() : true;
+    }
 }

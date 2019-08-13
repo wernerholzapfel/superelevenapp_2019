@@ -13,19 +13,27 @@ export class MenuService {
             title: 'Home',
             url: '/home',
             icon: 'home',
-            active: true
+            active: true,
+            onlyForAdmin: false,
+            onlyForUser: false
         },
         {
             title: 'Voorspelling',
             url: '/prediction',
             icon: 'podium',
-            active: false
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: true
+
         },
         {
             title: 'Standen',
             url: '/standen',
             icon: 'medal',
-            active: false
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: false
+
         },
         //  {
         //     title: 'Voorbereiding',
@@ -37,7 +45,10 @@ export class MenuService {
             title: 'Uitslagen',
             url: '/results',
             icon: 'create',
-            active: false
+            active: false,
+            admin: true,
+            onlyForUser: false
+
         }
     ];
 }
