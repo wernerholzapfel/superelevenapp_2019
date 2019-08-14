@@ -9,6 +9,7 @@ import {Subject} from 'rxjs';
 export class PlayerStandItemComponent implements OnInit, OnDestroy {
 
     unsubscribe = new Subject<void>();
+    showDetails = false;
 
     constructor() {
     }

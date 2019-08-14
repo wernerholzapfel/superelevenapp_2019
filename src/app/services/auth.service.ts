@@ -10,6 +10,7 @@ export class AuthService {
     public user$: Observable<firebase.User>;
     public isAdmin = false;
     public displayName: string;
+    public user: firebase.User;
 
 
     constructor(private angularFireAuth: AngularFireAuth, private router: Router) {
@@ -20,7 +21,8 @@ export class AuthService {
                 // todo place to fetch participant data;
                 this.angularFireAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
                     // this.store.dispatch(new FetchParticipant());
-                    this.displayName = tokenResult.claims.email;
+                    this.user = user;
+                    this.displayName = user.displayName;
                     this.isAdmin = tokenResult.claims.admin;
                 });
             } else {

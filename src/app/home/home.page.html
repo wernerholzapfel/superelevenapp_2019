@@ -1,4 +1,28 @@
 <app-header></app-header>
 <ion-content>
-    <app-login></app-login>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Supereleven 2020</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            Beste voetballiefhebber,<br>
+            <br>
+            Welkom in de app van Super 11!
+            Super 11 is een eenvoudige voetbalpool waarbij je een team selecteert van 11 eredivisiespelers (max. 1
+            speler per club).
+            Je spelers verdienen punten door middel van hun verrichtingen in de Eredivisie.
+            Naast het maken van jouw eigen team voorspel je de eindstand van de Eredivisie,
+            beantwoord je een aantal bonusvragen en voorspel je de uitslagen van een aantal voetbalkrakers die komend
+            seizoen op de velden gespeeld gaan worden.
+            <br>
+            Voor de volledige uitleg en puntentelling verwijzen we je naar de spelregels.
+            <br>
+            We starten met de puntentelling vanaf speelronde 6.
+            Zorg ervoor dat je deelnameformulier uiterlijk zaterdag 14 september 2019 om 18.30 uur ingestuurd is. Na je
+            inschrijving kun je je voorspellingen nog wijzigen tot 14 september 18:30.
+            <br>
+            Wie wordt de winnaar van de Super 11 seizoen 2019-2020?
+        </ion-card-content>
+    </ion-card>
+    <app-login *ngIf="!(authService.user$ | async)"></app-login>
 </ion-content>

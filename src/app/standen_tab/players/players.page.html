@@ -1,4 +1,17 @@
 <app-header></app-header>
+<ion-toolbar color="light">
+    <ion-item color="light">
+        <ion-label>Kies ronde</ion-label>
+        <ion-select  [(ngModel)]="activeRound" [interfaceOptions]="customPopoverOptions" interface="popover"
+                     (ionChange)="filterRounds($event)">
+            <ion-select-option value="Totaal">Totaal</ion-select-option>
+            <ion-select-option *ngFor="let round of rounds" value="{{round.id}}">
+                {{round.name}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+
+</ion-toolbar>
 <ion-toolbar>
     <ion-item color="secondary">
         <span slot="start">Pos</span>

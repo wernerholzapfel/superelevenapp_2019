@@ -1,14 +1,25 @@
 import {Injectable} from '@angular/core';
+import {AuthService} from './auth.service';
+
+export interface MenuItem {
+    title: string;
+    url: string;
+    icon: string;
+    active: boolean;
+    onlyForAdmin: boolean;
+    onlyForUser: boolean;
+}
 
 @Injectable({
     providedIn: 'root'
 })
+
 export class MenuService {
 
-    constructor() {
+    constructor(private authService: AuthService) {
     }
 
-    public appPages = [
+    public appPages: MenuItem[] = [
         {
             title: 'Home',
             url: '/home',
@@ -16,17 +27,14 @@ export class MenuService {
             active: true,
             onlyForAdmin: false,
             onlyForUser: false
-        },
-        {
+        }, {
             title: 'Voorspelling',
             url: '/prediction',
             icon: 'podium',
             active: false,
             onlyForAdmin: false,
             onlyForUser: true
-
-        },
-        {
+        }, {
             title: 'Standen',
             url: '/standen',
             icon: 'medal',
@@ -46,9 +54,21 @@ export class MenuService {
             url: '/results',
             icon: 'create',
             active: false,
-            admin: true,
+            onlyForAdmin: true,
             onlyForUser: false
-
+        }, {
+            title: 'Profiel',
+            url: '/profile',
+            icon: 'person',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: true
         }
     ];
+
+    showMenuItem(item: MenuItem) {
+        return item.onlyForAdmin ? this.authService.isAdmin :
+            item.onlyForUser ? this.authService.user : true;
+    }
+
 }

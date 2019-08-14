@@ -31,6 +31,10 @@ const routes: Routes = [
         path: 'standen',
         loadChildren: './standen_tab/standen_tab.module#StandenTabModule',
     },
+    {
+        path: 'profile',
+        loadChildren: './profile/profile.module#ProfileModule',
+    },
 ];
 
 @NgModule({

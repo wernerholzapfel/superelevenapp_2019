@@ -1,0 +1,52 @@
+<ion-item lines="inset" (click)="showDetails = !showDetails">
+    <ion-label [color]="player.isActive ? 'dark' : 'medium'">
+    <span slot="start">
+        <img class="logo-avatar" [src]="player.teamPlayer.team.logoUrl">
+    </span>
+        <span>
+        {{player.teamPlayer.player.name}}
+            <ion-icon [color]="player.captainTillRound ? 'medium': 'dark'"
+                      *ngIf="player.captain || player.captainTillRound"
+                      name="star"></ion-icon>
+    </span>
+    </ion-label>
+    <span slot="end">{{player?.teamPlayer?.teamplayertotaalpunten.totaal}}</span>
+</ion-item>
+<ng-container *ngIf="showDetails && player.teamPlayer.teamplayertotaalpunten.played > 0">
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.played > 0">
+        Gespeeld: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.played}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.win > 0">
+        Winst: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.win}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.draw > 0">
+        Winst: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.draw}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.goals > 0">
+        Doelpunten: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.goals}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.assists > 0">
+        Assists: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.assists}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.owngoal > 0">
+        Eigen doelpunt: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.owngoal}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.penaltymissed > 0">
+        Penalty gemist: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.penaltymissed}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.cleansheet > 0">
+        De nul: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.cleansheet}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.penaltystopped > 0">
+        Penalty gestopt: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.penaltystopped}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.yellow > 0">
+        Geel: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.yellow}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.secondyellow > 0">
+        2x Geel: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.secondyellow}}</span>
+    </ion-item>
+    <ion-item *ngIf="player.teamPlayer.teamplayertotaalpunten.red > 0">
+        Rood: <span slot="end">{{player.teamPlayer.teamplayertotaalpunten.red}}</span>
+    </ion-item>
+</ng-container>

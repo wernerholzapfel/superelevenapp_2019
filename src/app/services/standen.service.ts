@@ -15,4 +15,8 @@ export class StandenService {
   getTeamStand(predictionid): Observable<RankingTeam[]> {
     return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionid}/stand`);
   }
+
+  getRoundTeamStand(predictionid: string, roundid: string): Observable<RankingTeam[]> {
+    return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionid}/round/${roundid}/stand`);
+  }
 }

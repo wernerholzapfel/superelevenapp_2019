@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
                 private splashScreen: SplashScreen,
                 private statusBar: StatusBar,
                 private router: Router,
-                public menuService: MenuService
+                public menuService: MenuService,
     ) {
         this.initializeApp();
 
@@ -47,5 +47,9 @@ export class AppComponent implements OnInit {
                 });
             }
         });
+    }
+
+    showMenuItem(item) {
+        return this.menuService.showMenuItem(item);
     }
 }

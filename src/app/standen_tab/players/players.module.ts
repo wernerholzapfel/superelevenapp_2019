@@ -9,8 +9,7 @@ import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
 import {FormationLineModule} from '../../formation-line/formation-line.module';
 import {PlayersPage} from './players.page';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {PlayerStandItemComponent} from './player-stand-item/player-stand-item.component';
-import {PlayerStandItemModule} from './player-stand-item/player-stand-item.module';
+import {PlayerStandItemModule} from '../../components/player-stand-item/player-stand-item.module';
 
 const routes: Routes = [
     {

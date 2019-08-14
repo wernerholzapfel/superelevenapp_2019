@@ -18,8 +18,7 @@ export class HeaderComponent implements OnInit {
         this.appPages = this.menuService.appPages;
     }
 
-    showMenuItem(p) {
-        return p.onlyForAdmin ? this.authService.isAdmin :
-            p.onlyForUser ? this.authService.isLoggedIn() : true;
+    showMenuItem(item) {
+        return this.menuService.showMenuItem(item);
     }
 }

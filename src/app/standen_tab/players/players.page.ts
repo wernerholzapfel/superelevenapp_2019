@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {of, Subject} from 'rxjs';
+import {BehaviorSubject, of, Subject} from 'rxjs';
 import {ToastService} from '../../services/toast.service';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -8,6 +8,7 @@ import {StandenService} from '../../services/standen.service';
 import {getCompetition} from '../../store/competition/competition.reducer';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {PredictionType} from '../../models/competition.model';
+import {Round} from '../../models/prediction.model';
 
 @Component({
     selector: 'app-players',
@@ -17,10 +18,14 @@ import {PredictionType} from '../../models/competition.model';
 
 
 export class PlayersPage implements OnInit, OnDestroy {
-
+    activeRound = 'Totaal';
+    rounds: Round[];
     customPopoverOptions: any = {
         header: 'speelronde',
     };
+    activeRound$: BehaviorSubject<string> = new BehaviorSubject('Totaal');
+    competition: any;
+
     unsubscribe = new Subject<void>();
     stand: any[];
 
@@ -34,16 +39,32 @@ export class PlayersPage implements OnInit, OnDestroy {
     ngOnInit() {
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe),
             mergeMap(competition => {
-                return (competition && competition.predictions && competition.predictions.length > 0) ?
-                    this.standenService.getTeamStand(competition.predictions
-                        .find(prediction => prediction.predictionType === PredictionType.Team).id) : of([]);
+                if (competition && competition.predictions) {
+                    this.competition = competition;
+                    this.rounds = competition.predictions.find(p => p.predictionType === PredictionType.Team).rounds;
+                }
+                return this.activeRound$;
+            }),
+            mergeMap(activeRound => {
+                this.activeRound = activeRound;
+                if (this.activeRound && this.competition && this.competition.predictions && this.competition.predictions.length > 0) {
+                    return activeRound.toLowerCase() === 'totaal' ?
+                        this.standenService.getTeamStand(this.competition.predictions
+                            .find(prediction => prediction.predictionType === PredictionType.Team).id) :
+                        this.standenService.getRoundTeamStand(this.competition.predictions
+                            .find(prediction => prediction.predictionType === PredictionType.Team).id, activeRound);
+                } else {
+                    return of([]);
+                }
             }))
             .subscribe(stand => {
                 this.stand = stand;
-                console.log(stand);
             });
     }
 
+    filterRounds($event) {
+        this.activeRound$.next($event.detail.value);
+    }
 
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();

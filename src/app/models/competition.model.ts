@@ -1,3 +1,5 @@
+import {Round} from './prediction.model';
+
 export interface Competition {
     id: string;
     name: string;
@@ -12,6 +14,7 @@ export interface Competition {
 export interface Prediction {
     id: string;
     predictionType: PredictionType;
+    rounds: Round[];
 }
 
 export enum PredictionType {

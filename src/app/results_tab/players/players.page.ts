@@ -70,7 +70,7 @@ export class PlayersPage implements OnInit, OnDestroy {
         this.store.select(getCompetition).pipe(
             mergeMap(competition => {
                 if (competition && competition.predictions && competition.predictions.length > 0) {
-                    this.competition = competition
+                    this.competition = competition;
                     this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
                     return this.activeRound$;
                 } else {
