@@ -35,6 +35,7 @@ import {MenuService} from './services/menu.service';
 import {AddplayerPageModule} from './predictions_tab/team/addplayer/addplayer.module';
 import {PlayerScoreformComponent} from './results_tab/players/playerScoreform/player-scoreform.component';
 import {PlayerScoreformModule} from './results_tab/players/playerScoreform/player-scoreform.module';
+import {OneSignal} from '@ionic-native/onesignal/ngx';
 
 @NgModule({
     declarations: [
@@ -82,6 +83,7 @@ import {PlayerScoreformModule} from './results_tab/players/playerScoreform/playe
             useClass: LoaderInterceptor,
             multi: true,
         },
+        OneSignal
     ],
     bootstrap: [AppComponent]
 })

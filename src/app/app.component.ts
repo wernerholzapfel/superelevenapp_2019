@@ -8,6 +8,8 @@ import {Store} from '@ngrx/store';
 import * as fromCompetition from './store/competition/competition.actions';
 import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {MenuService} from './services/menu.service';
+import {OneSignal} from '@ionic-native/onesignal/ngx';
+import {environment} from '../environments/environment';
 
 @Component({
     selector: 'app-root',
@@ -24,6 +26,7 @@ export class AppComponent implements OnInit {
                 private statusBar: StatusBar,
                 private router: Router,
                 public menuService: MenuService,
+                private oneSignal: OneSignal,
     ) {
         this.initializeApp();
 
@@ -33,7 +36,34 @@ export class AppComponent implements OnInit {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
+
+            if (this.platform.is('cordova')) {
+                this.setupPush();
+            }
         });
+    }
+
+    setupPush() {
+        // I recommend to put these into your environment.ts
+        this.oneSignal.startInit(environment.oneSignal.appId, environment.oneSignal.googleProjectNumber);
+
+        this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
+
+        // Notifcation was received in general
+        this.oneSignal.handleNotificationReceived().subscribe(data => {
+            const msg = data.payload.body;
+            const title = data.payload.title;
+            const additionalData = data.payload.additionalData;
+        });
+
+        // Notification was really clicked/opened
+        this.oneSignal.handleNotificationOpened().subscribe(data => {
+            // Just a note that the data is a different place here!
+            const additionalData = data.notification.payload.additionalData;
+
+        });
+
+        this.oneSignal.endInit();
     }
 
     ngOnInit(): void {

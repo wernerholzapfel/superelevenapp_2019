@@ -1,5 +1,7 @@
 {
   "name": "superelevenapp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
