@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
 import {PredictionService} from '../../services/prediction.service';
 import {RankingTeam} from '../../models/prediction.model';
-import {combineLatest, from, Observable, Subject} from 'rxjs';
+import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Competition} from '../../models/competition.model';
@@ -71,9 +71,17 @@ export class RankingPage implements OnInit, OnDestroy {
         });
     }
 
-    canDeactivate() {
-        return this.toastService.canDeactivate(this.isDirty);
+    canDeactivate(): Observable<boolean> | Promise<boolean> {
+        if (this.isDirty) {
+            return this.toastService.presentAlertConfirm().then(alertResponse => {
+                console.log(alertResponse);
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
     }
+
 
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();

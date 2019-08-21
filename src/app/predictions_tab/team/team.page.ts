@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {AddPlayerPage} from './addplayer/add-player-page.component';
-import {combineLatest, from, Subject} from 'rxjs';
+import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {Formation, FormationPlayer} from '../../models/formation.model';
 import {ToastService} from '../../services/toast.service';
 import {PlayerService} from '../../services/player.service';
@@ -229,9 +229,16 @@ export class TeamPage implements OnInit, OnDestroy {
         }
     }
 
-    canDeactivate() {
-        return this.toastService.canDeactivate(this.isDirty);
+    canDeactivate(): Observable<boolean> | Promise<boolean> {
+        if (this.isDirty) {
+            return this.toastService.presentAlertConfirm().then(alertResponse => {
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
     }
+
 
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();

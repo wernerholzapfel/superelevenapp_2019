@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AlertController, ToastController} from '@ionic/angular';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {resolve} from 'q';
 
 @Injectable({
     providedIn: 'root'
@@ -32,33 +33,19 @@ export class ToastService {
             buttons: [
                 {
                     text: 'Ja',
+                    role: 'cancel',
                     cssClass: 'secondary',
-                    handler: () => {
-                        alert.dismiss(true);
+                    handler: (blah) => {
                     }
                 }, {
                     text: 'Nee',
                     handler: () => {
-                        alert.dismiss(false);
                     }
                 }
             ]
         });
 
         await alert.present();
-        return await alert.onDidDismiss().then((alertResponse) => {
-            return alertResponse.data;
-        });
-
-    }
-
-    canDeactivate(isDirty: boolean) {
-        if (isDirty) {
-            return this.presentAlertConfirm().then(alertResponse => {
-                return alertResponse;
-            });
-        } else {
-            return of(true);
-        }
+        return await alert.onDidDismiss().then(result => result.role === 'cancel');
     }
 }

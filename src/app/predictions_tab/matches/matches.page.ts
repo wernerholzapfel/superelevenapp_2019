@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {getPredictions, isRegistrationOpen} from '../../store/competition/competition.reducer';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Prediction, PredictionType} from '../../models/competition.model';
-import {combineLatest, from, Observable, Subject} from 'rxjs';
+import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {PredictionService} from '../../services/prediction.service';
@@ -78,9 +78,16 @@ export class MatchesPage implements OnInit, OnDestroy {
         return {homeScore: null, awayScore: null, match: i, competition: i.competition, prediction: i.prediction};
     }
 
-    canDeactivate() {
-        return this.toastService.canDeactivate(this.isDirty);
+    canDeactivate(): Observable<boolean> | Promise<boolean> {
+        if (this.isDirty) {
+            return this.toastService.presentAlertConfirm().then(alertResponse => {
+                return alertResponse;
+            });
+        } else {
+            return of(true);
+        }
     }
+
 
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();
