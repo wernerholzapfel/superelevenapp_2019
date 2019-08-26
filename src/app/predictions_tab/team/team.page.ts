@@ -67,7 +67,9 @@ export class TeamPage implements OnInit, OnDestroy {
                     this.formation = formation;
                     this.players = players;
                     this.teams = teams;
-                    this.captainId = predictionTeam.find(player => player.captain).teamPlayer.player.id;
+                    this.captainId = predictionTeam.find(player => player.captain)
+                        ? predictionTeam.find(player => player.captain).teamPlayer.player.id
+                        : 0;
 
                     // predictionTeam doorlopen en toevoegen aan juiste formationline positie
                     predictionTeam.map(teamPlayer => {
