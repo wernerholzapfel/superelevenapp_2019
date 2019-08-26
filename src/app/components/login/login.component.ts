@@ -1,9 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-// import {ParticipantService} from '../services/participant.service';
-import {takeUntil} from 'rxjs/operators';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {ToastController} from '@ionic/angular';
 import {ParticipantService} from '../../services/participant.service';
@@ -94,13 +92,15 @@ export class LoginComponent implements OnInit, OnDestroy {
             .then((res) => {
                     if (res) {
                         delete this.user.password;
-                        this.authService.updateProfile(this.user.displayName);
+                        // this.authService.updateProfile(this.user.displayName);
                         this.participantService.postParticipant({
                             displayName: this.user.displayName,
                             teamName: this.user.teamName,
                             email: this.user.email
-                        }).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
+                        }).subscribe(response => {
                             console.log('user opgeslagen in database');
+                        }, error1 => {
+                            console.log(error1);
                         });
                         // this.store.dispatch(new fromParticipantForm.ClearParticipantform());
                     }
@@ -128,6 +128,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     segmentChanged($event) {
         this.activeSegment = $event.detail.value;
     }
+
     ngOnDestroy() {
         this.unsubscribe.next();
         this.unsubscribe.complete();
