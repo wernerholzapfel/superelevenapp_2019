@@ -88,11 +88,11 @@ export class PlayersPage implements OnInit, OnDestroy {
             if (competition && competition.predictions && competition.predictions.length > 0) {
                 this.competition = competition;
                 this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
-                return combineLatest(
+                return combineLatest([
                     this.playerService.getPlayersByPredictionId(this.prediction.id),
                     this.formationService.getFormation(),
                     this.teamService.getTeams(),
-                    this.predictionService.getTeamPrediction(this.prediction.id));
+                    this.predictionService.getTeamPrediction(this.prediction.id)]);
             } else {
                 return from([]);
             }

@@ -20,13 +20,16 @@ export class AuthService {
             if (user) {
                 // todo place to fetch participant data;
                 this.angularFireAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
-                    // this.store.dispatch(new FetchParticipant());
+                    // this.store.dis§patch(new FetchParticipant());
                     this.user = user;
                     this.displayName = user.displayName;
                     this.isAdmin = tokenResult.claims.admin;
                 });
             } else {
                 console.log('er is geen user meer');
+                this.user = null;
+                this.displayName = null;
+                this.isAdmin = false;
             }
         });
     }
@@ -51,9 +54,17 @@ export class AuthService {
     }
 
     logout() {
-        this.angularFireAuth.auth.signOut()
-            .then((res) =>
-                this.router.navigate(['/']));
+        return new Promise((resolve, reject) => {
+            if (this.angularFireAuth.auth.currentUser) {
+                this.angularFireAuth.auth.signOut()
+                    .then(() => {
+                        this.router.navigate(['/']);
+                        resolve();
+                    }).catch((error) => {
+                    reject();
+                });
+            }
+        });
     }
 
     getToken(): Promise<any> {

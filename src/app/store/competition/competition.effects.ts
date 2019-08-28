@@ -3,7 +3,7 @@ import * as competition from './competition.actions';
 
 import {CompetitionService} from '../../services/competition.service';
 import {from, of} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class CompetitionEffects {
     fetchCompetitionList$ = this.actions$
         .pipe(
             ofType<competition.FetchCompetitionList>(competition.FETCH_COMPETITIONLIST),
-            switchMap(action => {
+            mergeMap(action => {
                 return this.competitionService
                     .getCompetitions()
                     .pipe(switchMap(competitionResponse =>
