@@ -34,8 +34,8 @@ export class RankingPage implements OnInit, OnDestroy {
 
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), switchMap((competition: Competition) => {
             if (competition && competition.id) {
-                return combineLatest(this.predictionsService.getRankingTeams(competition.id),
-                    this.predictionsService.getRankingTeamsPrediction(competition.id));
+                return combineLatest([this.predictionsService.getRankingTeams(competition.id),
+                    this.predictionsService.getRankingTeamsPrediction(competition.id)]);
             } else {
                 return from([]);
             }
@@ -46,7 +46,13 @@ export class RankingPage implements OnInit, OnDestroy {
                     this.items = rankingPrediction.map((item, index) => this.addPosition(item, index));
                 } else if (!rankingPrediction || rankingPrediction.length === 0 && rankingTeams) {
                     console.log(rankingTeams);
-                    this.items = rankingTeams.map((item, index) => this.addPosition(item, index));
+                    this.items = rankingTeams
+                        .map(team => {
+                            delete team.id;
+                            return team;
+                        })
+                        .map((item, index) =>
+                            this.addPosition(item, index));
                 }
             });
     }
@@ -67,6 +73,7 @@ export class RankingPage implements OnInit, OnDestroy {
     saveRankingPrediction() {
         this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
             this.toastService.presentToast('Stand opgeslagen', 'primary');
+            this.items = result;
             this.isDirty = false;
         });
     }

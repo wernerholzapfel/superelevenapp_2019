@@ -9,6 +9,7 @@ import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
 import {FormationLineModule} from '../../formation-line/formation-line.module';
 import {PlayersPage} from './players.page';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {RoundSelectorModule} from '../../components/round-selector/round-selector.module';
 
 const routes: Routes = [
     {
@@ -25,6 +26,7 @@ const routes: Routes = [
         HeaderModule,
         FormationLineModule,
         DragDropModule,
+        RoundSelectorModule,
         RouterModule.forChild(routes)
     ],
     declarations: [PlayersPage]

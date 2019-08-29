@@ -1,16 +1,7 @@
 <app-header></app-header>
 <ion-toolbar color="light">
-    <ion-item color="light">
-        <ion-label>Kies ronde</ion-label>
-        <ion-select  [(ngModel)]="activeRound" [interfaceOptions]="customPopoverOptions" interface="popover"
-                    (ionChange)="filterRounds($event)">
-            <ion-select-option *ngFor="let round of prediction?.rounds" value="{{round.id}}">
-                {{round.name}}
-            </ion-select-option>
-        </ion-select>
-    </ion-item>
+     <app-round-selector color="light" (roundChange)="roundChange($event)"></app-round-selector>
     <ion-searchbar (ionChange)="search($event)" placeholder="Zoek speler" debounce="500"></ion-searchbar>
-
 </ion-toolbar>
 <ion-content>
     <ion-list *ngIf="!(isLoading | async)">

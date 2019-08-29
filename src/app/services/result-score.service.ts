@@ -8,12 +8,17 @@ import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class TeamplayerScoresService {
+export class ResultScoreService {
 
   constructor(private http: HttpClient) { }
 
   postTeamplayerScore(body: any): Observable<any> {
     return this.http.post<any>(`${environment.apiBaseUrl}/teamplayer-scores`, body)
+        .pipe(map(res => res as any));
+  }
+
+  postMatchResult(body: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiBaseUrl}/match`, body)
         .pipe(map(res => res as any));
   }
 }

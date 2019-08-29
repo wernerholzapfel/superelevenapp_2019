@@ -57,10 +57,4 @@ export class PredictionService {
     saveTeamPredictions(teamPredictions: any[]): Observable<any> {
         return this.http.post<any[]>(`${environment.apiBaseUrl}/team-prediction`, teamPredictions);
     }
-
-    // todo verplaatsen
-    getPreviousRound(): Observable<Round> {
-        return this.http.get<Round>(`${environment.apiBaseUrl}/round/previous`);
-    }
-
 }

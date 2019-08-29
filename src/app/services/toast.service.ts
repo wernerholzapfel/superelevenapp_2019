@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {AlertController, ToastController} from '@ionic/angular';
-import {Observable, of} from 'rxjs';
-import {resolve} from 'q';
 
 @Injectable({
     providedIn: 'root'
@@ -12,11 +10,12 @@ export class ToastService {
     }
 
     async presentToast(message: string,
-                       color: string,
+                       color: string = 'primary',
                        showCloseButton: boolean = true,
                        closeButtonText: string = 'OK',
                        duration: number = 2000) {
         const toast = await this.toastController.create({
+            position: 'top',
             color,
             message,
             duration,

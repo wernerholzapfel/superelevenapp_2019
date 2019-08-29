@@ -1,4 +1,14 @@
 <app-header></app-header>
 <ion-content>
-    todo
+    <ion-card class="main-card">
+        <ion-card-header>
+            <ion-card-title color="primary">Wedstrijden
+            </ion-card-title>
+            <ion-card-subtitle color="medium">Vul de uitslag in
+            </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content no-padding>
+            <app-matches-card *ngFor="let match of matches" [match]="match" class="match-card"></app-matches-card>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

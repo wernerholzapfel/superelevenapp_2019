@@ -17,6 +17,7 @@ import {ScoreformUiService} from '../../services/scoreform-ui.service';
 import {RankingTeam} from '../../models/prediction.model';
 import {LoaderService} from '../../services/loader.service';
 import {PredictionType} from '../../models/competition.model';
+import {RoundService} from '../../services/round.service';
 
 @Component({
     selector: 'app-players',
@@ -33,14 +34,10 @@ export class PlayersPage implements OnInit, OnDestroy {
     players: TeamplayerResponse[];
     teams: RankingTeam[];
     team: FormationPlayer[] = []; // todo check typedefintion
-
-    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
-    activeRound$: BehaviorSubject<string> = new BehaviorSubject('');
     activeRound: string;
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
+    activeRoundId$: BehaviorSubject<string> = new BehaviorSubject('');
 
-    customPopoverOptions: any = {
-        header: 'speelronde',
-    };
     unsubscribe = new Subject<void>();
     isLoading: Subject<boolean> = this.loaderService.isLoading;
 
@@ -50,6 +47,7 @@ export class PlayersPage implements OnInit, OnDestroy {
                 private formationService: FormationService,
                 private teamService: TeamService,
                 private predictionService: PredictionService,
+                private roundService: RoundService,
                 private playerService: PlayerService,
                 private scoreformUiService: ScoreformUiService,
                 private loaderService: LoaderService,
@@ -57,9 +55,7 @@ export class PlayersPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.predictionService.getPreviousRound().subscribe(round => {
-            this.activeRound$.next(round.id);
-        });
+
 
         // getcompetition  ->
         // prediction nodig competition ->
@@ -72,7 +68,7 @@ export class PlayersPage implements OnInit, OnDestroy {
                 if (competition && competition.predictions && competition.predictions.length > 0) {
                     this.competition = competition;
                     this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
-                    return this.activeRound$;
+                    return this.activeRoundId$;
                 } else {
                     return of('');
                 }
@@ -110,7 +106,7 @@ export class PlayersPage implements OnInit, OnDestroy {
             component: PlayerScoreformComponent,
             componentProps: {
                 index,
-                roundId: this.activeRound$.getValue(),
+                roundId: this.activeRoundId$.getValue(),
                 competition: this.competition,
                 prediction: this.prediction,
             }
@@ -124,10 +120,11 @@ export class PlayersPage implements OnInit, OnDestroy {
         return await modal.present();
     }
 
-    filterRounds($event) {
-        this.activeRound$.next($event.detail.value);
+    roundChange(roundId: string) {
         // reset teamlist when new round is selected
         this.scoreformUiService.scoreformTeamList$.next([]);
+        this.activeRoundId$.next(roundId);
+
     }
 
     ngOnDestroy(): void {

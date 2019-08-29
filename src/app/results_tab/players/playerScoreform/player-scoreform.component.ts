@@ -4,7 +4,7 @@ import {PositionType, TeamplayerResponse} from '../../../models/teamplayer.model
 import {ScoreformUiService} from '../../../services/scoreform-ui.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {TeamplayerScoresService} from '../../../services/teamplayer-scores.service';
+import {ResultScoreService} from '../../../services/result-score.service';
 import {ToastService} from '../../../services/toast.service';
 import {Competition, Prediction} from '../../../models/competition.model';
 
@@ -33,7 +33,7 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
         private navParams: NavParams,
         private scoreformUiService: ScoreformUiService,
         private toastService: ToastService,
-        private teamplayerScoresService: TeamplayerScoresService
+        private teamplayerScoresService: ResultScoreService
     ) {
     }
 

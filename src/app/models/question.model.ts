@@ -1,10 +1,11 @@
 import {Competition, Prediction} from './competition.model';
+import {Round} from './prediction.model';
 
 export interface Question {
     id?: string;
     question: string;
     answer: string;
-    roundId: number;
+    round: Round;
     competition: Competition;
     prediction: Prediction;
 }

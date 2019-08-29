@@ -1,0 +1,51 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>{{match.date}}</ion-card-subtitle>
+    <ion-card-title>
+      <ion-row>
+        <ion-col no-padding>
+          {{match.homeTeam}}
+        </ion-col>
+        <ion-col no-padding size="1" text-right>
+          {{match.homeScore}}
+        </ion-col>
+      </ion-row>
+    </ion-card-title>
+    <ion-card-title>
+      <ion-row>
+        <ion-col no-padding>
+          {{match.awayTeam}}
+        </ion-col>
+        <ion-col no-padding size="1" text-right>
+          {{match.awayScore}}
+        </ion-col>
+      </ion-row>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content no-padding>
+    <ion-item>
+      <ion-fab-button [color]="round === match.homeScore ? 'primary' : 'light'" (click)="match.homeScore = round" size="small"
+                      *ngFor="let round of [0,1,2,3]">
+        {{round}}
+      </ion-fab-button>
+      <ion-fab-button color="light" (click)="match.homeScore = match.homeScore +1" size="small">
+        +
+      </ion-fab-button>
+    </ion-item>
+    <ion-item>
+      <ion-fab-button [color]="round === match.awayScore ? 'primary' : 'light'" color="light" (click)="match.awayScore = round" size="small"
+                      *ngFor="let round of [0,1,2,3]">
+        {{round}}
+      </ion-fab-button>
+      <ion-fab-button color="light" (click)="match.awayScore= match.awayScore + 1" size="small">
+        +
+      </ion-fab-button>
+    </ion-item>
+    <app-round-selector [activeRound]="match?.round?.id" (roundChange)='setRound($event)'></app-round-selector>
+  </ion-card-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button (click)="save(match)" [disabled]="!canISaveForm(match)" color="secondary" type="full" float-end>Opslaan</ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-card>

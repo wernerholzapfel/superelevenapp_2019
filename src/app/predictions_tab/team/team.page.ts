@@ -111,9 +111,10 @@ export class TeamPage implements OnInit, OnDestroy {
     async addPlayer(request: { formationIndex: number, position: string, player: any }) {
         if (request.player.selected) {
             this.isDirty = true;
+            this.captainId = request.player.captain ? null : this.captainId;
             this.formation[request.formationIndex].players.map(
                 p => p.index === request.player.index ?
-                    Object.assign(request.player, {player: {name: 'Kies'}}, {selected: false}, {team: null}) :
+                    Object.assign(request.player, {player: {name: 'Kies'}}, {selected: false}, {team: null}, {captain: false}) :
                     Object.assign(p));
             this.createTeam();
 
