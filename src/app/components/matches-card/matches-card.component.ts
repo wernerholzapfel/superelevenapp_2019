@@ -24,7 +24,7 @@ export class MatchesCardComponent implements OnInit {
         this.resultScoreService.postMatchResult(
             {...match, round: this.round})
             .subscribe(response => {
-                this.toastService.presentToast('opslaan is gelukt', 'primary');
+                this.toastService.presentToast('Opslaan is gelukt');
             }, error1 => {
                 this.toastService.presentToast('Opslaan is mislukt', 'warning');
             });

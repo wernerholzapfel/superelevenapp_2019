@@ -103,7 +103,7 @@ export class TeamPage implements OnInit, OnDestroy {
                     {competition: {id: this.competition.id}})))
             .subscribe(result => {
                 this.isDirty = false;
-                this.toastService.presentToast('Team opgeslagen', 'primary');
+                this.toastService.presentToast('Team opgeslagen');
             });
     }
 

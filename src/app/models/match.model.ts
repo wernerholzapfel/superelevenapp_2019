@@ -20,4 +20,5 @@ export interface MatchPrediction {
     match: Match;
     competition: Competition;
     prediction: Prediction;
+    round?: Round;
 }

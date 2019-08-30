@@ -34,9 +34,8 @@ export class RoundSelectorComponent implements OnInit, OnDestroy {
         this.roundService.previousRoundId$
             .pipe(first(value => value !== ''), takeUntil(this.unsubscribe))
             .subscribe(activeRound => {
-                    console.log('ik ben first: ' + activeRound);
-                    this.roundChange.emit(activeRound);
                     this.activeRound = this.activeRound ? this.activeRound : activeRound;
+                    this.roundChange.emit(this.activeRound);
                 }
             );
     }

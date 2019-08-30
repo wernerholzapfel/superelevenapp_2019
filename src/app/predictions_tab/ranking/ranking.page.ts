@@ -72,7 +72,7 @@ export class RankingPage implements OnInit, OnDestroy {
 
     saveRankingPrediction() {
         this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
-            this.toastService.presentToast('Stand opgeslagen', 'primary');
+            this.toastService.presentToast('Stand opgeslagen');
             this.items = result;
             this.isDirty = false;
         });

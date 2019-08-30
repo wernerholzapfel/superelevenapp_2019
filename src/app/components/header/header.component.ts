@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MenuService} from '../../services/menu.service';
 import {AuthService} from '../../services/auth.service';
 
@@ -10,6 +10,7 @@ import {AuthService} from '../../services/auth.service';
 export class HeaderComponent implements OnInit {
 
     appPages: any[];
+    @Input() showMenu = true;
 
     constructor(private menuService: MenuService, private authService: AuthService) {
     }

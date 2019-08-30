@@ -65,7 +65,7 @@ export class MatchesPage implements OnInit, OnDestroy {
         console.log('todo save matches');
         this.predictionsService.saveMatchPredictions(this.matchPredictions).subscribe(result => {
             this.matchPredictions = result; // todo store?
-            this.toastService.presentToast('Wedstrijden opgeslagen', 'primary');
+            this.toastService.presentToast('Wedstrijden opgeslagen');
             this.isDirty = false;
         });
     }
@@ -88,9 +88,9 @@ export class MatchesPage implements OnInit, OnDestroy {
         }
     }
 
-
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();
     }
+
 
 }

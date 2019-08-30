@@ -22,7 +22,7 @@
 <ion-content>
     <ng-container *ngFor="let participant of stand; let i = index">
         <ion-item lines="full" (click)="participant.showdetail = !participant.showdetail">
-            <span slot="start"> {{i + 1}}</span>
+            <span slot="start"> {{participant.position}}</span>
             {{participant.displayName}}
             <span slot="end">{{participant.totaalpunten}}</span>
         </ion-item>

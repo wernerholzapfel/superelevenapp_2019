@@ -57,7 +57,7 @@ export class QuestionsPage implements OnInit, OnDestroy {
   save() {
     this.predictionsService.saveQuestionPredictions(this.questionPredictions).subscribe(result => {
       this.questionPredictions = result; // todo store?
-      this.toastService.presentToast('Antwoorden opgeslagen', 'primary');
+      this.toastService.presentToast('Antwoorden opgeslagen');
       this.isDirty = false;
     });
   }

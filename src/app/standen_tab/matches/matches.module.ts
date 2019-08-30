@@ -7,14 +7,12 @@ import {IonicModule} from '@ionic/angular';
 
 import {MatchesPage} from './matches.page';
 import {HeaderModule} from '../../components/header/header.module';
-import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
 import {MatchCardModule} from '../../components/match-card/match-card.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: MatchesPage,
-        canDeactivate: [CanDeactivateGuard]
+        component: MatchesPage
     }
 ];
 
@@ -24,8 +22,8 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         HeaderModule,
-        RouterModule.forChild(routes),
-        MatchCardModule
+        MatchCardModule,
+        RouterModule.forChild(routes)
     ],
     declarations: [MatchesPage]
 })

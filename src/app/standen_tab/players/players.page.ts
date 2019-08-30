@@ -9,6 +9,8 @@ import {getCompetition} from '../../store/competition/competition.reducer';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {PredictionType} from '../../models/competition.model';
 import {Round} from '../../models/prediction.model';
+import {PlayerScoreformComponent} from '../../results_tab/players/playerScoreform/player-scoreform.component';
+import {PlayerStandItemComponent} from '../../components/player-stand-item/player-stand-item.component';
 
 @Component({
     selector: 'app-players',
@@ -65,6 +67,7 @@ export class PlayersPage implements OnInit, OnDestroy {
     filterRounds($event) {
         this.activeRound$.next($event.detail.value);
     }
+
 
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();
