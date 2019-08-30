@@ -9,7 +9,7 @@
         </ion-card-header>
         <ion-card-content no-padding>
             <virtual-scroller #scroll [items]="matchPredictions">
-            <ion-card *ngFor="let matchPrediction of  scroll.viewPortItems" class="match-card">
+            <ion-card *ngFor="let matchPrediction of scroll.viewPortItems" class="match-card">
                 <ion-card-header>
                     <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
                     <ion-card-title>
@@ -41,28 +41,27 @@
                     </ion-item>
                     <ng-container *ngIf="(isRegistrationOpen$ | async)">
                         <ion-item lines="none">
-                            <ion-fab-button [color]="round === matchPrediction.homeScore ? 'primary' : 'light'"
-                                            (click)="matchPrediction.homeScore = round" size="small"
+                            <ion-button size="large" [color]="round === matchPrediction.homeScore ? 'primary' : 'light'"
+                                            (click)="matchPrediction.homeScore = round"
                                             *ngFor="let round of [0,1,2,3]">
                                 {{round}}
-                            </ion-fab-button>
-                            <ion-fab-button color="light"
-                                            (click)="matchPrediction.homeScore = matchPrediction.homeScore +1"
-                                            size="small">
+                            </ion-button>
+                            <ion-button size="large" color="light"
+                                            (click)="matchPrediction.homeScore = matchPrediction.homeScore +1">
                                 +
-                            </ion-fab-button>
+                            </ion-button>
                         </ion-item>
                         <ion-item lines="none">
-                            <ion-fab-button [color]="round === matchPrediction.awayScore ? 'primary' : 'light'"
-                                            (click)="matchPrediction.awayScore = round" size="small"
+                            <ion-button size="large" [color]="round === matchPrediction.awayScore ? 'primary' : 'light'"
+                                            (click)="matchPrediction.awayScore = round"
                                             *ngFor="let round of [0,1,2,3]">
                                 {{round}}
-                            </ion-fab-button>
-                            <ion-fab-button color="light"
+                            </ion-button>
+                            <ion-button color="light" size="large"
                                             (click)="matchPrediction.awayScore= matchPrediction.awayScore + 1"
-                                            size="small">
+                                            >
                                 +
-                            </ion-fab-button>
+                            </ion-button>
                         </ion-item>
                     </ng-container>
                 </ion-card-content>
