@@ -5,6 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
 import {MatchPrediction} from '../../models/match.model';
+import {ModalController} from '@ionic/angular';
 
 @Component({
     selector: 'app-match-card',
@@ -13,21 +14,40 @@ import {MatchPrediction} from '../../models/match.model';
 })
 export class MatchCardComponent implements OnInit {
 
-    @Input() matchPredictions: MatchPrediction[];
+    @Input() participants: any[];
     @Input() canPredict = true;
+    @Input() index = 0;
+
+    participant: any;
 
     public isRegistrationOpen$: Observable<boolean>;
     unsubscribe = new Subject<void>();
 
-    constructor(private store: Store<IAppState>) {
+    constructor(private store: Store<IAppState>,
+                private modalController: ModalController,
+    ) {
     }
 
     ngOnInit() {
         this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
-
+        this.participant = this.participants[this.index];
     }
 
     checkIsNotNull(getal: number): boolean {
         return getal !== null;
+    }
+
+    async close() {
+        await this.modalController.dismiss();
+    }
+
+    next() {
+        this.index++;
+        this.participant = this.participants[this.index];
+    }
+
+    previous() {
+        this.index--;
+        this.participant = this.participants[this.index];
     }
 }

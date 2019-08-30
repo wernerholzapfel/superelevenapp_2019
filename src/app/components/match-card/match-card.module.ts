@@ -5,6 +5,7 @@ import {IonicModule} from '@ionic/angular';
 import {LoaderModule} from '../loader/loader.module';
 import {RouterModule} from '@angular/router';
 import {MatchCardComponent} from './match-card.component';
+import {HeaderModule} from '../header/header.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {MatchCardComponent} from './match-card.component';
         IonicModule,
         LoaderModule,
         RouterModule,
+        HeaderModule,
     ],
     exports: [
         MatchCardComponent

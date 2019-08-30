@@ -6,16 +6,21 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {PredictionType} from '../../models/competition.model';
 import {of, Subject} from 'rxjs';
+import {PlayerScoreformComponent} from '../../results_tab/players/playerScoreform/player-scoreform.component';
+import {ModalController} from '@ionic/angular';
+import {MatchCardComponent} from '../../components/match-card/match-card.component';
 
 @Component({
-    selector: 'app-matches',
-    templateUrl: './matches.page.html',
-    styleUrls: ['./matches.page.scss'],
+    selector: 'app-stand-matches',
+    templateUrl: './stand.matches.page.html',
+    styleUrls: ['./stand.matches.page.scss'],
 })
-export class MatchesPage implements OnInit, OnDestroy {
+export class StandMatchesPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
     stand: any[];
-    constructor(private standenService: StandenService, private store: Store<IAppState>) {
+    constructor(private standenService: StandenService,
+                private modalController: ModalController,
+                private store: Store<IAppState>) {
     }
 
     ngOnInit() {
@@ -33,6 +38,24 @@ export class MatchesPage implements OnInit, OnDestroy {
             });
     }
 
+    async openDetails(index) {
+        const modal = await this.modalController.create({
+            component: MatchCardComponent,
+            componentProps: {
+                index,
+                participants: this.stand,
+                canPredict: false,
+
+            }
+        });
+
+        modal.onDidDismiss().then((event) => {
+            if (event.data) {
+            }
+        });
+
+        return await modal.present();
+    }
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();
     }

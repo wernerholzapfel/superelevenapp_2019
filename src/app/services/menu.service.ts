@@ -28,7 +28,7 @@ export class MenuService {
             onlyForAdmin: false,
             onlyForUser: false
         }, {
-            title: 'Voorspelling',
+            title: 'Mijn voorspelling',
             url: '/prediction',
             icon: 'podium',
             active: false,

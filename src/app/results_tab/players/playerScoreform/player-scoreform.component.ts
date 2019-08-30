@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonContent, ModalController, NavParams} from '@ionic/angular';
 import {PositionType, TeamplayerResponse} from '../../../models/teamplayer.model';
 import {ScoreformUiService} from '../../../services/scoreform-ui.service';
@@ -17,16 +17,16 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
 
     @ViewChild(IonContent, {static: false}) content: IonContent;
 
-    unsubscribe = new Subject<void>();
+    @Input() index: number;
+    @Input() roundId: string;
+    @Input() competition: Competition;
+    @Input() prediction: Prediction;
 
+    unsubscribe = new Subject<void>();
     player: TeamplayerResponse;
     players: TeamplayerResponse[];
-    index: number;
     positionType: typeof PositionType = PositionType;
     teams: { id: string, win: boolean, draw: boolean, cleansheet: boolean }[] = [];
-    roundId: string;
-    competition: Competition;
-    prediction: Prediction;
 
     constructor(
         private modalController: ModalController,
@@ -40,10 +40,6 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.scoreformUiService.scoreformPlayersList$.pipe(takeUntil(this.unsubscribe)).subscribe(players => {
                 this.players = players;
-                this.index = this.navParams.data.index;
-                this.competition = this.navParams.data.competition;
-                this.prediction = this.navParams.data.prediction;
-                this.roundId = this.navParams.data.roundId;
                 this.player = players[this.index];
             }
         );

@@ -9,7 +9,7 @@ import {getCompetition} from '../../store/competition/competition.reducer';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {PredictionType} from '../../models/competition.model';
 import {Round} from '../../models/prediction.model';
-import {PlayerScoreformComponent} from '../../results_tab/players/playerScoreform/player-scoreform.component';
+import {MatchCardComponent} from '../../components/match-card/match-card.component';
 import {PlayerStandItemComponent} from '../../components/player-stand-item/player-stand-item.component';
 
 @Component({
@@ -68,6 +68,23 @@ export class PlayersPage implements OnInit, OnDestroy {
         this.activeRound$.next($event.detail.value);
     }
 
+    async openDetails(index) {
+        const modal = await this.modalController.create({
+            component: PlayerStandItemComponent,
+            componentProps: {
+                index,
+                participants: this.stand,
+                canPredict: false,
+            }
+        });
+
+        modal.onDidDismiss().then((event) => {
+            if (event.data) {
+            }
+        });
+
+        return await modal.present();
+    }
 
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();

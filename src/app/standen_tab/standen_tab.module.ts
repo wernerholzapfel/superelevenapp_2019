@@ -19,7 +19,7 @@ const routes: Routes = [
                 loadChildren: '../standen_tab/players/players.module#PlayersPageModule',
             }, {
                 path: 'matches',
-                loadChildren: '../standen_tab/matches/matches.module#MatchesPageModule',
+                loadChildren: '../standen_tab/matches/stand.matches.module#StandMatchesPageModule',
             }, {
                 path: 'totaal',
                 loadChildren: '../standen_tab/totaal/totaal.module#TotaalPageModule',

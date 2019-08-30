@@ -5,6 +5,7 @@ import {Routes} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
 import {PlayerStandItemComponent} from './player-stand-item.component';
+import {HeaderModule} from '../header/header.module';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import {PlayerStandItemComponent} from './player-stand-item.component';
         CommonModule,
         IonicModule,
         FormsModule,
+        HeaderModule,
     ],
     exports: [PlayerStandItemComponent]
 })

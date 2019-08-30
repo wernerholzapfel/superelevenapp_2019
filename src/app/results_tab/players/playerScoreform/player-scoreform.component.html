@@ -1,86 +1,85 @@
 <app-header [showMenu]="false"></app-header>
 <ion-content>
-    <ion-card class="main-card">
-        <ion-card-header>
-            <ion-card-title>
-                {{player.player.name}}
-            </ion-card-title>
-            <ion-card-subtitle>
-                {{player.player.position}} {{player.player.team}}
-            </ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-item>
-                <ion-label>Gespeeld</ion-label>
-                <ion-checkbox
-                        [(ngModel)]="player.teamplayerscores.played"
-                        [ngModelOptions]="{standalone: true}"
-                        (ionChange)="setTeamProperties($event, 'PLAYED')"></ion-checkbox>
-            </ion-item>
-            <ion-item>
-                <ion-label>Winst</ion-label>
-                <ion-checkbox [(ngModel)]="player.teamplayerscores.win"></ion-checkbox>
-            </ion-item>
-            <ion-item>
-                <ion-label>Gelijk</ion-label>
-                <ion-checkbox [(ngModel)]="player.teamplayerscores.draw"></ion-checkbox>
-            </ion-item>
-            <ion-item *ngIf="player.position === positionType.Goalkeeper  || player.position === positionType.Defender">
-                <ion-label>Clean sheet</ion-label>
-                <ion-checkbox [(ngModel)]="player.teamplayerscores.cleansheet"></ion-checkbox>
-            </ion-item>
-            <ion-item>
-                <ion-label>Geel</ion-label>
-                <ion-checkbox [(ngModel)]="player.teamplayerscores.yellow"></ion-checkbox>
-            </ion-item>
-            <ion-item>
-                <ion-label>2x Geel</ion-label>
-                <ion-checkbox [(ngModel)]="player.teamplayerscores.secondyellow"></ion-checkbox>
-            </ion-item>
-            <ion-item>
-                <ion-label>Rood</ion-label>
-                <ion-checkbox [(ngModel)]="player.teamplayerscores.red"></ion-checkbox>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">Doelpunten</ion-label>
-                <ion-input [(ngModel)]="player.teamplayerscores.goals" type="number"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">Assists</ion-label>
-                <ion-input [(ngModel)]="player.teamplayerscores.assists" type="number"></ion-input>
-            </ion-item>
-            <ion-item *ngIf="player.position === positionType.Goalkeeper">
-                <ion-label position="floating">Penalties gestopt</ion-label>
-                <ion-input [(ngModel)]="player.teamplayerscores.penaltystopped" type="number"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">Eigen doelpunten</ion-label>
-                <ion-input [(ngModel)]="player.teamplayerscores.owngoal" type="number"></ion-input>
-            </ion-item>
-            <ion-item>
-                <ion-label position="floating">Penalties gemist</ion-label>
-                <ion-input [(ngModel)]="player.teamplayerscores.penaltymissed" type="number"></ion-input>
-            </ion-item>
-        </ion-card-content>
-    </ion-card>
+    <div class="main-content">
+        <ion-card class="main-card">
+            <ion-card-header>
+                <ion-card-title>
+                    {{player.player.name}}
+                </ion-card-title>
+                <ion-card-subtitle>
+                    {{player.player.position}} {{player.player.team}}
+                </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-item>
+                    <ion-label>Gespeeld</ion-label>
+                    <ion-checkbox
+                            [(ngModel)]="player.teamplayerscores.played"
+                            [ngModelOptions]="{standalone: true}"
+                            (ionChange)="setTeamProperties($event, 'PLAYED')"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Winst</ion-label>
+                    <ion-checkbox [(ngModel)]="player.teamplayerscores.win"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Gelijk</ion-label>
+                    <ion-checkbox [(ngModel)]="player.teamplayerscores.draw"></ion-checkbox>
+                </ion-item>
+                <ion-item
+                        *ngIf="player.position === positionType.Goalkeeper  || player.position === positionType.Defender">
+                    <ion-label>Clean sheet</ion-label>
+                    <ion-checkbox [(ngModel)]="player.teamplayerscores.cleansheet"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Geel</ion-label>
+                    <ion-checkbox [(ngModel)]="player.teamplayerscores.yellow"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>2x Geel</ion-label>
+                    <ion-checkbox [(ngModel)]="player.teamplayerscores.secondyellow"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Rood</ion-label>
+                    <ion-checkbox [(ngModel)]="player.teamplayerscores.red"></ion-checkbox>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Doelpunten</ion-label>
+                    <ion-input [(ngModel)]="player.teamplayerscores.goals" type="number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Assists</ion-label>
+                    <ion-input [(ngModel)]="player.teamplayerscores.assists" type="number"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="player.position === positionType.Goalkeeper">
+                    <ion-label position="floating">Penalties gestopt</ion-label>
+                    <ion-input [(ngModel)]="player.teamplayerscores.penaltystopped" type="number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Eigen doelpunten</ion-label>
+                    <ion-input [(ngModel)]="player.teamplayerscores.owngoal" type="number"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="floating">Penalties gemist</ion-label>
+                    <ion-input [(ngModel)]="player.teamplayerscores.penaltymissed" type="number"></ion-input>
+                </ion-item>
+            </ion-card-content>
+        </ion-card>
+    </div>
 </ion-content>
-<ion-footer>
-    <ion-row>
-        <ion-col size="4">
-            <ion-button expand="full" [disabled]="index === 0" color="secondary" (click)="previousPlayer()">
-                Vorige
-            </ion-button>
-        </ion-col>
-        <ion-col size="4">
-            <ion-button expand="full" color="secondary" (click)="updatePlayer()">
-                Afsluiten
-            </ion-button>
-        </ion-col>
-        <ion-col size="4">
-            <ion-button expand="full" [disabled]="index + 1 === players.length" color="secondary"
-                        (click)="nextPlayer()">
-                Volgende
-            </ion-button>
-        </ion-col>
-    </ion-row>
-</ion-footer>
+<ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button [disabled]="index === 0" color="secondary" (click)="previousPlayer()">
+        <ion-icon name="arrow-dropleft"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+<ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button color="secondary" (click)="updatePlayer()">
+        <ion-icon name="close"></ion-icon>
+    </ion-fab-button>
+</ion-fab>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [disabled]="index + 1 === players.length" color="secondary"
+                    (click)="nextPlayer()">
+        <ion-icon name="arrow-dropright"></ion-icon>
+    </ion-fab-button>
+</ion-fab>

@@ -1,14 +1,13 @@
 <app-header></app-header>
 <ion-content>
   <ng-container *ngFor="let item of stand; let i = index">
-    <ion-item lines="full" (click)="item.showdetail = !item.showdetail">
+    <ion-item lines="full" (click)="openDetails(i)">
       <span slot="start"> {{item.position}}</span>
       {{item.displayName}}
       <span slot="end">{{item.totalPoints}}</span>
     </ion-item>
     <ng-container *ngIf="item.showdetail">
-      <app-match-card [matchPredictions]="item.matchPredictions" [canPredict]="false"></app-match-card>
+      <app-match-card [canPredict]="false"></app-match-card>
     </ng-container>
   </ng-container>
-
 </ion-content>

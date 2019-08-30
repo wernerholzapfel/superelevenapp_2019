@@ -5,14 +5,15 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {IonicModule} from '@ionic/angular';
 
-import {MatchesPage} from './matches.page';
+import {StandMatchesPage} from './stand.matches.page';
 import {HeaderModule} from '../../components/header/header.module';
 import {MatchCardModule} from '../../components/match-card/match-card.module';
+import {MatchCardComponent} from '../../components/match-card/match-card.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: MatchesPage
+        component: StandMatchesPage
     }
 ];
 
@@ -25,7 +26,8 @@ const routes: Routes = [
         MatchCardModule,
         RouterModule.forChild(routes)
     ],
-    declarations: [MatchesPage]
+    entryComponents: [MatchCardComponent],
+    declarations: [StandMatchesPage]
 })
-export class MatchesPageModule {
+export class StandMatchesPageModule {
 }
