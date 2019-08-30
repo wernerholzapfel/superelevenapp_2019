@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {getPredictions, isRegistrationOpen} from '../../store/competition/competition.reducer';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {mergeMap, switchMap, takeUntil} from 'rxjs/operators';
 import {Prediction, PredictionType} from '../../models/competition.model';
 import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {IAppState} from '../../store/store';
@@ -32,7 +32,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     ngOnInit() {
         this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
 
-        this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), switchMap((predictions: Prediction[]) => {
+        this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), mergeMap((predictions: Prediction[]) => {
             if (predictions && predictions.length > 0) {
                 return combineLatest([
                     this.predictionsService.getMatches(

@@ -38,30 +38,32 @@
                             - {{matchPrediction.match.awayScore}}</ion-label>
                         <ion-badge mode="md" slot="end">{{matchPrediction.punten}}</ion-badge>
                     </ion-item>
-<!--                    <ng-container *ngIf="(isRegistrationOpen$ | async)">-->
-<!--                        <ion-item lines="none">-->
-<!--                            <ion-fab-button-->
-<!--                                    size="small"-->
-<!--                                 >-->
-<!--                                1-->
-<!--                            </ion-fab-button>-->
-<!--                            <ion-fab-button color="light"-->
-<!--                                            size="small">-->
-<!--                                +-->
-<!--                            </ion-fab-button>-->
-<!--                        </ion-item>-->
-<!--                        <ion-item lines="none">-->
-<!--                            <ion-fab-button-->
-<!--                                    size="small"-->
-<!--                                 >-->
-<!--                                2-->
-<!--                            </ion-fab-button>-->
-<!--                            <ion-fab-button color="light"-->
-<!--                                            size="small">-->
-<!--                                +-->
-<!--                            </ion-fab-button>-->
-<!--                        </ion-item>-->
-<!--                    </ng-container>-->
+                    <ng-container *ngIf="(isRegistrationOpen$ | async)">
+                        <ion-item lines="none">
+                            <ion-fab-button [color]="round === matchPrediction.homeScore ? 'primary' : 'light'"
+                                            (click)="matchPrediction.homeScore = round" size="small"
+                                            *ngFor="let round of [0,1,2,3]">
+                                {{round}}
+                            </ion-fab-button>
+                            <ion-fab-button color="light"
+                                            (click)="matchPrediction.homeScore = matchPrediction.homeScore +1"
+                                            size="small">
+                                +
+                            </ion-fab-button>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-fab-button [color]="round === matchPrediction.awayScore ? 'primary' : 'light'"
+                                            (click)="matchPrediction.awayScore = round" size="small"
+                                            *ngFor="let round of [0,1,2,3]">
+                                {{round}}
+                            </ion-fab-button>
+                            <ion-fab-button color="light"
+                                            (click)="matchPrediction.awayScore= matchPrediction.awayScore + 1"
+                                            size="small">
+                                +
+                            </ion-fab-button>
+                        </ion-item>
+                    </ng-container>
                 </ion-card-content>
             </ion-card>
         </ion-card-content>
