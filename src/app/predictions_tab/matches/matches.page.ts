@@ -88,6 +88,11 @@ export class MatchesPage implements OnInit, OnDestroy {
         }
     }
 
+    // todo refactor matches.page and match-card.component
+    checkIsNotNull(getal: number): boolean {
+        return getal !== null;
+    }
+
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();
     }

@@ -1,5 +1,5 @@
-<app-header [showMenu]="false"></app-header>
-<ion-toolbar color="light">
+<app-header *ngIf="participant" [showMenu]="false"></app-header>
+<ion-toolbar color="light" *ngIf="participant">
     <ion-item color="light" lines="full">
         <span slot="start"> {{participant.position}}</span>
         {{participant.displayName}}
@@ -7,8 +7,9 @@
     </ion-item>
 </ion-toolbar>
 <ion-content>
+    {{matchPredictions | json}}
     <div class="main-content">
-        <ion-card *ngFor="let matchPrediction of participant.matchPredictions" class="match-card">
+        <ion-card *ngFor="let matchPrediction of matchPredictions" class="match-card">
             <ion-card-header>
                 <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
                 <ion-card-title>
@@ -68,7 +69,8 @@
         </ion-card>
     </div>
 </ion-content>
-<ion-fab vertical="bottom" horizontal="start" slot="fixed">
+<ng-container *ngIf="participants && participants.length > 1">
+    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button [disabled]="index === 0" color="secondary" (click)="previous()">
         <ion-icon name="arrow-dropleft"></ion-icon>
     </ion-fab-button>
@@ -84,3 +86,4 @@
         <ion-icon name="arrow-dropright"></ion-icon>
     </ion-fab-button>
 </ion-fab>
+</ng-container>

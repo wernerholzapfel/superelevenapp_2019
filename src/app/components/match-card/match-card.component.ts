@@ -14,6 +14,7 @@ import {ModalController} from '@ionic/angular';
 })
 export class MatchCardComponent implements OnInit {
 
+    @Input() matchPredictions: MatchPrediction[];
     @Input() participants: any[];
     @Input() canPredict = true;
     @Input() index = 0;
@@ -30,7 +31,10 @@ export class MatchCardComponent implements OnInit {
 
     ngOnInit() {
         this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
-        this.participant = this.participants[this.index];
+        if (this.participants) {
+            this.participant = this.participants[this.index];
+            this.matchPredictions = this.participants[this.index].matchPredictions;
+        }
     }
 
     checkIsNotNull(getal: number): boolean {
