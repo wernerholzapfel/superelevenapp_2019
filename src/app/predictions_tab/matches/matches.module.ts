@@ -9,6 +9,7 @@ import {MatchesPage} from './matches.page';
 import {HeaderModule} from '../../components/header/header.module';
 import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
 import {MatchCardModule} from '../../components/match-card/match-card.module';
+import {VirtualScrollerModule} from 'ngx-virtual-scroller';
 
 const routes: Routes = [
     {
@@ -23,6 +24,7 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         IonicModule,
+        VirtualScrollerModule,
         HeaderModule,
         RouterModule.forChild(routes),
         MatchCardModule

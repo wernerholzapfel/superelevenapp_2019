@@ -8,7 +8,8 @@
             </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content no-padding>
-            <ion-card *ngFor="let matchPrediction of matchPredictions" class="match-card">
+            <virtual-scroller #scroll [items]="matchPredictions">
+            <ion-card *ngFor="let matchPrediction of  scroll.viewPortItems" class="match-card">
                 <ion-card-header>
                     <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
                     <ion-card-title>
@@ -66,6 +67,7 @@
                     </ng-container>
                 </ion-card-content>
             </ion-card>
+            </virtual-scroller>
         </ion-card-content>
     </ion-card>
 </ion-content>

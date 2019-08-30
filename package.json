@@ -44,6 +44,7 @@
     "core-js": "^3.2.1",
     "firebase": "^6.3.5",
     "ionic": "^5.2.5",
+    "ngx-virtual-scroller": "^3.0.2",
     "onesignal-cordova-plugin": "2.5.2",
     "rxjs": "~6.5.2",
     "tslib": "^1.10.0",
