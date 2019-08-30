@@ -35,6 +35,7 @@ const routes: Routes = [
         path: 'profile',
         loadChildren: './profile/profile.module#ProfileModule',
     },
+  { path: 'spelregels', loadChildren: './spelregels/spelregels.module#SpelregelsPageModule' },
 ];
 
 @NgModule({

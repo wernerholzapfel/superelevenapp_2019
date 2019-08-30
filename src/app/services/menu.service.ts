@@ -57,6 +57,13 @@ export class MenuService {
             onlyForAdmin: true,
             onlyForUser: false
         }, {
+            title: 'Spelregels',
+            url: '/spelregels',
+            icon: 'information-circle',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: false
+        }, {
             title: 'Profiel',
             url: '/profile',
             icon: 'person',
