@@ -39,7 +39,7 @@ export class MenuService {
             url: '/standen',
             icon: 'medal',
             active: false,
-            onlyForAdmin: false,
+            onlyForAdmin: true,
             onlyForUser: false
 
         },
