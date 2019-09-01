@@ -7,7 +7,7 @@
       <img src="/assets/logo_super11.png" height="36px;">
     </ion-title>
   </ion-toolbar>
-  <ion-toolbar class="show-md" color="primary">
+  <ion-toolbar *ngIf="showMenu" class="show-md" color="primary">
     <ng-container  *ngFor="let p of appPages">
     <ion-button *ngIf="showMenuItem(p)" fill="solid" [routerLink]="[p.url]" routerLinkActive="active-link">{{p.title}}</ion-button>
     </ng-container>
