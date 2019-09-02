@@ -41,7 +41,7 @@
                     </ion-item>
                     <ng-container *ngIf="(isRegistrationOpen$ | async)">
                         <ion-item lines="none">
-                            <ion-button size="large" [color]="round === matchPrediction.homeScore ? 'primary' : 'light'"
+                            <ion-button size="large" color="light"
                                             (click)="matchPrediction.homeScore = round"
                                             *ngFor="let round of [0,1,2,3]">
                                 {{round}}
@@ -52,7 +52,7 @@
                             </ion-button>
                         </ion-item>
                         <ion-item lines="none">
-                            <ion-button size="large" [color]="round === matchPrediction.awayScore ? 'primary' : 'light'"
+                            <ion-button size="large" color="light"
                                             (click)="matchPrediction.awayScore = round"
                                             *ngFor="let round of [0,1,2,3]">
                                 {{round}}
