@@ -5,6 +5,7 @@ export interface Teamplayer {
     id?: string;
     position?: PositionType;
     active?: boolean;
+    isSelected?: boolean;
     player?: Player;
     team?: Team;
     teamplayerscores?: TeamplayerScore;

@@ -166,6 +166,8 @@ export class TeamPage implements OnInit, OnDestroy {
 
     }
 
+
+    // reactive form validator class maken
     canISaveForm() {
         const numberOfKeepers = this.team.filter(player => player.selected && player.player.position === PositionType.Goalkeeper).length;
         const numberOfDefenders = this.team.filter(player => player.selected && player.player.position === PositionType.Defender).length;

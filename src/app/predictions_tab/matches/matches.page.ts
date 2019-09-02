@@ -70,10 +70,6 @@ export class MatchesPage implements OnInit, OnDestroy {
         });
     }
 
-    canISaveForm() {
-        return true;
-    }
-
     transformMatchToPrediction(i): MatchPrediction {
         return {homeScore: null, awayScore: null, match: i, competition: i.competition, prediction: i.prediction};
     }
@@ -88,10 +84,6 @@ export class MatchesPage implements OnInit, OnDestroy {
         }
     }
 
-    // todo refactor matches.page and match-card.component
-    checkIsNotNull(getal: number): boolean {
-        return getal !== null;
-    }
 
     ngOnDestroy(): void {
         this.unsubscribe.unsubscribe();

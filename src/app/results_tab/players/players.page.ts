@@ -91,7 +91,7 @@ export class PlayersPage implements OnInit, OnDestroy {
         this.scoreformUiService.scoreformPlayersList$
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(players => {
-                    this.players = players;
+                    this.players = players.filter(player => player.isSelected);
                 }
             );
     }
