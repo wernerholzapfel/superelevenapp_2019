@@ -34,7 +34,7 @@
                     </ion-card-title>
                 </ion-card-header>
                 <ion-card-content class="padding-left">
-                    <ion-item *ngIf="checkIsNotNull(matchPrediction.punten)" lines="none" no-padding>
+                    <ion-item *ngIf="matchPrediction.punten !== null" lines="none" no-padding>
                         <ion-label>Uitslag {{matchPrediction.match.homeScore}}
                             - {{matchPrediction.match.awayScore}}</ion-label>
                         <ion-badge mode="md" slot="end">{{matchPrediction.punten}}</ion-badge>
@@ -58,8 +58,7 @@
                                 {{round}}
                             </ion-button>
                             <ion-button color="light" size="large"
-                                            (click)="matchPrediction.awayScore= matchPrediction.awayScore + 1"
-                                            >
+                                            (click)="matchPrediction.awayScore= matchPrediction.awayScore + 1">
                                 +
                             </ion-button>
                         </ion-item>
@@ -73,7 +72,7 @@
 <ion-footer>
     <ion-toolbar>
         <ion-button *ngIf="(isRegistrationOpen$ | async)" expand="full" color="secondary"
-                    [disabled]="!canISaveForm()" (click)="save()">
+                    (click)="save()">
             Opslaan
         </ion-button>
     </ion-toolbar>
