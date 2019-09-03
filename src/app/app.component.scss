@@ -7,8 +7,11 @@
   }
 
   ion-item {
-    --padding-start: 0px;
     --padding-end: 0px;
+  }
+
+  ion-label {
+    padding-left: 10px;
   }
 
 }
