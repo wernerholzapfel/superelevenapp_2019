@@ -16,7 +16,7 @@ export class ScoreformUiService {
 
     filterPlayers(searchTerm: string, teamname: string, players: TeamplayerResponse[] | Teamplayer[]): any[] {
         if ((searchTerm === undefined && searchTerm.length < 2 && !teamname)) {
-            return players;
+            return players.filter(player => player.isSelected);
         } else {
             searchTerm = searchTerm.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
             return players.filter(player => {
@@ -26,7 +26,8 @@ export class ScoreformUiService {
                     .replace(/[\u0300-\u036f]/g, '')
                     .split(' ');
 
-                return (!searchTerm || searchTerm
+                return player.isSelected &&
+                    (!searchTerm || searchTerm
                         .trim()
                         .split(' ')
                         .map(word => word)
