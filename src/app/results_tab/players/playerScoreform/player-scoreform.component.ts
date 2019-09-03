@@ -40,7 +40,7 @@ export class PlayerScoreformComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.scoreformUiService.scoreformPlayersList$.pipe(takeUntil(this.unsubscribe)).subscribe(players => {
             this.players = players.filter(player => player.isSelected);
-            this.player = players[this.index];
+            this.player = this.players[this.index];
             }
         );
 

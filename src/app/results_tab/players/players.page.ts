@@ -76,7 +76,8 @@ export class PlayersPage implements OnInit, OnDestroy {
             mergeMap(activeRound => {
                 if (activeRound) {
                     this.activeRound = activeRound;
-                    return combineLatest([this.searchTerm$, this.playerService.getPlayersScore(this.prediction.id, activeRound)]);
+                    return combineLatest([this.searchTerm$,
+                        this.playerService.getPlayersScore(this.prediction.id, activeRound)]);
                 } else {
                     return of([]);
                 }
@@ -91,7 +92,7 @@ export class PlayersPage implements OnInit, OnDestroy {
         this.scoreformUiService.scoreformPlayersList$
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(players => {
-                    this.players = players;
+                    this.players = players.filter(player => player.isSelected);
                 }
             );
     }
