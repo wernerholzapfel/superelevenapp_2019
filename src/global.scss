@@ -12,10 +12,11 @@
 @import "./theme/variables";
 
 @import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500');
-
+//@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 
 :root {
   --ion-font-family: 'Quicksand';
+  font-family: var(--ion-font-family) !important;
 
   @each $size, $size-value in (
           xs: 0,
