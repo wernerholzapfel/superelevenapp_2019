@@ -4,7 +4,7 @@ import {PredictionService} from '../../services/prediction.service';
 import {RankingTeam} from '../../models/prediction.model';
 import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {mergeMap, switchMap, takeUntil} from 'rxjs/operators';
 import {Competition} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
 import {getCompetition, isRegistrationOpen} from '../../store/competition/competition.reducer';
@@ -32,14 +32,15 @@ export class RankingPage implements OnInit, OnDestroy {
 
         this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
 
-        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), switchMap((competition: Competition) => {
+        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap((competition: Competition) => {
             if (competition && competition.id) {
                 return combineLatest([this.predictionsService.getRankingTeams(competition.id),
                     this.predictionsService.getRankingTeamsPrediction(competition.id)]);
             } else {
                 return from([]);
             }
-        })).subscribe(
+        })).pipe(takeUntil(this.unsubscribe))
+            .subscribe(
             ([rankingTeams, rankingPrediction]) => {
                 if (rankingPrediction && rankingPrediction.length > 0) {
                     this.isDirty = false;
@@ -91,6 +92,7 @@ export class RankingPage implements OnInit, OnDestroy {
 
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

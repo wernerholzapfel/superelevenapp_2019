@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {MenuService} from './menu.service';
 
 @Injectable()
 export class AuthService {
@@ -12,8 +13,9 @@ export class AuthService {
     public displayName: string;
     public user: firebase.User;
 
-
-    constructor(private angularFireAuth: AngularFireAuth, private router: Router) {
+    constructor(private angularFireAuth: AngularFireAuth,
+                private router: Router,
+                private menuService: MenuService) {
         this.user$ = angularFireAuth.authState;
 
         this.user$.subscribe(user => {
@@ -24,19 +26,20 @@ export class AuthService {
                     this.user = user;
                     this.displayName = user.displayName;
                     this.isAdmin = tokenResult.claims.admin;
+                    this.menuService.setMenu(this.isAdmin, this.user, false); // todo determine if registration is open
                 });
             } else {
                 console.log('er is geen user meer');
                 this.user = null;
                 this.displayName = null;
                 this.isAdmin = false;
+                this.menuService.setMenu(this.isAdmin, this.user, false); // todo determine if registration is open
             }
         });
     }
 
     signInRegular(email, password) {
-        const credential = firebase.auth.EmailAuthProvider.credential(email, password);
-        return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password);
+        return of(this.angularFireAuth.auth.signInWithEmailAndPassword(email, password));
     }
 
     updateProfile(displayName: string) {
@@ -54,18 +57,11 @@ export class AuthService {
     }
 
     logout() {
-        return new Promise((resolve, reject) => {
-            if (this.angularFireAuth.auth.currentUser) {
-                this.angularFireAuth.auth.signOut()
-                    .then(() => {
-                        this.router.navigate(['/']);
-                        resolve();
-                    }).catch((error) => {
-                    reject();
+            this.angularFireAuth.auth.signOut()
+                .then(response => {
+                    console.log('ik ben uitgelogd');
                 });
-            }
-        });
-    }
+        }
 
     getToken(): Promise<any> {
         if (this.angularFireAuth.auth.currentUser) {

@@ -5,6 +5,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subject} from 'rxjs';
 import {ToastController} from '@ionic/angular';
 import {ParticipantService} from '../../services/participant.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'app-login',
@@ -53,19 +54,21 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     signInWithEmail() {
         this.authService.signInRegular(this.user.email, this.user.password)
-            .then((res) => {
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe((res) => {
                 console.log(res);
+                this.user.email = '';
+                this.user.password = '';
                 // this.store.dispatch(new fromParticipantForm.ClearParticipantform());
                 this.router.navigate(['/prediction']);
-            })
-            .catch(async (err) => {
-                const toast = await this.toastController.create({
-                    message: err.message,
-                    duration: 2000
-                });
-                toast.present();
-                console.log('error: ' + err);
+            }, async err => {
+            const toast = await this.toastController.create({
+                message: err.message,
+                duration: 2000
             });
+            toast.present();
+            console.log('error: ' + err);
+        });
     }
 
     sendPasswordResetEmail() {
@@ -97,11 +100,17 @@ export class LoginComponent implements OnInit, OnDestroy {
                             displayName: this.user.displayName,
                             teamName: this.user.teamName,
                             email: this.user.email
-                        }).subscribe(response => {
-                            console.log('user opgeslagen in database');
-                        }, error1 => {
-                            console.log(error1);
-                        });
+                        })
+                            .pipe(takeUntil(this.unsubscribe))
+                            .subscribe(response => {
+                                this.user.teamName = '';
+                                this.user.displayName = '';
+                                this.user.email = '';
+                                this.user.password = '';
+                                console.log('user opgeslagen in database');
+                            }, error1 => {
+                                console.log(error1);
+                            });
                         // this.store.dispatch(new fromParticipantForm.ClearParticipantform());
                     }
                 }

@@ -1,25 +1,33 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {MenuService} from '../../services/menu.service';
 import {AuthService} from '../../services/auth.service';
+import {Observable, Subject} from 'rxjs';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-    appPages: any[];
     @Input() showMenu = true;
+    unsubscribe = new Subject<void>();
 
-    constructor(private menuService: MenuService, private authService: AuthService) {
+    constructor(public menuService: MenuService, private authService: AuthService) {
     }
+
+    isLoggedIn$: Observable<firebase.User> = this.authService.user$;
+
 
     ngOnInit() {
-        this.appPages = this.menuService.appPages;
     }
 
-    showMenuItem(item) {
-        return this.menuService.showMenuItem(item);
+    logout() {
+        this.authService.logout();
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 }

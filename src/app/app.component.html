@@ -1,24 +1,39 @@
 <ion-app>
-<!--  <ion-split-pane>-->
+    <!--  <ion-split-pane>-->
     <ion-menu>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title color="primary" slot="start">Menu</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <ion-list>
-          <ion-menu-toggle auto-hide="false" *ngFor="let p of menuService.appPages">
-            <ion-item line="inset" *ngIf="showMenuItem(p)" [class.active-item]="p.active" [class.inactive-item]="!p.active" [routerDirection]="'root'" [routerLink]="[p.url]">
-              <ion-icon color="secondary" [name]="p.icon"></ion-icon>
-              <ion-label color="primary">
-                {{p.title}}
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-        </ion-list>
-      </ion-content>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title color="primary" slot="start">Menu</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-list>
+                <ion-menu-toggle auto-hide="false" *ngFor="let p of menuService.appPages">
+                    <ion-item line="inset" *ngIf="p.show" [class.active-item]="p.active"
+                              [class.inactive-item]="!p.active" [routerDirection]="'root'" [routerLink]="[p.url]">
+                        <ion-icon color="secondary" [name]="p.icon"></ion-icon>
+                        <ion-label color="primary">
+                            {{p.title}}
+                        </ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
+                <ion-menu-toggle auto-hide="false">
+                    <ion-item detail="true" *ngIf="(isLoggedIn$ | async)" line="inset" (click)="logout()" class="inactive-item">
+                        <ion-icon color="secondary" name="log-out"></ion-icon>
+                        <ion-label color="primary">
+                            Uitloggen
+                        </ion-label>
+                    </ion-item>
+                    <ion-item *ngIf="!(isLoggedIn$ | async)" line="inset" routerLink="profile" class="inactive-item">
+                        <ion-icon color="secondary" name="log-in"></ion-icon>
+                        <ion-label color="primary">
+                            Inloggen
+                        </ion-label>
+                    </ion-item>
+                </ion-menu-toggle>
+            </ion-list>
+        </ion-content>
     </ion-menu>
-  <ion-router-outlet main animated="false"></ion-router-outlet>
-  <!--  </ion-split-pane>-->
+    <ion-router-outlet main animated="false"></ion-router-outlet>
+    <!--  </ion-split-pane>-->
 </ion-app>

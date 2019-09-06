@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {AuthService} from './auth.service';
 
 export interface MenuItem {
     title: string;
@@ -8,6 +7,8 @@ export interface MenuItem {
     active: boolean;
     onlyForAdmin: boolean;
     onlyForUser: boolean;
+    showAfterRegistration: boolean;
+    show?: boolean;
 }
 
 @Injectable({
@@ -16,7 +17,7 @@ export interface MenuItem {
 
 export class MenuService {
 
-    constructor(private authService: AuthService) {
+    constructor() {
     }
 
     public appPages: MenuItem[] = [
@@ -26,21 +27,25 @@ export class MenuService {
             icon: 'home',
             active: true,
             onlyForAdmin: false,
-            onlyForUser: false
+            onlyForUser: false,
+            showAfterRegistration: false,
+
         }, {
             title: 'Mijn voorspelling',
             url: '/prediction',
             icon: 'podium',
             active: false,
             onlyForAdmin: false,
-            onlyForUser: true
+            onlyForUser: true,
+            showAfterRegistration: false,
         }, {
             title: 'Standen',
             url: '/standen',
             icon: 'medal',
             active: false,
-            onlyForAdmin: true,
-            onlyForUser: false
+            onlyForAdmin: false,
+            onlyForUser: false,
+            showAfterRegistration: true,
 
         },
         //  {
@@ -55,27 +60,45 @@ export class MenuService {
             icon: 'create',
             active: false,
             onlyForAdmin: true,
-            onlyForUser: false
+            onlyForUser: false,
+            showAfterRegistration: false,
+
         }, {
             title: 'Spelregels',
             url: '/spelregels',
             icon: 'information-circle',
             active: false,
             onlyForAdmin: false,
-            onlyForUser: false
+            onlyForUser: false,
+            showAfterRegistration: false,
+
         }, {
             title: 'Profiel',
             url: '/profile',
             icon: 'person',
             active: false,
             onlyForAdmin: false,
-            onlyForUser: true
+            onlyForUser: true,
+            showAfterRegistration: false,
+
         }
     ];
 
-    showMenuItem(item: MenuItem) {
-        return item.onlyForAdmin ? this.authService.isAdmin :
-            item.onlyForUser ? this.authService.user : true;
+    setMenu(admin: boolean, user, registrationOpen) {
+        const show = this.appPages.map(item => {
+            return {
+                ...item,
+                show: item.onlyForAdmin
+                    ? admin
+                    : item.onlyForUser
+                        ? !!user
+                        : item.showAfterRegistration
+                            ? admin || !registrationOpen
+                            : true
+            };
+        });
+
+        this.appPages = show;
     }
 
 }

@@ -46,6 +46,7 @@ export class RoundSelectorComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

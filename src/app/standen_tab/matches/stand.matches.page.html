@@ -1,5 +1,8 @@
 <app-header></app-header>
 <ion-content>
+  <ion-item *ngIf="!(isLoading | async) && stand === null">
+    Er is nog geen stand bekend
+  </ion-item>
   <ng-container *ngFor="let item of stand; let i = index">
     <ion-item lines="full" (click)="openDetails(i)">
       <span slot="start"> {{item.position}}</span>

@@ -11,6 +11,7 @@ import {PredictionType} from '../../models/competition.model';
 import {Round} from '../../models/prediction.model';
 import {MatchCardComponent} from '../../components/match-card/match-card.component';
 import {PlayerStandItemComponent} from '../../components/player-stand-item/player-stand-item.component';
+import {LoaderService} from '../../services/loader.service';
 
 @Component({
     selector: 'app-players',
@@ -28,17 +29,21 @@ export class PlayersPage implements OnInit, OnDestroy {
     activeRound$: BehaviorSubject<string> = new BehaviorSubject('Totaal');
     competition: any;
 
+
     unsubscribe = new Subject<void>();
     stand: any[];
 
     constructor(private store: Store<IAppState>,
                 private modalController: ModalController,
                 private toastService: ToastService,
-                private standenService: StandenService
+                private standenService: StandenService,
+                private loaderService: LoaderService
     ) {
     }
+    isLoading: Subject<boolean> = this.loaderService.isLoading;
 
     ngOnInit() {
+        console.log('ik zit in de inti van players.page.ts')
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe),
             mergeMap(competition => {
                 if (competition && competition.predictions) {
@@ -59,6 +64,7 @@ export class PlayersPage implements OnInit, OnDestroy {
                     return of([]);
                 }
             }))
+            .pipe(takeUntil(this.unsubscribe))
             .subscribe(stand => {
                 this.stand = stand;
             });
@@ -87,6 +93,7 @@ export class PlayersPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 }

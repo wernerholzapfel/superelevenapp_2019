@@ -5,6 +5,7 @@ import {environment} from '../../environments/environment';
 import {RankingTeam, Round} from '../models/prediction.model';
 import {Match, MatchPrediction} from '../models/match.model';
 import {Question, QuestionPrediction} from '../models/question.model';
+import {map} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -51,7 +52,8 @@ export class PredictionService {
     }
 
     getTeamPrediction(predictionId): Observable<QuestionPrediction[]> {
-        return this.http.get<QuestionPrediction[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionId}`);
+        return this.http.get<QuestionPrediction[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionId}`)
+            .pipe(map(res => res as any));
     }
 
     saveTeamPredictions(teamPredictions: any[]): Observable<any> {

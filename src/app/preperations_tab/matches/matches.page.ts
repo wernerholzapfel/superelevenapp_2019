@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {getPredictions} from '../../store/competition/competition.reducer';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {mergeMap, switchMap, takeUntil} from 'rxjs/operators';
 import {Prediction, PredictionType} from '../../models/competition.model';
 import {combineLatest, from, Subject} from 'rxjs';
 import {IAppState} from '../../store/store';
@@ -26,17 +26,19 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), switchMap((predictions: Prediction[]) => {
+        this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), mergeMap((predictions: Prediction[]) => {
             if (predictions && predictions.length > 0) {
-                return combineLatest(
+                return combineLatest([
                     this.predictionsService.getMatches(
                         predictions.find(p => p.predictionType === PredictionType.Matches).id),
                     this.predictionsService.getMatchPredictions(
-                        predictions.find(p => p.predictionType === PredictionType.Matches).id));
+                        predictions.find(p => p.predictionType === PredictionType.Matches).id)]);
             } else {
                 return from([]);
             }
-        })).subscribe(
+        }))
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
             ([matches, matchPredictions]) => {
                 if (matchPredictions && matchPredictions.length > 0) {
                     this.isDirty = false;
@@ -73,6 +75,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

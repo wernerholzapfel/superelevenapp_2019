@@ -42,7 +42,7 @@ export class MatchesPage implements OnInit, OnDestroy {
             } else {
                 return from([]);
             }
-        })).subscribe(
+        })).pipe(takeUntil(this.unsubscribe)).subscribe(
             ([matches, matchPredictions]) => {
                 if (matchPredictions && matchPredictions.length > 0) {
                     this.isDirty = false;
@@ -86,6 +86,7 @@ export class MatchesPage implements OnInit, OnDestroy {
 
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

@@ -4,7 +4,7 @@ import {IAppState} from '../../store/store';
 import {PredictionService} from '../../services/prediction.service';
 import {ToastService} from '../../services/toast.service';
 import {getPredictions, isRegistrationOpen} from '../../store/competition/competition.reducer';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {mergeMap, switchMap, takeUntil} from 'rxjs/operators';
 import {Prediction, PredictionType} from '../../models/competition.model';
 import {combineLatest, from, Observable, Subject} from 'rxjs';
 import {MatchPrediction} from '../../models/match.model';
@@ -30,7 +30,7 @@ export class QuestionsPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen).pipe(takeUntil(this.unsubscribe));
 
-    this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), switchMap((predictions: Prediction[]) => {
+    this.store.select(getPredictions).pipe(takeUntil(this.unsubscribe), mergeMap((predictions: Prediction[]) => {
       if (predictions && predictions.length > 0) {
         return combineLatest(
             this.predictionsService.getQuestions(
@@ -40,7 +40,9 @@ export class QuestionsPage implements OnInit, OnDestroy {
       } else {
         return from([]);
       }
-    })).subscribe(
+    }))
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(
         ([questions, questionsPredictions]) => {
           if (questionsPredictions && questionsPredictions.length > 0) {
             this.isDirty = false;
@@ -76,6 +78,7 @@ export class QuestionsPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.unsubscribe.next();
     this.unsubscribe.unsubscribe();
   }
 }

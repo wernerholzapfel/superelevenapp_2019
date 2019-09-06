@@ -1,17 +1,19 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons *ngIf="showMenu" color="primary" slot="start">
-      <ion-menu-button class="hide-md"></ion-menu-button>
-    </ion-buttons>
-    <ion-title color="secondary">
-      <img src="/assets/logo_super11.png" height="36px;">
-    </ion-title>
-  </ion-toolbar>
-  <ion-toolbar *ngIf="showMenu" class="show-md" color="primary">
-    <ng-container  *ngFor="let p of appPages">
-    <ion-button *ngIf="showMenuItem(p)" fill="solid" [routerLink]="[p.url]" routerLinkActive="active-link">{{p.title}}</ion-button>
-    </ng-container>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-buttons *ngIf="showMenu" color="primary" slot="start">
+            <ion-menu-button class="hide-md"></ion-menu-button>
+        </ion-buttons>
+        <ion-title color="secondary">
+            <img src="/assets/logo_super11.png" height="36px;">
+        </ion-title>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="showMenu" class="show-md" color="primary">
+        <ng-container *ngFor="let p of this.menuService.appPages">
+            <ion-button *ngIf="p.show" fill="solid" [routerLink]="[p.url]"
+                        routerLinkActive="active-link">{{p.title}}</ion-button>
+        </ng-container>
+        <ion-button fill="solid" *ngIf="(isLoggedIn$ | async)" (click)="logout()">Logout</ion-button>
+    </ion-toolbar>
 
-  <app-loader></app-loader>
+    <app-loader></app-loader>
 </ion-header>

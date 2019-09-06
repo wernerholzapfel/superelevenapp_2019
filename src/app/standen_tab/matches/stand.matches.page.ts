@@ -9,6 +9,7 @@ import {of, Subject} from 'rxjs';
 import {PlayerScoreformComponent} from '../../results_tab/players/playerScoreform/player-scoreform.component';
 import {ModalController} from '@ionic/angular';
 import {MatchCardComponent} from '../../components/match-card/match-card.component';
+import {LoaderService} from '../../services/loader.service';
 
 @Component({
     selector: 'app-stand-matches',
@@ -20,8 +21,10 @@ export class StandMatchesPage implements OnInit, OnDestroy {
     stand: any[];
     constructor(private standenService: StandenService,
                 private modalController: ModalController,
-                private store: Store<IAppState>) {
+                private store: Store<IAppState>,
+                private loaderService: LoaderService) {
     }
+    isLoading: Subject<boolean> = this.loaderService.isLoading;
 
     ngOnInit() {
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap(competition => {
@@ -30,8 +33,8 @@ export class StandMatchesPage implements OnInit, OnDestroy {
                     competition.predictions.find(pr => pr.predictionType === PredictionType.Matches).id);
             } else {
                 return of([]);
-            }})
-)
+            }}))
+            .pipe(takeUntil(this.unsubscribe))
             .subscribe(matches => {
                 this.stand = matches;
                 console.table(matches);
@@ -57,6 +60,7 @@ export class StandMatchesPage implements OnInit, OnDestroy {
         return await modal.present();
     }
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

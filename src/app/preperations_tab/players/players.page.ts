@@ -6,7 +6,7 @@ import {ToastService} from '../../services/toast.service';
 import {PlayerService} from '../../services/player.service';
 import {FormationService} from '../../services/formation.service';
 import {getCompetition} from '../../store/competition/competition.reducer';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {mergeMap, take, takeUntil} from 'rxjs/operators';
 import {Competition, PredictionType} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -84,42 +84,46 @@ export class PlayersPage implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), switchMap((competition: Competition) => {
-            if (competition && competition.predictions && competition.predictions.length > 0) {
-                this.competition = competition;
-                this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
-                return combineLatest([
-                    this.playerService.getPlayersByPredictionId(this.prediction.id),
-                    this.formationService.getFormation(),
-                    this.teamService.getTeams(),
-                    this.predictionService.getTeamPrediction(this.prediction.id)]);
-            } else {
-                return from([]);
-            }
-        })).subscribe(
-            ([players, formation, teams, predictionTeam]) => {
-                if (players && formation && teams) {
-                    this.formation = formation;
-                    this.players = players;
-                    this.teams = teams;
+        this.store.select(getCompetition)
+            .pipe(takeUntil(this.unsubscribe),
+                mergeMap((competition: Competition) => {
+                    if (competition && competition.predictions && competition.predictions.length > 0) {
+                        this.competition = competition;
+                        this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
+                        return combineLatest([
+                            this.playerService.getPlayersByPredictionId(this.prediction.id).pipe(take(1)),
+                            this.formationService.getFormation().pipe(take(1)),
+                            this.teamService.getTeams().pipe(take(1)),
+                            this.predictionService.getTeamPrediction(this.prediction.id).pipe(take(1))]);
+                    } else {
+                        return from([]);
+                    }
+                }))
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(
+                ([players, formation, teams, predictionTeam]) => {
+                    if (players && formation && teams) {
+                        this.formation = formation;
+                        this.players = players;
+                        this.teams = teams;
 
-                    // predictionTeam doorlopen en toevoegen aan juiste formationline positie
-                    predictionTeam.map(teamPlayer => {
-                        this.formation.find(f => {
-                            return f.position === teamPlayer.teamPlayer.position &&
-                                f.players.filter(ftp => !ftp.selected).length > 0;
-                        }).players.filter(ftp => !ftp.selected).map((player, index) => {
-                            return index === 0 ? Object.assign(player,
-                                {id: teamPlayer.teamPlayer.id},
-                                {player: teamPlayer.teamPlayer.player},
-                                {team: teamPlayer.teamPlayer.team},
-                                {selected: true}) :
-                                player;
+                        // predictionTeam doorlopen en toevoegen aan juiste formationline positie
+                        predictionTeam.map(teamPlayer => {
+                            this.formation.find(f => {
+                                return f.position === teamPlayer.teamPlayer.position &&
+                                    f.players.filter(ftp => !ftp.selected).length > 0;
+                            }).players.filter(ftp => !ftp.selected).map((player, index) => {
+                                return index === 0 ? Object.assign(player,
+                                    {id: teamPlayer.teamPlayer.id},
+                                    {player: teamPlayer.teamPlayer.player},
+                                    {team: teamPlayer.teamPlayer.team},
+                                    {selected: true}) :
+                                    player;
+                            });
                         });
-                    });
 
-                }
-            });
+                    }
+                });
     }
 
 
@@ -135,13 +139,14 @@ export class PlayersPage implements OnInit, OnDestroy {
     }
 
     save() {
-        const blaat: any[] =  this.clubs.map(club => club.formation.map(formation => formation.players.map(
+        const blaat: any[] = this.clubs.map(club => club.formation.map(formation => formation.players.map(
             player => Object.assign({player}, {position: formation.type}))));
 
         console.log(this.flattenDeep(blaat));
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

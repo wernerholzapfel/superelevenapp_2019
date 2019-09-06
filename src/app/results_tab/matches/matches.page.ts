@@ -36,13 +36,14 @@ export class MatchesPage implements OnInit, OnDestroy {
             } else {
                 return of([]);
             }
-        }))
+        })).pipe(takeUntil(this.unsubscribe))
             .subscribe(matches => {
                 this.matches = matches;
             });
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

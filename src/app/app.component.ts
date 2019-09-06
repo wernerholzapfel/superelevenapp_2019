@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
@@ -10,6 +10,9 @@ import {NavigationEnd, Router, RouterEvent} from '@angular/router';
 import {MenuService} from './services/menu.service';
 import {OneSignal} from '@ionic-native/onesignal/ngx';
 import {environment} from '../environments/environment';
+import {AuthService} from './services/auth.service';
+import {Observable, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
@@ -17,8 +20,7 @@ import {environment} from '../environments/environment';
     styleUrls: ['./app.component.scss'],
 
 })
-export class AppComponent implements OnInit {
-
+export class AppComponent implements OnInit, OnDestroy {
 
     constructor(private store: Store<IAppState>,
                 private platform: Platform,
@@ -27,10 +29,15 @@ export class AppComponent implements OnInit {
                 private router: Router,
                 public menuService: MenuService,
                 private oneSignal: OneSignal,
+                private authService: AuthService
     ) {
         this.initializeApp();
 
     }
+
+    unsubscribe = new Subject<void>();
+
+    isLoggedIn$: Observable<firebase.User> = this.authService.user$;
 
     initializeApp() {
         this.platform.ready().then(() => {
@@ -70,7 +77,7 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new fromCompetition.FetchCompetitionList());
 
         // set linkactive.
-        this.router.events.subscribe((event: RouterEvent) => {
+        this.router.events.pipe(takeUntil(this.unsubscribe)).subscribe((event: RouterEvent) => {
             if (event instanceof NavigationEnd) {
                 this.menuService.appPages.map(p => {
                     return Object.assign(p, {active: (event.url.startsWith(p.url))});
@@ -79,7 +86,13 @@ export class AppComponent implements OnInit {
         });
     }
 
-    showMenuItem(item) {
-        return this.menuService.showMenuItem(item);
+    logout() {
+        this.authService.logout();
+    }
+
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.unsubscribe();
     }
 }

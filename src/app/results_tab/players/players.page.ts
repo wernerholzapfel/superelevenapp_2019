@@ -82,6 +82,7 @@ export class PlayersPage implements OnInit, OnDestroy {
                     return of([]);
                 }
             }))
+            .pipe(takeUntil(this.unsubscribe))
             .subscribe(([searchTerm, players]) => {
                 if (players && players.length > 0) {
                     this.scoreformUiService.scoreformPlayersList$.next(
@@ -129,6 +130,7 @@ export class PlayersPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 }

@@ -27,6 +27,7 @@ export class TotaalPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
 

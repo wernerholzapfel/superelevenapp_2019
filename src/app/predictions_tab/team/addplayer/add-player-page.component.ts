@@ -42,7 +42,7 @@ export class AddPlayerPage implements OnInit, OnDestroy {
         this.position = this.navParams.data.position;
         this.formationIndex = this.navParams.data.formationIndex;
 
-        combineLatest(this.searchTerm$, this.teamFilter$)
+        combineLatest([this.searchTerm$, this.teamFilter$])
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(([searchTerm, teamFilter]) => {
                 this.players = this.scoreformUiService.filterPlayers(searchTerm, teamFilter, this.allPlayers);
