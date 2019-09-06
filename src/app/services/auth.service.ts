@@ -59,7 +59,7 @@ export class AuthService {
     logout() {
             this.angularFireAuth.auth.signOut()
                 .then(response => {
-                    console.log('ik ben uitgelogd');
+                    this.router.navigate(['/']);
                 });
         }
 
