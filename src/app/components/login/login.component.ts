@@ -101,7 +101,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                             teamName: this.user.teamName,
                             email: this.user.email
                         })
-                            .pipe(takeUntil(this.unsubscribe))
                             .subscribe(response => {
                                 this.user.teamName = '';
                                 this.user.displayName = '';
