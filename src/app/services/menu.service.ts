@@ -47,6 +47,15 @@ export class MenuService {
             onlyForUser: false,
             showAfterRegistration: true,
 
+        }, {
+            title: 'Statistieken',
+            url: '/stats',
+            icon: 'stats',
+            active: false,
+            onlyForAdmin: false,
+            onlyForUser: false,
+            showAfterRegistration: true,
+
         },
         //  {
         //     title: 'Voorbereiding',

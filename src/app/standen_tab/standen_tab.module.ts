@@ -12,7 +12,6 @@ const routes: Routes = [
     {
         path: 'standen',
         component: StandenTabPage,
-        canDeactivate: [CanDeactivateGuard],
         children: [
             {
                 path: 'players',

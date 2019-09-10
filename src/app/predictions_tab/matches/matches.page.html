@@ -8,88 +8,93 @@
             </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content no-padding>
-            <virtual-scroller #scroll [items]="matchPredictions">
-                <ion-card *ngFor="let matchPrediction of scroll.viewPortItems" class="match-card">
-                    <ion-card-header>
-                        <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
-                        <ion-card-title>
-                            <ion-row>
-                                <ion-col no-padding>
-                                    {{matchPrediction.match.homeTeam}}
-                                </ion-col>
-                                <ion-col no-padding size="1" text-right>
-                                    {{matchPrediction.homeScore}}
-                                </ion-col>
-                            </ion-row>
-                        </ion-card-title>
-                        <ion-card-title>
-                            <ion-row>
-                                <ion-col no-padding>
-                                    {{matchPrediction.match.awayTeam}}
-                                </ion-col>
-                                <ion-col no-padding size="1" text-right>
-                                    {{matchPrediction.awayScore}}
-                                </ion-col>
-                            </ion-row>
-                        </ion-card-title>
-                    </ion-card-header>
-                    <ion-card-content class="padding-left">
-                        <ion-item *ngIf="matchPrediction.punten !== null" lines="none" no-padding>
-                            <ion-label>Uitslag {{matchPrediction.match.homeScore}}
-                                - {{matchPrediction.match.awayScore}}</ion-label>
-                            <ion-badge mode="md" slot="end">{{matchPrediction.punten}}</ion-badge>
-                        </ion-item>
-                        <ng-container *ngIf="(isRegistrationOpen$ | async)">
-                            <ion-item lines="none">
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.homeScore = 0"
-                                >
-                                    0
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.homeScore = 1">
-                                    1
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.homeScore = 2">
-                                    2
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.homeScore = 3">
-                                   3
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.homeScore = matchPrediction.homeScore +1">
-                                    +
-                                </ion-button>
-                            </ion-item>
-                            <ion-item lines="none">
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.awayScore = 0"
-                                >
-                                    0
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.awayScore = 1">
-                                    1
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.awayScore = 2">
-                                    2
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.awayScore = 3">
-                                    3
-                                </ion-button>
-                                <ion-button size="large" color="light"
-                                            (click)="matchPrediction.awayScore = matchPrediction.awayScore +1">
-                                    +
-                                </ion-button>
-                            </ion-item>
-                        </ng-container>
-                    </ion-card-content>
-                </ion-card>
-            </virtual-scroller>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size-sm="12" size-md="6" size-lg="4" size-xl="3"
+                                 *ngFor="let matchPrediction of matchPredictions">
+                            <ion-card class="match-card">
+                                <ion-card-header>
+                                    <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
+                                    <ion-card-title>
+                                        <ion-row>
+                                            <ion-col no-padding>
+                                                {{matchPrediction.match.homeTeam}}
+                                            </ion-col>
+                                            <ion-col no-padding size="1" text-right>
+                                                {{matchPrediction.homeScore}}
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-card-title>
+                                    <ion-card-title>
+                                        <ion-row>
+                                            <ion-col no-padding>
+                                                {{matchPrediction.match.awayTeam}}
+                                            </ion-col>
+                                            <ion-col no-padding size="1" text-right>
+                                                {{matchPrediction.awayScore}}
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-card-title>
+                                </ion-card-header>
+                                <ion-card-content class="padding-left">
+                                    <ion-item *ngIf="matchPrediction.punten !== null" lines="none" no-padding>
+                                        <ion-label>Uitslag {{matchPrediction.match.homeScore}}
+                                            - {{matchPrediction.match.awayScore}}</ion-label>
+                                        <ion-badge mode="md" slot="end">{{matchPrediction.punten}}</ion-badge>
+                                    </ion-item>
+                                    <ng-container *ngIf="(isRegistrationOpen$ | async)">
+                                        <ion-item no-padding lines="none">
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.homeScore = 0"
+                                            >
+                                                0
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.homeScore = 1">
+                                                1
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.homeScore = 2">
+                                                2
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.homeScore = 3">
+                                                3
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.homeScore = matchPrediction.homeScore +1">
+                                                +
+                                            </ion-button>
+                                        </ion-item>
+                                        <ion-item no-padding lines="none">
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.awayScore = 0"
+                                            >
+                                                0
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.awayScore = 1">
+                                                1
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.awayScore = 2">
+                                                2
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.awayScore = 3">
+                                                3
+                                            </ion-button>
+                                            <ion-button size="large" color="light"
+                                                        (click)="matchPrediction.awayScore = matchPrediction.awayScore +1">
+                                                +
+                                            </ion-button>
+                                        </ion-item>
+                                    </ng-container>
+                                </ion-card-content>
+                            </ion-card>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
         </ion-card-content>
     </ion-card>
 </ion-content>
