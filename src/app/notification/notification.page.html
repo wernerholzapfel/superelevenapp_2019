@@ -1,0 +1,24 @@
+<app-header></app-header>
+<ion-content>
+  <ion-card no-padding no-margin class="page">
+    <ion-card-header>
+      <ion-card-title color="primary">
+        Notificatie
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-textarea rows="6"
+                      placeholder="Tik hier je bericht"
+                      [(ngModel)]="pushMessage">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-button expand="block" color="secondary" (click)="sendNotification()">
+        <ion-icon slot="start" name="send"></ion-icon>
+        Versturen
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

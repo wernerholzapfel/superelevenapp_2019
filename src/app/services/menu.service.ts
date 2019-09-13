@@ -90,6 +90,14 @@ export class MenuService {
             onlyForUser: true,
             showAfterRegistration: false,
 
+        }, {
+            title: 'Notificatie',
+            url: '/notification',
+            icon: 'notifications-outline',
+            active: false,
+            onlyForAdmin: true,
+            onlyForUser: false,
+            showAfterRegistration: false,
         }
     ];
 
