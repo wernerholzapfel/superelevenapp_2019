@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { StatsPuntenPage } from './stats-punten.page';
 import {PlayerStandItemModule} from '../../components/player-stand-item/player-stand-item.module';
 import {HeaderModule} from '../../components/header/header.module';
+import {RoundSelectorModule} from '../../components/round-selector/round-selector.module';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
         IonicModule,
         RouterModule.forChild(routes),
         PlayerStandItemModule,
-        HeaderModule
+        HeaderModule,
+        RoundSelectorModule
     ],
   declarations: [StatsPuntenPage]
 })

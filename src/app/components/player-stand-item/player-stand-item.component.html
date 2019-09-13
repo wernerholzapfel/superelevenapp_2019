@@ -15,7 +15,7 @@
         <img class="logo-avatar" [src]="player.teamPlayer.team.logoUrl">
     </span>
                     <span>
-        {{player.teamPlayer.player.name}}
+        {{player.teamPlayer.player.name}} ({{player.teamPlayer.position.substring(0,1)}})
                         <ion-icon [color]="player.captaiTillRound ? 'medium': 'dark'"
                                   *ngIf="player.captain || player.captainTillRound"
                                   name="star"></ion-icon>

@@ -2,6 +2,7 @@
     <ion-label>Kies ronde</ion-label>
     <ion-select [(ngModel)]="activeRound" [interfaceOptions]="customPopoverOptions" interface="alert"
                 (ionChange)="filterRounds($event)">
+        <ion-select-option *ngIf="showTotaal" value="Totaal">Totaal</ion-select-option>
         <ion-select-option *ngFor="let round of allRounds" value="{{round.id}}">
             {{round.name}}
         </ion-select-option>

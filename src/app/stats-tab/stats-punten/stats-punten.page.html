@@ -1,4 +1,3 @@
-<app-header></app-header>
 <ion-content>
   <ion-item *ngIf="!(isLoading | async) && players === null">
     Statistieken worden pas na de deadline getoond
@@ -6,7 +5,7 @@
   <ng-container *ngFor="let player of players">
     <ion-item (click)="player.showDetails = !player.showDetails">
       <img class="logo-avatar" [src]="player.team.logoUrl">
-      <ion-label>{{player.player.name}}</ion-label>
+      <ion-label>{{player.player.name}} <span>({{player.player.position.substring(0,1)}})</span></ion-label>
       {{player.teamplayertotaalpunten.totaal}}
     </ion-item>
     <ng-container *ngIf="player.showDetails">

@@ -11,7 +11,7 @@
         <ion-card *ngFor="let matchPrediction of matchPredictions" class="match-card">
             <ion-card-header>
                 <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
-                <ion-card-title>
+                <ion-card-title color="primary">
                     <ion-row>
                         <ion-col no-padding>
                             {{matchPrediction.match.homeTeam}}
@@ -21,7 +21,7 @@
                         </ion-col>
                     </ion-row>
                 </ion-card-title>
-                <ion-card-title>
+                <ion-card-title color="primary">
                     <ion-row>
                         <ion-col no-padding>
                             {{matchPrediction.match.awayTeam}}

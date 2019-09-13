@@ -14,7 +14,8 @@ export class StatsPuntenPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
     isLoading: Subject<boolean> = this.loaderService.isLoading;
 
-    constructor(private uiService: UiService, private loaderService: LoaderService) {
+    constructor(private uiService: UiService,
+                private loaderService: LoaderService) {
     }
 
     ngOnInit() {

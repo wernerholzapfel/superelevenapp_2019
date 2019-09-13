@@ -1,8 +1,8 @@
 {
   "name": "superelevenapp",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "4.3.3",
+  "author": "Werner Holzapfel",
+  "homepage": "https://www.supereleven.nl",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -44,6 +44,7 @@
     "core-js": "^3.2.1",
     "firebase": "^6.3.5",
     "ionic": "^5.2.5",
+    "moment": "^2.24.0",
     "ngx-virtual-scroller": "^3.0.2",
     "onesignal-cordova-plugin": "2.5.2",
     "rxjs": "~6.5.2",

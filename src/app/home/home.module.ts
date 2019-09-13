@@ -7,6 +7,7 @@ import {RouterModule} from '@angular/router';
 import {HomePage} from './home.page';
 import {LoginModule} from '../components/login/login.module';
 import {HeaderModule} from '../components/header/header.module';
+import {HeadlineComponent} from '../components/headline/headline.component';
 
 @NgModule({
     imports: [
@@ -22,7 +23,7 @@ import {HeaderModule} from '../components/header/header.module';
             }
         ])
     ],
-    declarations: [HomePage]
+    declarations: [HomePage, HeadlineComponent]
 })
 export class HomePageModule {
 }

@@ -12,6 +12,7 @@ import {first, takeUntil} from 'rxjs/operators';
 })
 export class RoundSelectorComponent implements OnInit, OnDestroy {
 
+    @Input() showTotaal: boolean;
     @Input() color: string;
     @Input() activeRound: string;
     @Output() roundChange = new EventEmitter();

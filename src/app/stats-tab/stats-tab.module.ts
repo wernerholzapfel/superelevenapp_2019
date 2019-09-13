@@ -6,6 +6,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 
 import {StatsTabPage} from './stats-tab.page';
+import {RoundSelectorModule} from '../components/round-selector/round-selector.module';
+import {HeaderModule} from '../components/header/header.module';
 
 const routes: Routes = [
     {
@@ -32,7 +34,9 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         IonicModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        RoundSelectorModule,
+        HeaderModule
     ],
     declarations: [StatsTabPage]
 })

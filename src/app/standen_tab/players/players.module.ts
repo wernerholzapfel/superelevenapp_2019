@@ -11,6 +11,7 @@ import {PlayersPage} from './players.page';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {PlayerStandItemModule} from '../../components/player-stand-item/player-stand-item.module';
 import {PlayerStandItemComponent} from '../../components/player-stand-item/player-stand-item.component';
+import {RoundSelectorModule} from '../../components/round-selector/round-selector.module';
 
 const routes: Routes = [
     {
@@ -28,7 +29,8 @@ const routes: Routes = [
         FormationLineModule,
         DragDropModule,
         RouterModule.forChild(routes),
-        PlayerStandItemModule
+        PlayerStandItemModule,
+        RoundSelectorModule
     ],
     entryComponents: [
         PlayerStandItemComponent

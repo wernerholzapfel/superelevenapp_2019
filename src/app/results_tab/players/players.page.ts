@@ -55,14 +55,6 @@ export class PlayersPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
-
-        // getcompetition  ->
-        // prediction nodig competition ->
-        // ronde nodig competition ->
-        // getplayersscore nodig prediction en round ->
-        // filter players nodig spelers, searchterm
-
         this.store.select(getCompetition).pipe(
             mergeMap(competition => {
                 if (competition && competition.predictions && competition.predictions.length > 0) {
