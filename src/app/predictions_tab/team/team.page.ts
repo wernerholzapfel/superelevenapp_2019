@@ -7,7 +7,7 @@ import {ToastService} from '../../services/toast.service';
 import {PlayerService} from '../../services/player.service';
 import {FormationService} from '../../services/formation.service';
 import {getCompetition} from '../../store/competition/competition.reducer';
-import {concatMap, mergeMap, takeUntil, takeWhile} from 'rxjs/operators';
+import {mergeMap, takeUntil} from 'rxjs/operators';
 import {Competition, PredictionType} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -52,19 +52,19 @@ export class TeamPage implements OnInit, OnDestroy {
     ngOnInit() {
 
         this.store.select(getCompetition).pipe(mergeMap((competition: Competition) => {
-            if (competition && competition.predictions && competition.predictions.length > 0) {
-                this.competition = competition;
-                this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
-                return combineLatest([
-                    this.playerService.getPlayersByPredictionId(this.prediction.id),
-                    this.formationService.getFormation(),
-                    this.teamService.getTeams(),
-                    this.predictionService.getTeamPrediction(this.prediction.id)]);
-            } else {
-                return from([]);
-            }
-        })
-    ).pipe(takeUntil(this.unsubscribe))
+                if (competition && competition.predictions && competition.predictions.length > 0) {
+                    this.competition = competition;
+                    this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Team);
+                    return combineLatest([
+                        this.playerService.getPlayersByPredictionId(this.prediction.id),
+                        this.formationService.getFormation(),
+                        this.teamService.getTeams(),
+                        this.predictionService.getTeamPrediction(this.prediction.id)]);
+                } else {
+                    return from([]);
+                }
+            })
+        ).pipe(takeUntil(this.unsubscribe))
             .subscribe(
                 ([players, formation, teams, predictionTeam]) => {
                     if (players && formation && teams && predictionTeam) {
@@ -83,6 +83,7 @@ export class TeamPage implements OnInit, OnDestroy {
                             }).players.filter(ftp => !ftp.selected).map((player, index) => {
                                 return index === 0 ? Object.assign(player,
                                     {id: teamPlayer.teamPlayer.id},
+                                    {position: teamPlayer.teamPlayer.position},
                                     {player: teamPlayer.teamPlayer.player},
                                     {team: teamPlayer.teamPlayer.team},
                                     {selected: true},
@@ -90,25 +91,28 @@ export class TeamPage implements OnInit, OnDestroy {
                                     player;
                             });
                         });
-
                         this.createTeam();
                     }
                 });
     }
 
     save() {
-        this.predictionService.saveTeamPredictions(
-            this.team
-                .filter(player => player.selected)
-                .map(player => Object.assign({},
-                    {captain: player.captain},
-                    {teamPlayer: {id: player.id}},
-                    {prediction: {id: this.prediction.id}},
-                    {competition: {id: this.competition.id}})))
-            .subscribe(result => {
-                this.isDirty = false;
-                this.toastService.presentToast('Team opgeslagen');
-            });
+        if (this.team.filter(player => player.selected).length > 11) {
+            this.toastService.presentToast('Team niet opgeslagen, je mag maximaal elf spelers in je team hebben', 'warning');
+        } else {
+            this.predictionService.saveTeamPredictions(
+                this.team
+                    .filter(player => player.selected)
+                    .map(player => Object.assign({},
+                        {captain: player.captain},
+                        {teamPlayer: {id: player.id}},
+                        {prediction: {id: this.prediction.id}},
+                        {competition: {id: this.competition.id}})))
+                .subscribe(result => {
+                    this.isDirty = false;
+                    this.toastService.presentToast('Team opgeslagen');
+                });
+        }
     }
 
     async addPlayer(request: { formationIndex: number, position: string, player: any }) {
@@ -172,12 +176,12 @@ export class TeamPage implements OnInit, OnDestroy {
 
     // reactive form validator class maken
     canISaveForm() {
-        const numberOfKeepers = this.team.filter(player => player.selected && player.player.position === PositionType.Goalkeeper).length;
-        const numberOfDefenders = this.team.filter(player => player.selected && player.player.position === PositionType.Defender).length;
+        const numberOfKeepers = this.team.filter(player => player.selected && player.position === PositionType.Goalkeeper).length;
+        const numberOfDefenders = this.team.filter(player => player.selected && player.position === PositionType.Defender).length;
 
         const numberOfMidfielders = this.team.filter(
-            player => player.selected && player.player.position === PositionType.Midfielder).length;
-        const numberOfForwards = this.team.filter(player => player.selected && player.player.position === PositionType.Attacker).length;
+            player => player.selected && player.position === PositionType.Midfielder).length;
+        const numberOfForwards = this.team.filter(player => player.selected && player.position === PositionType.Attacker).length;
 
         const isTeamComplete: boolean = this.team.filter(player => player.selected).length === 11 &&
             numberOfKeepers === 1 &&
