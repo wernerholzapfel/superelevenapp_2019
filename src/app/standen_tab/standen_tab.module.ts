@@ -7,6 +7,8 @@ import {IonicModule} from '@ionic/angular';
 
 import {CanDeactivateGuard} from '../guards/candeactivate.guard';
 import {StandenTabPage} from './standen_tab.page';
+import {HeaderModule} from '../components/header/header.module';
+import {RoundSelectorModule} from '../components/round-selector/round-selector.module';
 
 const routes: Routes = [
     {
@@ -36,7 +38,9 @@ const routes: Routes = [
         CommonModule,
         FormsModule,
         IonicModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        HeaderModule,
+        RoundSelectorModule
     ],
     declarations: [StandenTabPage]
 })

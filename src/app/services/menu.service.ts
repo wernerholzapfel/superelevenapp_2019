@@ -93,7 +93,7 @@ export class MenuService {
         }, {
             title: 'Notificatie',
             url: '/notification',
-            icon: 'notifications-outline',
+            icon: 'notifications',
             active: false,
             onlyForAdmin: true,
             onlyForUser: false,

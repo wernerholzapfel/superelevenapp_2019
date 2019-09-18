@@ -10,6 +10,7 @@
             </ion-select-option>
         </ion-select>
     </ion-item>
+    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" debounce="500"></ion-searchbar>
 </ion-toolbar>
 <ion-content>
     <ion-item *ngIf="!(isLoading | async) && stand === null">

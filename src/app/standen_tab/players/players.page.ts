@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {BehaviorSubject, of, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, of, Subject} from 'rxjs';
 import {ToastService} from '../../services/toast.service';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -9,9 +9,9 @@ import {getCompetition} from '../../store/competition/competition.reducer';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {PredictionType} from '../../models/competition.model';
 import {Round} from '../../models/prediction.model';
-import {MatchCardComponent} from '../../components/match-card/match-card.component';
 import {PlayerStandItemComponent} from '../../components/player-stand-item/player-stand-item.component';
 import {LoaderService} from '../../services/loader.service';
+import {ScoreformUiService} from '../../services/scoreform-ui.service';
 
 @Component({
     selector: 'app-players',
@@ -21,29 +21,31 @@ import {LoaderService} from '../../services/loader.service';
 
 
 export class PlayersPage implements OnInit, OnDestroy {
-    activeRound = 'Totaal';
-    rounds: Round[];
+    activeRound$: BehaviorSubject<string> = new BehaviorSubject('Totaal');
+    isLoading: Subject<boolean> = this.loaderService.isLoading;
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
+
     customPopoverOptions: any = {
         header: 'speelronde',
     };
-    activeRound$: BehaviorSubject<string> = new BehaviorSubject('Totaal');
+
+    activeRound = 'Totaal';
+    rounds: Round[];
+
     competition: any;
-
-
-    unsubscribe = new Subject<void>();
     stand: any[];
+    unsubscribe = new Subject<void>();
 
     constructor(private store: Store<IAppState>,
                 private modalController: ModalController,
                 private toastService: ToastService,
                 private standenService: StandenService,
+                private scoreformUiService: ScoreformUiService,
                 private loaderService: LoaderService
     ) {
     }
-    isLoading: Subject<boolean> = this.loaderService.isLoading;
 
     ngOnInit() {
-        console.log('ik zit in de inti van players.page.ts')
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe),
             mergeMap(competition => {
                 if (competition && competition.predictions) {
@@ -56,18 +58,24 @@ export class PlayersPage implements OnInit, OnDestroy {
                 this.activeRound = activeRound;
                 if (this.activeRound && this.competition && this.competition.predictions && this.competition.predictions.length > 0) {
                     return activeRound.toLowerCase() === 'totaal' ?
-                        this.standenService.getTeamStand(this.competition.predictions
-                            .find(prediction => prediction.predictionType === PredictionType.Team).id) :
-                        this.standenService.getRoundTeamStand(this.competition.predictions
-                            .find(prediction => prediction.predictionType === PredictionType.Team).id, activeRound);
+                        combineLatest([this.standenService.getTeamStand(this.competition.predictions
+                            .find(prediction => prediction.predictionType === PredictionType.Team).id),
+                            this.searchTerm$]) :
+                        combineLatest([
+                            this.standenService.getRoundTeamStand(this.competition.predictions
+                                .find(prediction => prediction.predictionType === PredictionType.Team).id, activeRound),
+                            this.searchTerm$]);
                 } else {
                     return of([]);
                 }
             }))
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(stand => {
-                this.stand = stand;
-            });
+            .subscribe(([stand, searchTerm]) => {
+                    if (stand) {
+                        this.stand = this.scoreformUiService.filterDeelnemers(searchTerm, stand);
+                    }
+                }
+            );
     }
 
     filterRounds($event) {
@@ -92,8 +100,13 @@ export class PlayersPage implements OnInit, OnDestroy {
         return await modal.present();
     }
 
+    search($event) {
+        this.searchTerm$.next($event.detail.value);
+    }
+
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
+        this.searchTerm$.unsubscribe();
     }
 }
