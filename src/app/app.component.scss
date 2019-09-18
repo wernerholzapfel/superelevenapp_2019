@@ -1,6 +1,20 @@
 :host {
+  ion-content {
+    --background: transparent;
+  }
+
+  ion-list {
+    background: transparent;
+  }
+  ion-toolbar {
+    --background: transparent;
+  }
+  ion-item {
+    --background: transparent;
+  }
+
   .active-item {
-    border-left: 8px solid var(--ion-color-secondary);
+    border-left: 8px solid var(--ion-color-primary);
   }
  .inactive-item {
     padding-left: 8px;
@@ -13,5 +27,7 @@
   ion-label {
     padding-left: 10px;
   }
-
+  ion-menu {
+    --background: linear-gradient(to bottom left,  var(--ion-color-light) 100%,  var(--ion-color-primary) 0);
+  }
 }

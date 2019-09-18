@@ -3,30 +3,35 @@
     <ion-menu>
         <ion-header>
             <ion-toolbar>
-                <ion-title color="primary" slot="start">Menu</ion-title>
+                <ion-title color="secondary">
+                    <img src="/assets/logo_super11.png" height="36px;">
+                </ion-title>
             </ion-toolbar>
+            <ion-progress-bar value="1"></ion-progress-bar>
         </ion-header>
         <ion-content>
             <ion-list>
                 <ion-menu-toggle auto-hide="false" *ngFor="let p of menuService.appPages">
-                    <ion-item line="inset" *ngIf="p.show" [class.active-item]="p.active"
+                    <ion-item [detail]="false" lines="inset" *ngIf="p.show" [class.active-item]="p.active"
                               [class.inactive-item]="!p.active" [routerDirection]="'root'" [routerLink]="[p.url]">
-                        <ion-icon color="secondary" [name]="p.icon"></ion-icon>
-                        <ion-label color="primary">
+                        <ion-icon [color]="p.active? 'primary' : 'medium'" [name]="p.icon"></ion-icon>
+                        <ion-label [color]="p.active? 'primary' : 'dark'">
                             {{p.title}}
                         </ion-label>
                     </ion-item>
                 </ion-menu-toggle>
                 <ion-menu-toggle auto-hide="false">
-                    <ion-item detail="true" *ngIf="(isLoggedIn$ | async)" line="inset" (click)="logout()" class="inactive-item">
-                        <ion-icon color="secondary" name="log-out"></ion-icon>
-                        <ion-label color="primary">
+                    <ion-item [detail]="false" *ngIf="(isLoggedIn$ | async)" lines="inset" (click)="logout()"
+                              class="inactive-item">
+                        <ion-icon color="medium" name="log-out"></ion-icon>
+                        <ion-label color="dark">
                             Uitloggen
                         </ion-label>
                     </ion-item>
-                    <ion-item *ngIf="!(isLoggedIn$ | async)" line="inset" routerLink="profile" class="inactive-item">
-                        <ion-icon color="secondary" name="log-in"></ion-icon>
-                        <ion-label color="primary">
+                    <ion-item [detail]="false" *ngIf="!(isLoggedIn$ | async)" lines="inset" routerLink="profile"
+                              class="inactive-item">
+                        <ion-icon color="medium" name="log-in"></ion-icon>
+                        <ion-label color="dark">
                             Inloggen
                         </ion-label>
                     </ion-item>
