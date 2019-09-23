@@ -16,7 +16,7 @@
     </span>
                     <span>
         {{player.teamPlayer.player.name}} ({{player.teamPlayer.position.substring(0,1)}})
-                        <ion-icon [color]="player.captaiTillRound ? 'medium': 'dark'"
+                        <ion-icon [color]="player.captainTillRound ? 'medium': 'dark'"
                                   *ngIf="player.captain || player.captainTillRound"
                                   name="star"></ion-icon>
     </span>
@@ -30,17 +30,17 @@
     </div>
 </ion-content>
 <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button [disabled]="index === 0" color="secondary" (click)="previous()">
+    <ion-fab-button [disabled]="index === 0" color="medium" (click)="previous()">
         <ion-icon name="arrow-dropleft"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button color="secondary" (click)="close()">
+    <ion-fab-button color="medium" (click)="close()">
         <ion-icon name="close"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [disabled]="index + 1 === participants.length" color="secondary"
+    <ion-fab-button [disabled]="index + 1 === participants.length" color="medium"
                     (click)="next()">
         <ion-icon name="arrow-dropright"></ion-icon>
     </ion-fab-button>
