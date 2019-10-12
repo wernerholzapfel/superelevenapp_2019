@@ -15,11 +15,11 @@ export class StatsService {
     }
 
 
-    getStats(predictionid): Observable<RankingTeam[]> {
-        return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-player/prediction/${predictionid}/stats`);
+    createStats(competitionId: string, predictionId: string): Observable<RankingTeam[]> {
+        return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/team-player/stats`, {competitionId, predictionId});
     }
 
-    getStatsForRound(predictionid, roundId: string): Observable<RankingTeam[]> {
-        return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-player/stats/prediction/${predictionid}/round/${roundId}`);
+    createStatsForRound(competitionId: string, predictionId: string, roundId: string): Observable<RankingTeam[]> {
+        return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/team-player/roundstats`, {competitionId, predictionId, roundId});
     }
 }

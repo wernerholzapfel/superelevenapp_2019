@@ -37,7 +37,7 @@ export class StandMatchesPage implements OnInit, OnDestroy {
             if (competition && competition.predictions) {
                 const predictionId = competition.predictions.find(prediction => prediction.predictionType === PredictionType.Matches).id;
                 return combineLatest([
-                    this.db.list<any>(`${predictionId}/matchesstand/totaal`).valueChanges(),
+                    this.db.list<any>(`${competition.id}/${predictionId}/${PredictionType.Matches}/totaal`).valueChanges(),
                     this.searchTerm$]);
             } else {
                 return of([]);

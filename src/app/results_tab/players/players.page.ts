@@ -19,6 +19,7 @@ import {LoaderService} from '../../services/loader.service';
 import {PredictionType} from '../../models/competition.model';
 import {RoundService} from '../../services/round.service';
 import {StandenService} from '../../services/standen.service';
+import {StatsService} from '../../services/stats.service';
 
 @Component({
     selector: 'app-players',
@@ -54,6 +55,7 @@ export class PlayersPage implements OnInit, OnDestroy {
                 private scoreformUiService: ScoreformUiService,
                 private loaderService: LoaderService,
                 private standenService: StandenService,
+                private statsService: StatsService,
     ) {
     }
 
@@ -128,10 +130,13 @@ export class PlayersPage implements OnInit, OnDestroy {
 
     updatePlayerStand() {
         forkJoin([
-            this.standenService.getRoundTeamStand(this.prediction.id, this.activeRound).pipe(first()),
-            this.standenService.getTeamStand(this.prediction.id).pipe(first())])
-            .subscribe(([res1, res2]) => {
-                this.toastService.presentToast('Opslaan gelukt');
+            this.standenService.createRoundTeamStand(this.competition.id, this.prediction.id, this.activeRound).pipe(first()),
+            this.standenService.createTeamStand(this.competition.id, this.prediction.id).pipe(first()),
+            this.statsService.createStatsForRound(this.competition.id, this.prediction.id, this.activeRound).pipe(first()),
+            this.statsService.createStats(this.competition.id, this.prediction.id).pipe(first())
+        ])
+            .subscribe(([res1, res2, res3, res4]) => {
+                this.toastService.presentToast('Standen en statistieken bijgewerkt');
             }, error => {
                 this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
             });

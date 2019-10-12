@@ -22,12 +22,12 @@ export class StatsGekozenPage implements OnInit, OnDestroy {
            this.players = player.map(p => {
                 return {
                     ...p,
-                    gekozen: p.teamPredictions.length,
-                    teamPredictions: p.teamPredictions.sort((a, b) => {
+                    gekozen: p.teamPredictions ? p.teamPredictions.length : 0,
+                    teamPredictions: p.teamPredictions ? p.teamPredictions.sort((a, b) => {
                         const x = a.participant.displayName.toLowerCase();
                         const y = b.participant.displayName.toLowerCase();
                         return x < y ? -1 : x > y ? 1 : 0;
-                    })
+                    }) : []
                 };
             }).sort((a, b) => {
                 const x = b.gekozen;

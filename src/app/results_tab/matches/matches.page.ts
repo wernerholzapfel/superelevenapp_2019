@@ -23,6 +23,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     public matches: Match[];
     public rounds: Round[];
     public prediction: Prediction;
+    public competition: Competition;
     unsubscribe = new Subject<void>();
 
     customPopoverOptions: any = {
@@ -39,6 +40,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     ngOnInit() {
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap((competition: Competition) => {
             if (competition && competition.predictions && competition.predictions.length > 0) {
+                this.competition = competition;
                 this.prediction =  competition.predictions.find(p => p.predictionType === PredictionType.Matches);
                 return combineLatest([
                     this.predictionsService.getMatches(this.prediction.id),
@@ -55,8 +57,8 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     updateMatchStand() {
-        this.standenService.getMatchesStand(this.prediction.id).subscribe(result => {
-            this.toastService.presentToast('opslaan gelukt');
+        this.standenService.createMatchesStand(this.competition.id, this.prediction.id).subscribe(result => {
+            this.toastService.presentToast('Wedstrijdenstand is bijgewerkt');
         }, error => {
             this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
         });

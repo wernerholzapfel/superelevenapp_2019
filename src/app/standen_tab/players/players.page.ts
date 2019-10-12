@@ -66,10 +66,11 @@ export class PlayersPage implements OnInit, OnDestroy {
                         .find(prediction => prediction.predictionType === PredictionType.Team).id;
                     return activeRound.toLowerCase() === 'totaal' ?
                         combineLatest([
-                            this.db.list<any>(`${predictionId}/teamstand/totaal`).valueChanges(),
+                            this.db.list<any>(`${this.competition.id}/${predictionId}/${PredictionType.Team}/totaal`).valueChanges(),
                             this.searchTerm$]) :
                         combineLatest([
-                            this.db.list<any>(`${predictionId}/teamstand/${activeRound}`).valueChanges(),
+                            this.db.list<any>(
+                                `${this.competition.id}/${predictionId}/${PredictionType.Team}/${activeRound}`).valueChanges(),
                             this.searchTerm$]);
                 } else {
                     return of([]);

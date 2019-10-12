@@ -3,6 +3,7 @@
 //$safe-area-inset-top: env(safe-area-inset-top);
 //$safe-area-inset-bottom: env(safe-area-inset-bottom);
 
+//https://ionicframework.com/docs/theming/color-generator
 /** Ionic CSS Variables **/
 :root {
   --ion-font-family: 'Quicksand';
@@ -21,19 +22,19 @@
   --ion-color-secondary-shade: #85a810;
   --ion-color-secondary-tint: #a1c52a;
 
-  --ion-color-tertiary: #7044ff;
-  --ion-color-tertiary-rgb: 112,68,255;
+  --ion-color-tertiary: #8c1c18;
+  --ion-color-tertiary-rgb: 140,28,24;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255,255,255;
-  --ion-color-tertiary-shade: #633ce0;
-  --ion-color-tertiary-tint: #7e57ff;
+  --ion-color-tertiary-shade: #7b1915;
+  --ion-color-tertiary-tint: #98332f;
 
-  --ion-color-success: #0cab4a;
-  --ion-color-success-rgb: 12,171,74;
+  --ion-color-success: #188c28;
+  --ion-color-success-rgb: 24,140,40;
   --ion-color-success-contrast: #ffffff;
   --ion-color-success-contrast-rgb: 255,255,255;
-  --ion-color-success-shade: #0b9641;
-  --ion-color-success-tint: #24b35c;
+  --ion-color-success-shade: #157b23;
+  --ion-color-success-tint: #2f983e;
 
   --ion-color-warning: #ffce00;
   --ion-color-warning-rgb: 255,206,0;

@@ -10,6 +10,7 @@ import {UiService} from '../ui.service';
 import {RoundService} from '../services/round.service';
 import {ScoreformUiService} from '../services/scoreform-ui.service';
 import {Round} from '../models/prediction.model';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Component({
     selector: 'app-stats-tab',
@@ -27,7 +28,7 @@ export class StatsTabPage implements OnInit, OnDestroy {
     searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     constructor(private roundService: RoundService,
-                private statsService: StatsService,
+                private db: AngularFireDatabase,
                 private store: Store<IAppState>,
                 private uiService: UiService,
                 private scoreformUiService: ScoreformUiService) {
@@ -49,9 +50,11 @@ export class StatsTabPage implements OnInit, OnDestroy {
                     this.activeRound = activeRound;
                     return activeRound.toLowerCase() === 'totaal' ?
                         combineLatest([this.searchTerm$,
-                            this.statsService.getStats(this.prediction.id)]) :
+                            this.db.list<any>(`${this.competition.id}/statistieken/${this.prediction.id}/totaal`).valueChanges(),
+                        ]) :
                         combineLatest([this.searchTerm$,
-                            this.statsService.getStatsForRound(this.prediction.id, activeRound)]);
+                            this.db.list<any>(`${this.competition.id}/statistieken/${this.prediction.id}/${activeRound}`).valueChanges(),
+                        ]);
                 } else {
                     return of([]);
                 }

@@ -1,4 +1,29 @@
 <app-header></app-header>
+<ion-toolbar color="light">
+    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" debounce="500"></ion-searchbar>
+</ion-toolbar>
 <ion-content>
-    todo
+    <ion-item *ngIf="!(isLoading | async) && stand === null">
+        Er is nog geen stand bekend
+    </ion-item>
+    <ng-container *ngFor="let item of stand; let i = index">
+        <ion-item [lines]="item.showdetail ? 'none' : 'full'" (click)="item.showdetail = !item.showdetail">
+            <span slot="start"> {{item.position}}</span>
+            {{item.displayName}}
+            <span slot="end">{{item.totalPoints}}</span>
+        </ion-item>
+        <ng-container *ngIf="item.showdetail">
+            <ion-item lines="none" (click)="item.showdetail = !item.showdetail">
+                <ion-text color="medium" slot="start"> Teampunten</ion-text>
+                <ion-text color="medium" slot="end">{{item.totalTeamPoints}}</ion-text>
+            </ion-item>
+            <ion-item lines="full" (click)="item.showdetail = !item.showdetail">
+                <ion-text color="medium" slot="start">
+                    Wedstrijdpunten
+                </ion-text>
+                <ion-text color="medium" slot="end">
+                    {{item.totalMatchPoints}}</ion-text>
+            </ion-item>
+        </ng-container>
+    </ng-container>
 </ion-content>
