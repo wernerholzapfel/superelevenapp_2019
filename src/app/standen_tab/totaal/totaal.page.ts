@@ -40,9 +40,9 @@ export class TotaalPage implements OnInit, OnDestroy {
             }
         }))
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(([matches, searchTerm]) => {
-                if (matches) {
-                    this.stand = this.scoreformUiService.filterDeelnemers(searchTerm, matches);
+            .subscribe(([totaalstand, searchTerm]) => {
+                if (totaalstand) {
+                    this.stand = this.scoreformUiService.filterDeelnemers(searchTerm, totaalstand);
                 }
             });
     }

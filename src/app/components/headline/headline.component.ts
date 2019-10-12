@@ -30,6 +30,7 @@ export class HeadlineComponent implements OnInit, OnDestroy {
                 private authService: AuthService,
                 private headlineService: HeadlineService,
                 private modalController: ModalController) {
+        moment.locale('nl');
     }
 
     ngOnInit() {

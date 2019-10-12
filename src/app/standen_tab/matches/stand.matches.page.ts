@@ -11,6 +11,7 @@ import {MatchCardComponent} from '../../components/match-card/match-card.compone
 import {LoaderService} from '../../services/loader.service';
 import {ScoreformUiService} from '../../services/scoreform-ui.service';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {UiService} from '../../ui.service';
 
 @Component({
     selector: 'app-stand-matches',
@@ -25,6 +26,7 @@ export class StandMatchesPage implements OnInit, OnDestroy {
                 private modalController: ModalController,
                 private store: Store<IAppState>,
                 private scoreformUiService: ScoreformUiService,
+                private uiService: UiService,
                 private loaderService: LoaderService,
                 private db: AngularFireDatabase) {
     }
@@ -37,7 +39,7 @@ export class StandMatchesPage implements OnInit, OnDestroy {
             if (competition && competition.predictions) {
                 const predictionId = competition.predictions.find(prediction => prediction.predictionType === PredictionType.Matches).id;
                 return combineLatest([
-                    this.db.list<any>(`${competition.id}/${predictionId}/${PredictionType.Matches}/totaal`).valueChanges(),
+                    this.uiService.wedstrijdstand$,
                     this.searchTerm$]);
             } else {
                 return of([]);

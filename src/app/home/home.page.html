@@ -1,5 +1,38 @@
 <app-header></app-header>
 <ion-content>
-   <app-headline></app-headline>
+    <ion-grid no-padding>
+        <ion-row>
+            <ion-col no-padding size="12" size-md="6" size-lg="6" size-xl="4" *ngIf="nummereen">
+                <ion-card color="primary">
+                    <ion-card-header>
+                        <ion-card-title>1e {{nummereen?.displayName}}</ion-card-title>
+                        <ion-card-subtitle>{{lastUpdated}}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-card-subtitle>Totaalpunten {{nummereen?.totalPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle>Teampunten {{nummereen?.totalTeamPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle>Wedstrijdpunten {{nummereen?.totalMatchPoints}}</ion-card-subtitle>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col no-padding size="12" size-md="6" size-lg="6" size-xl="4" *ngIf="participantStand">
+                <ion-card color="secondary">
+                    <ion-card-header>
+                        <ion-card-title>{{participantStand.displayName}} je staat {{participantStand.position}}e
+                        </ion-card-title>
+                        <ion-card-subtitle>{{lastUpdated}}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-card-subtitle>Totaalpunten {{participantStand.totalPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle>Teampunten {{participantStand.totalTeamPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle>Wedstrijdpunten {{participantStand.totalMatchPoints}}</ion-card-subtitle>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+            <ion-col no-padding size="12" size-md="6" size-lg="6" size-xl="4">
+                <app-headline></app-headline>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
     <app-login *ngIf="!(authService.user$ | async)"></app-login>
 </ion-content>
