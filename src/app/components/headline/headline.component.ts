@@ -7,6 +7,10 @@ import {mergeMap, takeUntil} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import * as moment from 'moment';
+import {ModalController} from '@ionic/angular';
+import {EditHeadlineComponent} from '../edit-headline/edit-headline.component';
+import {AuthService} from '../../services/auth.service';
+import {Competition} from '../../models/competition.model';
 
 @Component({
     selector: 'app-headline',
@@ -20,13 +24,18 @@ export class HeadlineComponent implements OnInit, OnDestroy {
     headlineIndex = 0;
     headlines: IHeadline[];
     unsubscribe = new Subject<void>();
+    competition: Competition;
 
-    constructor(private store: Store<IAppState>, private headlineService: HeadlineService) {
+    constructor(private store: Store<IAppState>,
+                private authService: AuthService,
+                private headlineService: HeadlineService,
+                private modalController: ModalController) {
     }
 
     ngOnInit() {
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap(competition => {
             if (competition && competition.predictions) {
+                this.competition = competition;
                 return this.headlineService.getHeadlines(competition.id);
             } else {
                 return of([]);
@@ -58,10 +67,23 @@ export class HeadlineComponent implements OnInit, OnDestroy {
 
     addHeadline() {
 
+        this.editHeadline({title: '', text: '', isActive: true, schrijver: 'Remy Verberkt', competition: this.competition});
     }
 
-    editHeadline() {
+    async editHeadline(headline: IHeadline) {
+        const modal = await this.modalController.create({
+            component: EditHeadlineComponent,
+            componentProps: {
+                headline,
+            }
+        });
 
+        modal.onDidDismiss().then((event) => {
+            if (event.data) {
+            }
+        });
+
+        return await modal.present();
     }
 
     ngOnDestroy(): void {

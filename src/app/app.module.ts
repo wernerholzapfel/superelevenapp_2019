@@ -16,7 +16,6 @@ import {ParticipantService} from './services/participant.service';
 import {AuthService} from './services/auth.service';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {TokenInterceptor} from './services/token.interceptor';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PredictionService} from './services/prediction.service';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
@@ -29,11 +28,9 @@ import {CanDeactivateGuard} from './guards/candeactivate.guard';
 import {ToastService} from './services/toast.service';
 import {LoaderInterceptor} from './interceptors/loader.interceptor';
 import {LoaderService} from './services/loader.service';
-import {LoaderComponent} from './components/loader/loader.component';
 import {LoaderModule} from './components/loader/loader.module';
 import {MenuService} from './services/menu.service';
 import {AddplayerPageModule} from './predictions_tab/team/addplayer/addplayer.module';
-import {PlayerScoreformComponent} from './results_tab/players/playerScoreform/player-scoreform.component';
 import {PlayerScoreformModule} from './results_tab/players/playerScoreform/player-scoreform.module';
 import {OneSignal} from '@ionic-native/onesignal/ngx';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
@@ -53,7 +50,7 @@ import {RoundService} from './services/round.service';
         AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
         AngularFireAuthModule,
         AngularFireDatabaseModule,
-        StoreModule.forRoot(reducers, { metaReducers }),
+        StoreModule.forRoot(reducers, {metaReducers}),
         EffectsModule.forRoot(effects),
         StoreDevtoolsModule.instrument(),
         AddplayerPageModule,
