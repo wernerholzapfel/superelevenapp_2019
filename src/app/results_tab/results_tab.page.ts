@@ -5,6 +5,7 @@ import {mergeMap, takeUntil} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
 import {IAppState} from '../store/store';
 import {Store} from '@ngrx/store';
+import {StandenService} from '../services/standen.service';
 
 @Component({
     selector: 'app-resultstab',
@@ -15,6 +16,7 @@ export class ResultsTabPage implements OnInit, OnDestroy {
 
 
     constructor(private roundService: RoundService,
+                private standenService: StandenService,
                 private store: Store<IAppState>) {
     }
 
@@ -25,20 +27,6 @@ export class ResultsTabPage implements OnInit, OnDestroy {
         this.roundService.getPreviousRound().subscribe(round => {
             this.roundService.previousRoundId$.next(round.id);
         });
-
-        this.store.select(getCompetition).pipe(
-            mergeMap(competition => {
-                if (competition && competition.id) {
-                    return this.roundService.getallRounds(competition.id);
-                } else {
-                    return of(null);
-                }
-            }))
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(rounds => {
-                this.roundService.allRounds$.next(rounds);
-            });
-
     }
 
     ngOnDestroy(): void {

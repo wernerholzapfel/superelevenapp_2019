@@ -10,7 +10,7 @@ export class ToastService {
     }
 
     async presentToast(message: string,
-                       color: string = 'secondary',
+                       color: string = 'success',
                        showCloseButton: boolean = true,
                        closeButtonText: string = 'OK',
                        duration: number = 2000) {

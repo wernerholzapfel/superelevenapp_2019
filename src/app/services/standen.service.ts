@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {RankingTeam} from '../models/prediction.model';
 import {environment} from '../../environments/environment';
+import {map} from 'rxjs/operators';
+import {IHeadline} from '../models/headline.model';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +14,7 @@ export class StandenService {
     constructor(private http: HttpClient) {
     }
 
-    getTeamStand(predictionid): Observable<RankingTeam[]> {
+    getTeamStand(predictionid: string): Observable<RankingTeam[]> {
         return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionid}/stand`);
     }
 

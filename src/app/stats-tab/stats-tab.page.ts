@@ -9,6 +9,7 @@ import {BehaviorSubject, combineLatest, of, Subject} from 'rxjs';
 import {UiService} from '../ui.service';
 import {RoundService} from '../services/round.service';
 import {ScoreformUiService} from '../services/scoreform-ui.service';
+import {Round} from '../models/prediction.model';
 
 @Component({
     selector: 'app-stats-tab',
@@ -21,6 +22,7 @@ export class StatsTabPage implements OnInit, OnDestroy {
     competition: any;
     prediction: any;
     activeRound: string;
+    rounds: Round[];
     activeRoundId$: BehaviorSubject<string> = new BehaviorSubject('');
     searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
@@ -32,7 +34,6 @@ export class StatsTabPage implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
         this.store.select(getCompetition).pipe(
             mergeMap(competition => {
                 if (competition && competition.predictions && competition.predictions.length > 0) {
@@ -63,21 +64,16 @@ export class StatsTabPage implements OnInit, OnDestroy {
                 }
             });
 
-        this.roundService.getPreviousRound().subscribe(round => {
+        this.roundService.getPreviousRound()
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(round => {
             this.roundService.previousRoundId$.next(round.id);
         });
 
-        this.store.select(getCompetition).pipe(
-            mergeMap(competition => {
-                if (competition && competition.id) {
-                    return this.roundService.getallRounds(competition.id);
-                } else {
-                    return of(null);
-                }
-            }))
+        this.roundService.getPlayedRounds()
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(rounds => {
-                this.roundService.allRounds$.next(rounds);
+                this.rounds = rounds;
             });
     }
 

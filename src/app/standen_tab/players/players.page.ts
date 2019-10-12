@@ -4,7 +4,6 @@ import {BehaviorSubject, combineLatest, of, Subject} from 'rxjs';
 import {ToastService} from '../../services/toast.service';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
-import {StandenService} from '../../services/standen.service';
 import {getCompetition} from '../../store/competition/competition.reducer';
 import {mergeMap, takeUntil} from 'rxjs/operators';
 import {PredictionType} from '../../models/competition.model';
@@ -12,6 +11,8 @@ import {Round} from '../../models/prediction.model';
 import {PlayerStandItemComponent} from '../../components/player-stand-item/player-stand-item.component';
 import {LoaderService} from '../../services/loader.service';
 import {ScoreformUiService} from '../../services/scoreform-ui.service';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {RoundService} from '../../services/round.service';
 
 @Component({
     selector: 'app-players',
@@ -39,31 +40,36 @@ export class PlayersPage implements OnInit, OnDestroy {
     constructor(private store: Store<IAppState>,
                 private modalController: ModalController,
                 private toastService: ToastService,
-                private standenService: StandenService,
+                private db: AngularFireDatabase,
                 private scoreformUiService: ScoreformUiService,
+                private roundService: RoundService,
                 private loaderService: LoaderService
     ) {
     }
 
     ngOnInit() {
+        this.roundService.getPlayedRounds().subscribe(rounds => {
+            this.rounds = rounds;
+        });
+
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe),
             mergeMap(competition => {
                 if (competition && competition.predictions) {
                     this.competition = competition;
-                    this.rounds = competition.predictions.find(p => p.predictionType === PredictionType.Team).rounds;
                 }
                 return this.activeRound$;
             }),
             mergeMap(activeRound => {
                 this.activeRound = activeRound;
                 if (this.activeRound && this.competition && this.competition.predictions && this.competition.predictions.length > 0) {
+                    const predictionId = this.competition.predictions
+                        .find(prediction => prediction.predictionType === PredictionType.Team).id;
                     return activeRound.toLowerCase() === 'totaal' ?
-                        combineLatest([this.standenService.getTeamStand(this.competition.predictions
-                            .find(prediction => prediction.predictionType === PredictionType.Team).id),
+                        combineLatest([
+                            this.db.list<any>(`${predictionId}/teamstand/totaal`).valueChanges(),
                             this.searchTerm$]) :
                         combineLatest([
-                            this.standenService.getRoundTeamStand(this.competition.predictions
-                                .find(prediction => prediction.predictionType === PredictionType.Team).id, activeRound),
+                            this.db.list<any>(`${predictionId}/teamstand/${activeRound}`).valueChanges(),
                             this.searchTerm$]);
                 } else {
                     return of([]);

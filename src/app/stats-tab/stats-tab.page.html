@@ -1,6 +1,6 @@
 <app-header></app-header>
 <ion-toolbar color="light">
-    <app-round-selector [showTotaal]="true" color="light" (roundChange)="roundChange($event)"></app-round-selector>
+    <app-round-selector [showTotaal]="true" color="light" [rounds]="rounds" (roundChange)="roundChange($event)"></app-round-selector>
     <ion-searchbar (ionChange)="search($event)" placeholder="Zoek speler" debounce="500"></ion-searchbar>
 </ion-toolbar>
 <ion-content>

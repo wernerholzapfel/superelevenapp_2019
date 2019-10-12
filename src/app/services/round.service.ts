@@ -8,10 +8,7 @@ import {HttpClient} from '@angular/common/http';
     providedIn: 'root'
 })
 export class RoundService {
-
-
     previousRoundId$: BehaviorSubject<string> = new BehaviorSubject('');
-    allRounds$: BehaviorSubject<Round[]> = new BehaviorSubject([]);
 
     constructor(private http: HttpClient) {
     }
@@ -20,6 +17,9 @@ export class RoundService {
         return this.http.get<Round>(`${environment.apiBaseUrl}/round/previous`);
     }
 
+    getPlayedRounds(): Observable<Round[]> {
+        return this.http.get<Round[]>(`${environment.apiBaseUrl}/round/played`);
+    }
 
     getallRounds(competitionId: string): Observable<Round[]> {
         return this.http.get<Round[]>(`${environment.apiBaseUrl}/round/competition/${competitionId}`);

@@ -36,6 +36,8 @@ import {AddplayerPageModule} from './predictions_tab/team/addplayer/addplayer.mo
 import {PlayerScoreformComponent} from './results_tab/players/playerScoreform/player-scoreform.component';
 import {PlayerScoreformModule} from './results_tab/players/playerScoreform/player-scoreform.module';
 import {OneSignal} from '@ionic-native/onesignal/ngx';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {RoundService} from './services/round.service';
 
 @NgModule({
     declarations: [
@@ -50,6 +52,7 @@ import {OneSignal} from '@ionic-native/onesignal/ngx';
         LoaderModule,
         AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
         AngularFireAuthModule,
+        AngularFireDatabaseModule,
         StoreModule.forRoot(reducers, { metaReducers }),
         EffectsModule.forRoot(effects),
         StoreDevtoolsModule.instrument(),
@@ -67,6 +70,7 @@ import {OneSignal} from '@ionic-native/onesignal/ngx';
         MenuService,
         ParticipantService,
         PredictionService,
+        RoundService,
         ToastService,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
