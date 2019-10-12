@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {getCompetition, getPredictions} from '../../store/competition/competition.reducer';
-import {mergeMap, takeUntil} from 'rxjs/operators';
+import {getCompetition} from '../../store/competition/competition.reducer';
+import {first, mergeMap, takeUntil} from 'rxjs/operators';
 import {Competition, Prediction, PredictionType} from '../../models/competition.model';
-import {combineLatest, of, Subject} from 'rxjs';
+import {combineLatest, forkJoin, of, Subject} from 'rxjs';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {PredictionService} from '../../services/prediction.service';
@@ -41,10 +41,10 @@ export class MatchesPage implements OnInit, OnDestroy {
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap((competition: Competition) => {
             if (competition && competition.predictions && competition.predictions.length > 0) {
                 this.competition = competition;
-                this.prediction =  competition.predictions.find(p => p.predictionType === PredictionType.Matches);
+                this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Matches);
                 return combineLatest([
                     this.predictionsService.getMatches(this.prediction.id),
-                this.roundService.getallRounds(competition.id)
+                    this.roundService.getallRounds(competition.id)
                 ]);
             } else {
                 return of([]);
@@ -57,12 +57,17 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     updateMatchStand() {
-        this.standenService.createMatchesStand(this.competition.id, this.prediction.id).subscribe(result => {
-            this.toastService.presentToast('Wedstrijdenstand is bijgewerkt');
-        }, error => {
-            this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
-        });
+        forkJoin([
+            this.standenService.createMatchesStand(this.competition.id, this.prediction.id).pipe(first()),
+            this.standenService.createTotalStand(this.competition.id).pipe(first())
+        ])
+            .subscribe(([matchStand, totalStand]) => {
+                this.toastService.presentToast('Wedstrijdenstand is bijgewerkt');
+            }, error => {
+                this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
+            });
     }
+
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();

@@ -27,4 +27,7 @@ export class StandenService {
     createMatchesStand(competitionId: string, predictionId: string): Observable<any[]> {
         return this.http.post<any[]>(`${environment.apiBaseUrl}/stand/match/create`, {competitionId, predictionId});
     }
+    createTotalStand(competitionId: string): Observable<any[]> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/stand/total/create`, {competitionId});
+    }
 }

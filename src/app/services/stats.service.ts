@@ -9,11 +9,8 @@ import {TeamplayerResponse} from '../models/teamplayer.model';
     providedIn: 'root'
 })
 export class StatsService {
-  playerList$: BehaviorSubject<TeamplayerResponse[]> = new BehaviorSubject([]);
-
     constructor(private http: HttpClient) {
     }
-
 
     createStats(competitionId: string, predictionId: string): Observable<RankingTeam[]> {
         return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/team-player/stats`, {competitionId, predictionId});

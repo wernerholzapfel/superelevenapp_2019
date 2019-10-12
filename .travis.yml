@@ -4,6 +4,7 @@ node_js:
 branches:
   only:
   - master
+  - firebase
 before_script:
 - npm install -g @angular/cli
 script:

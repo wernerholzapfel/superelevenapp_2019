@@ -133,9 +133,10 @@ export class PlayersPage implements OnInit, OnDestroy {
             this.standenService.createRoundTeamStand(this.competition.id, this.prediction.id, this.activeRound).pipe(first()),
             this.standenService.createTeamStand(this.competition.id, this.prediction.id).pipe(first()),
             this.statsService.createStatsForRound(this.competition.id, this.prediction.id, this.activeRound).pipe(first()),
-            this.statsService.createStats(this.competition.id, this.prediction.id).pipe(first())
+            this.statsService.createStats(this.competition.id, this.prediction.id).pipe(first()),
+            this.standenService.createTotalStand(this.competition.id).pipe(first())
         ])
-            .subscribe(([res1, res2, res3, res4]) => {
+            .subscribe(([res1, res2, res3, res4, res5]) => {
                 this.toastService.presentToast('Standen en statistieken bijgewerkt');
             }, error => {
                 this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
