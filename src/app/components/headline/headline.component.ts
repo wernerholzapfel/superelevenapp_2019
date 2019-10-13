@@ -11,6 +11,7 @@ import {ModalController} from '@ionic/angular';
 import {EditHeadlineComponent} from '../edit-headline/edit-headline.component';
 import {AuthService} from '../../services/auth.service';
 import {Competition} from '../../models/competition.model';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Component({
     selector: 'app-headline',
@@ -25,15 +26,26 @@ export class HeadlineComponent implements OnInit, OnDestroy {
     headlines: IHeadline[];
     unsubscribe = new Subject<void>();
     competition: Competition;
+    isAdmin: boolean;
 
     constructor(private store: Store<IAppState>,
                 private authService: AuthService,
                 private headlineService: HeadlineService,
-                private modalController: ModalController) {
+                private modalController: ModalController,
+                private angularFireAuth: AngularFireAuth) {
         moment.locale('nl');
     }
 
     ngOnInit() {
+        this.authService.user$.pipe(takeUntil(this.unsubscribe)).subscribe(user => {
+            if (user) {
+                this.angularFireAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
+                    this.isAdmin = tokenResult.claims.admin;
+                });
+            } else {
+                this.isAdmin = false;
+            }
+        });
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap(competition => {
             if (competition && competition.predictions) {
                 this.competition = competition;
