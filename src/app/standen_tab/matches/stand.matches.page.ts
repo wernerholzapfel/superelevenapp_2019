@@ -10,6 +10,8 @@ import {ModalController} from '@ionic/angular';
 import {MatchCardComponent} from '../../components/match-card/match-card.component';
 import {LoaderService} from '../../services/loader.service';
 import {ScoreformUiService} from '../../services/scoreform-ui.service';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {UiService} from '../../ui.service';
 
 @Component({
     selector: 'app-stand-matches',
@@ -18,13 +20,15 @@ import {ScoreformUiService} from '../../services/scoreform-ui.service';
 })
 export class StandMatchesPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
-    stand: any[];
+    stand: any[] = [];
 
     constructor(private standenService: StandenService,
                 private modalController: ModalController,
                 private store: Store<IAppState>,
                 private scoreformUiService: ScoreformUiService,
-                private loaderService: LoaderService) {
+                private uiService: UiService,
+                private loaderService: LoaderService,
+                private db: AngularFireDatabase) {
     }
 
     isLoading: Subject<boolean> = this.loaderService.isLoading;
@@ -33,8 +37,9 @@ export class StandMatchesPage implements OnInit, OnDestroy {
     ngOnInit() {
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap(competition => {
             if (competition && competition.predictions) {
-                return combineLatest([this.standenService.getMatchesStand(
-                    competition.predictions.find(pr => pr.predictionType === PredictionType.Matches).id),
+                const predictionId = competition.predictions.find(prediction => prediction.predictionType === PredictionType.Matches).id;
+                return combineLatest([
+                    this.uiService.wedstrijdstand$,
                     this.searchTerm$]);
             } else {
                 return of([]);

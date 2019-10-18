@@ -12,15 +12,22 @@ export class StandenService {
     constructor(private http: HttpClient) {
     }
 
-    getTeamStand(predictionid): Observable<RankingTeam[]> {
-        return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionid}/stand`);
+    createTeamStand(competitionId, predictionId: string): Observable<RankingTeam[]> {
+        return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/team-prediction/stand`, {competitionId, predictionId});
     }
 
-    getRoundTeamStand(predictionid: string, roundid: string): Observable<RankingTeam[]> {
-        return this.http.get<RankingTeam[]>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionid}/round/${roundid}/stand`);
+    createRoundTeamStand(competitionId: string, predictionId: string, roundId: string): Observable<RankingTeam[]> {
+        return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/team-prediction/roundstand`, {
+            competitionId,
+            predictionId,
+            roundId
+        });
     }
 
-    getMatchesStand(predictionid: string): Observable<any[]> {
-        return this.http.get<any[]>(`${environment.apiBaseUrl}/stand/match/prediction/${predictionid}`);
+    createMatchesStand(competitionId: string, predictionId: string): Observable<any[]> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/stand/match/create`, {competitionId, predictionId});
+    }
+    createTotalStand(competitionId: string): Observable<any[]> {
+        return this.http.post<any[]>(`${environment.apiBaseUrl}/stand/total/create`, {competitionId});
     }
 }

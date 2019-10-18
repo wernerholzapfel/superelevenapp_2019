@@ -16,7 +16,7 @@ export class RoundSelectorComponent implements OnInit, OnDestroy {
     @Input() color: string;
     @Input() activeRound: string;
     @Output() roundChange = new EventEmitter();
-    allRounds: Round[];
+    @Input() rounds: Round[];
     unsubscribe = new Subject<void>();
 
     customPopoverOptions: any = {
@@ -28,10 +28,6 @@ export class RoundSelectorComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.roundService.allRounds$
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(rounds => this.allRounds = rounds);
-
         this.roundService.previousRoundId$
             .pipe(first(value => value !== ''), takeUntil(this.unsubscribe))
             .subscribe(activeRound => {

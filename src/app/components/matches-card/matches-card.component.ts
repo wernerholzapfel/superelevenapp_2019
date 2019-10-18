@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Match} from '../../models/match.model';
 import {ToastService} from '../../services/toast.service';
 import {ResultScoreService} from '../../services/result-score.service';
+import {Round} from '../../models/prediction.model';
 
 @Component({
     selector: 'app-matches-card',
@@ -11,8 +12,8 @@ import {ResultScoreService} from '../../services/result-score.service';
 export class MatchesCardComponent implements OnInit {
 
     @Input() match: Match;
+    @Input() rounds: Round[];
     round: { id: string };
-
     constructor(private toastService: ToastService,
                 private resultScoreService: ResultScoreService) {
     }

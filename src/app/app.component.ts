@@ -11,8 +11,13 @@ import {MenuService} from './services/menu.service';
 import {OneSignal} from '@ionic-native/onesignal/ngx';
 import {environment} from '../environments/environment';
 import {AuthService} from './services/auth.service';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {combineLatest, Observable, of, Subject} from 'rxjs';
+import {mergeMap, skip, takeUntil} from 'rxjs/operators';
+import {getCompetition} from './store/competition/competition.reducer';
+import {AngularFireDatabase} from '@angular/fire/database';
+import {UiService} from './ui.service';
+import {PredictionType} from './models/competition.model';
+import {ToastService} from './services/toast.service';
 
 @Component({
     selector: 'app-root',
@@ -29,7 +34,10 @@ export class AppComponent implements OnInit, OnDestroy {
                 private router: Router,
                 public menuService: MenuService,
                 private oneSignal: OneSignal,
-                private authService: AuthService
+                private db: AngularFireDatabase,
+                private uiService: UiService,
+                private authService: AuthService,
+                private toastService: ToastService
     ) {
         this.initializeApp();
 
@@ -74,6 +82,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.uiService.lastUpdated$.pipe(takeUntil(this.unsubscribe), skip(2))
+            .subscribe(lastupdated => {
+                this.toastService.presentToast('De stand is geupdate');
+            });
+
         this.store.dispatch(new fromCompetition.FetchCompetitionList());
 
         // set linkactive.
@@ -84,6 +97,28 @@ export class AppComponent implements OnInit, OnDestroy {
                 });
             }
         });
+
+        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap(competition => {
+            if (competition && competition.predictions) {
+                const matchPredictionId = competition.predictions.find(
+                    prediction => prediction.predictionType === PredictionType.Matches).id;
+
+                return combineLatest([
+                    this.db.list<any>(`${competition.id}/totaalstand/totaal`).valueChanges(),
+                    this.db.list<any>(`${competition.id}/${matchPredictionId}/${PredictionType.Matches}/totaal`).valueChanges(),
+                    this.db.object<any>(`${competition.id}/lastUpdated`).valueChanges()]);
+            } else {
+                return of([]);
+            }
+        }))
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(([totaalstand, wedstrijdenstand, lastUpdated]) => {
+                if (lastUpdated && totaalstand && wedstrijdenstand) {
+                    this.uiService.totaalstand$.next(totaalstand);
+                    this.uiService.wedstrijdstand$.next(wedstrijdenstand);
+                    this.uiService.lastUpdated$.next(lastUpdated);
+                }
+            });
     }
 
     logout() {

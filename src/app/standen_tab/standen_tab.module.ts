@@ -28,7 +28,7 @@ const routes: Routes = [
         ]
     }, {
         path: '',
-        redirectTo: 'standen/players',
+        redirectTo: 'standen/totaal',
         pathMatch: 'full'
     }
 ];

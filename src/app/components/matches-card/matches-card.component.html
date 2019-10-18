@@ -41,7 +41,7 @@
         +
       </ion-fab-button>
     </ion-item>
-    <app-round-selector [activeRound]="match?.round?.id" (roundChange)='setRound($event)'></app-round-selector>
+    <app-round-selector [activeRound]="match?.round?.id" [rounds]="rounds" (roundChange)='setRound($event)'></app-round-selector>
   </ion-card-content>
   <ion-footer>
     <ion-toolbar>

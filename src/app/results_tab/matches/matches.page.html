@@ -8,7 +8,10 @@
             </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content no-padding>
-            <app-matches-card *ngFor="let match of matches" [match]="match" class="match-card"></app-matches-card>
+            <app-matches-card *ngFor="let match of matches" [match]="match" class="match-card" [rounds]="rounds"></app-matches-card>
         </ion-card-content>
     </ion-card>
 </ion-content>
+<ion-toolbar>
+    <ion-button expand="full" (click)="updateMatchStand()">Update wedstrijdenstand</ion-button>
+</ion-toolbar>

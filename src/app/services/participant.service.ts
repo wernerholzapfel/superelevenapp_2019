@@ -8,11 +8,16 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class ParticipantService {
 
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  postParticipant(body: IParticipant): Observable<IParticipant> {
-    return this.http.post<IParticipant>(`${environment.apiBaseUrl}/participants`, body)
-      .pipe(map(res => res as IParticipant));
-  }
+    postParticipant(body: IParticipant): Observable<IParticipant> {
+        return this.http.post<IParticipant>(`${environment.apiBaseUrl}/participants`, body)
+            .pipe(map(res => res as IParticipant));
+    }
+
+    getLoggedInParticipant(): Observable<IParticipant> {
+        return this.http.get<IParticipant>(`${environment.apiBaseUrl}/participants/loggedIn`)
+            .pipe(map(res => res as IParticipant));
+    }
 }

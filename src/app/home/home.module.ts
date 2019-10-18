@@ -8,6 +8,7 @@ import {HomePage} from './home.page';
 import {LoginModule} from '../components/login/login.module';
 import {HeaderModule} from '../components/header/header.module';
 import {HeadlineComponent} from '../components/headline/headline.component';
+import {HeadlineModule} from '../components/headline/headline.module';
 
 @NgModule({
     imports: [
@@ -16,6 +17,7 @@ import {HeadlineComponent} from '../components/headline/headline.component';
         IonicModule,
         LoginModule,
         HeaderModule,
+        HeadlineModule,
         RouterModule.forChild([
             {
                 path: '',
@@ -23,7 +25,7 @@ import {HeadlineComponent} from '../components/headline/headline.component';
             }
         ])
     ],
-    declarations: [HomePage, HeadlineComponent]
+    declarations: [HomePage]
 })
 export class HomePageModule {
 }

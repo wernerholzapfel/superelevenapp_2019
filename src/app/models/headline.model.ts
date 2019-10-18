@@ -1,9 +1,13 @@
+import {Competition} from './competition.model';
+
 export interface IHeadline {
-  id: string;
+  id?: string;
   title: string;
   text: string;
-  createdDate: Date;
-  updatedDate: Date;
+  schrijver: string;
+  createdDate?: Date;
+  updatedDate?: Date;
   isActive: boolean;
+  competition: Competition;
 }
 
