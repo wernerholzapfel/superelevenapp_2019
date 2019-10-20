@@ -27,24 +27,16 @@ export class StandMatchesPage implements OnInit, OnDestroy {
                 private store: Store<IAppState>,
                 private scoreformUiService: ScoreformUiService,
                 private uiService: UiService,
-                private loaderService: LoaderService,
-                private db: AngularFireDatabase) {
+                private loaderService: LoaderService) {
     }
 
     isLoading: Subject<boolean> = this.loaderService.isLoading;
     searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     ngOnInit() {
-        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap(competition => {
-            if (competition && competition.predictions) {
-                const predictionId = competition.predictions.find(prediction => prediction.predictionType === PredictionType.Matches).id;
-                return combineLatest([
+       combineLatest([
                     this.uiService.wedstrijdstand$,
-                    this.searchTerm$]);
-            } else {
-                return of([]);
-            }
-        }))
+                    this.searchTerm$])
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(([matches, searchTerm]) => {
                 if (matches) {

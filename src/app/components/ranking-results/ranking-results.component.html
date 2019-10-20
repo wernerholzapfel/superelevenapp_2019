@@ -1,0 +1,38 @@
+<app-header *ngIf="participant" [showMenu]="false"></app-header>
+<ion-toolbar color="light" *ngIf="participant">
+    <ion-item color="light" lines="full">
+        <span slot="start"> {{participant.position}}</span>
+        {{participant.displayName}}
+        <span slot="end">{{participant.totalPoints}}</span>
+    </ion-item>
+</ion-toolbar>
+<ion-content>
+    <div class="main-content">
+        <ion-list>
+            <ion-item lines="full" *ngFor="let prediction of participant.rankingPredictions" [color]="prediction.points">
+                <ion-label>
+                    {{prediction.position}} {{prediction?.team?.team?.name}} <span *ngIf="prediction.positionresult">({{prediction.positionresult}})</span>
+                </ion-label>
+              <ion-note mode="ios" slot="end" color="dark">{{prediction.points}}</ion-note>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>
+<ng-container *ngIf="participants && participants.length > 1">
+    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+        <ion-fab-button [disabled]="index === 0" color="light" (click)="previous()">
+            <ion-icon name="arrow-dropleft"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+        <ion-fab-button color="light" (click)="close()">
+            <ion-icon name="close"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button [disabled]="index + 1 === participants.length" color="light"
+                        (click)="next()">
+            <ion-icon name="arrow-dropright"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ng-container>

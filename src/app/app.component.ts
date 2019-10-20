@@ -102,20 +102,24 @@ export class AppComponent implements OnInit, OnDestroy {
             if (competition && competition.predictions) {
                 const matchPredictionId = competition.predictions.find(
                     prediction => prediction.predictionType === PredictionType.Matches).id;
+                const rankingPredictionId = competition.predictions.find(
+                    prediction => prediction.predictionType === PredictionType.Ranking).id;
 
                 return combineLatest([
                     this.db.list<any>(`${competition.id}/totaalstand/totaal`).valueChanges(),
                     this.db.list<any>(`${competition.id}/${matchPredictionId}/${PredictionType.Matches}/totaal`).valueChanges(),
+                    this.db.list<any>(`${competition.id}/${rankingPredictionId}/${PredictionType.Ranking}/totaal`).valueChanges(),
                     this.db.object<any>(`${competition.id}/lastUpdated`).valueChanges()]);
             } else {
                 return of([]);
             }
         }))
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(([totaalstand, wedstrijdenstand, lastUpdated]) => {
+            .subscribe(([totaalstand, wedstrijdenstand, rankingStand, lastUpdated]) => {
                 if (lastUpdated && totaalstand && wedstrijdenstand) {
                     this.uiService.totaalstand$.next(totaalstand);
                     this.uiService.wedstrijdstand$.next(wedstrijdenstand);
+                    this.uiService.rankingstand$.next(rankingStand);
                     this.uiService.lastUpdated$.next(lastUpdated);
                 }
             });

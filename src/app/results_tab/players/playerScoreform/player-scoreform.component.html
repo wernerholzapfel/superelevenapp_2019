@@ -68,17 +68,17 @@
     </div>
 </ion-content>
 <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button [disabled]="index === 0" color="secondary" (click)="previousPlayer()">
+    <ion-fab-button [disabled]="index === 0" color="light" (click)="previousPlayer()">
         <ion-icon name="arrow-dropleft"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button color="secondary" (click)="updatePlayer()">
+    <ion-fab-button color="light" (click)="updatePlayer()">
         <ion-icon name="close"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [disabled]="index + 1 === players.length" color="secondary"
+    <ion-fab-button [disabled]="index + 1 === players.length" color="light"
                     (click)="nextPlayer()">
         <ion-icon name="arrow-dropright"></ion-icon>
     </ion-fab-button>

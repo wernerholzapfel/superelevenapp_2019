@@ -22,6 +22,9 @@ const routes: Routes = [
                 path: 'matches',
                 loadChildren: '../standen_tab/matches/stand.matches.module#StandMatchesPageModule',
             }, {
+                path: 'ranking',
+                loadChildren: '../standen_tab/ranking-stand/ranking-stand.module#RankingStandPageModule',
+            }, {
                 path: 'totaal',
                 loadChildren: '../standen_tab/totaal/totaal.module#TotaalPageModule',
             }

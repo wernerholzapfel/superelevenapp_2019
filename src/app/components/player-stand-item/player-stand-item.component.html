@@ -30,17 +30,17 @@
     </div>
 </ion-content>
 <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button [disabled]="index === 0" color="medium" (click)="previous()">
+    <ion-fab-button [disabled]="index === 0" color="light" (click)="previous()">
         <ion-icon name="arrow-dropleft"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button color="medium" (click)="close()">
+    <ion-fab-button color="light" (click)="close()">
         <ion-icon name="close"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [disabled]="index + 1 === participants.length" color="medium"
+    <ion-fab-button [disabled]="index + 1 === participants.length" color="light"
                     (click)="next()">
         <ion-icon name="arrow-dropright"></ion-icon>
     </ion-fab-button>

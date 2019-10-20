@@ -1,0 +1,16 @@
+<app-header></app-header>
+<ion-toolbar color="light">
+  <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" debounce="500"></ion-searchbar>
+</ion-toolbar>
+<ion-content>
+  <ion-item *ngIf="!(isLoading | async) && stand === null">
+    Er is nog geen stand bekend
+  </ion-item>
+  <ng-container *ngFor="let item of stand; let i = index">
+    <ion-item lines="full" (click)="openDetails(i)">
+      <span slot="start"> {{item.position}}</span>
+      {{item.displayName}}
+      <span slot="end">{{item.totalPoints}}</span>
+    </ion-item>
+  </ng-container>
+</ion-content>
