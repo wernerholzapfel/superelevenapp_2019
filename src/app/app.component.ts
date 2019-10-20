@@ -104,22 +104,26 @@ export class AppComponent implements OnInit, OnDestroy {
                     prediction => prediction.predictionType === PredictionType.Matches).id;
                 const rankingPredictionId = competition.predictions.find(
                     prediction => prediction.predictionType === PredictionType.Ranking).id;
+                const questionPredictionId = competition.predictions.find(
+                    prediction => prediction.predictionType === PredictionType.Questions).id;
 
                 return combineLatest([
                     this.db.list<any>(`${competition.id}/totaalstand/totaal`).valueChanges(),
                     this.db.list<any>(`${competition.id}/${matchPredictionId}/${PredictionType.Matches}/totaal`).valueChanges(),
                     this.db.list<any>(`${competition.id}/${rankingPredictionId}/${PredictionType.Ranking}/totaal`).valueChanges(),
+                    this.db.list<any>(`${competition.id}/${questionPredictionId}/${PredictionType.Questions}/totaal`).valueChanges(),
                     this.db.object<any>(`${competition.id}/lastUpdated`).valueChanges()]);
             } else {
                 return of([]);
             }
         }))
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(([totaalstand, wedstrijdenstand, rankingStand, lastUpdated]) => {
+            .subscribe(([totaalstand, wedstrijdenstand, rankingStand, questionStand, lastUpdated]) => {
                 if (lastUpdated && totaalstand && wedstrijdenstand) {
                     this.uiService.totaalstand$.next(totaalstand);
                     this.uiService.wedstrijdstand$.next(wedstrijdenstand);
                     this.uiService.rankingstand$.next(rankingStand);
+                    this.uiService.questionstand$.next(questionStand);
                     this.uiService.lastUpdated$.next(lastUpdated);
                 }
             });

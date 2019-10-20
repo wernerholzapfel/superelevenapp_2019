@@ -37,9 +37,8 @@ const routes: Routes = [
     },
     {path: 'spelregels', loadChildren: './spelregels/spelregels.module#SpelregelsPageModule'},
     {path: 'stats', loadChildren: './stats-tab/stats-tab.module#StatsTabPageModule'},
-  { path: 'stats-punten', loadChildren: './stats-tab/stats-punten/stats-punten.module#StatsPuntenPageModule' },
-  { path: 'notification', loadChildren: './notification/notification.module#NotificationPageModule' },
-  { path: 'ranking-stand', loadChildren: './standen_tab/ranking-stand/ranking-stand.module#RankingStandPageModule' },
+    {path: 'stats-punten', loadChildren: './stats-tab/stats-punten/stats-punten.module#StatsPuntenPageModule'},
+    {path: 'notification', loadChildren: './notification/notification.module#NotificationPageModule'},
 ];
 
 @NgModule({

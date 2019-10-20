@@ -21,6 +21,8 @@ import {UiService} from '../../ui.service';
 export class StandMatchesPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
     stand: any[] = [];
+    isLoading: Subject<boolean> = this.loaderService.isLoading;
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     constructor(private standenService: StandenService,
                 private modalController: ModalController,
@@ -30,8 +32,6 @@ export class StandMatchesPage implements OnInit, OnDestroy {
                 private loaderService: LoaderService) {
     }
 
-    isLoading: Subject<boolean> = this.loaderService.isLoading;
-    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     ngOnInit() {
        combineLatest([

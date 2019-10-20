@@ -25,6 +25,9 @@ const routes: Routes = [
                 path: 'ranking',
                 loadChildren: '../standen_tab/ranking-stand/ranking-stand.module#RankingStandPageModule',
             }, {
+                path: 'questions',
+                loadChildren: '../standen_tab/questions-stand/questions-stand.module#QuestionsStandPageModule',
+            }, {
                 path: 'totaal',
                 loadChildren: '../standen_tab/totaal/totaal.module#TotaalPageModule',
             }

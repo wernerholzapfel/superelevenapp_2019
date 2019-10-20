@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {RankingTeam, Round} from '../models/prediction.model';
+import {RankingTeam} from '../models/prediction.model';
 import {Match, MatchPrediction} from '../models/match.model';
 import {Question, QuestionPrediction} from '../models/question.model';
 import {map} from 'rxjs/operators';
+import {QuestionCorrect} from '../components/question-result-form/question-result-form.component';
 
 @Injectable({
     providedIn: 'root'
@@ -35,6 +36,10 @@ export class PredictionService {
         return this.http.get<MatchPrediction[]>(`${environment.apiBaseUrl}/match-prediction/prediction/${predictionId}`);
     }
 
+    getPredictedAnswerByQuestion(questionId): Observable<QuestionPrediction[]> {
+        return this.http.get<QuestionPrediction[]>(`${environment.apiBaseUrl}/question-prediction/question/${questionId}`);
+    }
+
     saveMatchPredictions(matchPredictions: MatchPrediction[]): Observable<any> {
         return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/match-prediction`, matchPredictions);
     }
@@ -48,7 +53,11 @@ export class PredictionService {
     }
 
     saveQuestionPredictions(questionPredictions: QuestionPrediction[]): Observable<any> {
-        return this.http.post<RankingTeam[]>(`${environment.apiBaseUrl}/question-prediction`, questionPredictions);
+        return this.http.post<QuestionPrediction[]>(`${environment.apiBaseUrl}/question-prediction`, questionPredictions);
+    }
+
+    updateQuestionPredictions(questionPredictions: {roundId: string, id: string, correct: QuestionCorrect}[]): Observable<any> {
+        return this.http.put<RankingTeam[]>(`${environment.apiBaseUrl}/question-prediction`, questionPredictions);
     }
 
     getTeamPrediction(predictionId): Observable<QuestionPrediction[]> {

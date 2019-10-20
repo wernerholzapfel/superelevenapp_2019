@@ -1,0 +1,36 @@
+<app-header [showMenu]="false"></app-header>
+<ion-content>
+    <ion-item>
+        <ion-label class="ion-text-wrap">
+            {{activeQuestion.question}}
+        </ion-label>
+    </ion-item>
+    <ion-item>
+        <ion-input [(ngModel)]="activeQuestion.answer" placeholder="Voer antwoord in"></ion-input>
+    </ion-item>
+    <app-round-selector [activeRound]="activeQuestion?.round?.id" [rounds]="rounds"
+                        (roundChange)='setRound($event)'></app-round-selector>
+    <ion-list>
+        <ion-item *ngFor="let answer of answers">
+            <ion-icon (click)="setCorrectness(answer, questionCorrectness.Half)" [color]="answer.correct === questionCorrectness.Half ? 'secondary' : 'medium'" slot="end" name="star-half"></ion-icon>
+            <ion-icon (click)="setCorrectness(answer, questionCorrectness.Full)" [color]="answer.correct === questionCorrectness.Full ? 'secondary' : 'medium'" slot="end" name="star"></ion-icon>
+            <ion-label class="ion-text-wrap">{{answer.answer}}</ion-label>
+            <ion-label class="ion-text-wrap">{{answer.participant.displayName}}</ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-grid no-padding no-margin>
+            <ion-row>
+                <ion-col>
+                    <ion-button expand="full" (click)="save()" [disabled]="!activeQuestion.answer">Opslaan</ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button color="warning" expand="full" (click)="close()">Annuleren</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>
+
