@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
 import {RankingTeam} from '../../models/prediction.model';
-import {forkJoin, from, of, Subject} from 'rxjs';
+import {concat, from, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {first, mergeMap, takeUntil} from 'rxjs/operators';
 import {Competition, Prediction, PredictionType} from '../../models/competition.model';
@@ -57,12 +57,10 @@ export class RankingPage implements OnInit, OnDestroy {
     }
 
     saveRankingResults() {
-        this.resultScoreService.postRankingResults(this.items).pipe(mergeMap(result => {
-            return forkJoin([
-                this.standenService.createRankingStand(this.competition.id, this.prediction.id).pipe(first()),
-                this.standenService.createTotalStand(this.competition.id).pipe(first())
-            ]);
-        })).subscribe(([res1, res2]) => {
+        concat([this.resultScoreService.postRankingResults(this.items).pipe(first()),
+            this.standenService.createRankingStand(this.competition.id, this.prediction.id).pipe(first()),
+            this.standenService.createTotalStand(this.competition.id).pipe(first())
+        ]).subscribe((message) => {
             this.toastService.presentToast('Standen bijgewerkt');
         }, error => {
             this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
@@ -84,6 +82,4 @@ export class RankingPage implements OnInit, OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
-
-
 }

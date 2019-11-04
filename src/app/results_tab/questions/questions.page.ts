@@ -6,7 +6,7 @@ import {ToastService} from '../../services/toast.service';
 import {getCompetition} from '../../store/competition/competition.reducer';
 import {first, mergeMap, takeUntil} from 'rxjs/operators';
 import {Competition, Prediction, PredictionType} from '../../models/competition.model';
-import {forkJoin, from, Subject} from 'rxjs';
+import {concat, forkJoin, from, Subject} from 'rxjs';
 import {QuestionPrediction} from '../../models/question.model';
 import {ModalController} from '@ionic/angular';
 import {QuestionResultFormComponent} from '../../components/question-result-form/question-result-form.component';
@@ -68,11 +68,11 @@ export class QuestionsPage implements OnInit, OnDestroy {
     }
 
     save() {
-        forkJoin([
+        concat([
             this.standenService.createQuestionStand(this.competition.id, this.prediction.id).pipe(first()),
             this.standenService.createTotalStand(this.competition.id).pipe(first())
         ])
-            .subscribe(([res1, res2]) => {
+            .subscribe((message) => {
                 this.toastService.presentToast('Standen bijgewerkt');
             }, error => {
                 this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
