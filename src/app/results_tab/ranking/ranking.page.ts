@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
 import {RankingTeam} from '../../models/prediction.model';
-import {concat, from, of, Subject} from 'rxjs';
+import {concat, forkJoin, from, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {first, mergeMap, takeUntil} from 'rxjs/operators';
 import {Competition, Prediction, PredictionType} from '../../models/competition.model';
@@ -57,10 +57,10 @@ export class RankingPage implements OnInit, OnDestroy {
     }
 
     saveRankingResults() {
-        concat([this.resultScoreService.postRankingResults(this.items).pipe(first()),
+        forkJoin([this.resultScoreService.postRankingResults(this.items).pipe(first()),
             this.standenService.createRankingStand(this.competition.id, this.prediction.id).pipe(first()),
             this.standenService.createTotalStand(this.competition.id).pipe(first())
-        ]).subscribe((message) => {
+        ]).subscribe(([res1, res2, res3]) => {
             this.toastService.presentToast('Standen bijgewerkt');
         }, error => {
             this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');

@@ -1,5 +1,5 @@
 <app-header></app-header>
-<ion-toolbar color="light">
+<ion-toolbar color="light" [myScrollVanish]="scrollArea" [elementHeight]="'112px'">
     <ion-item color="light">
         <ion-label>Kies ronde</ion-label>
         <ion-select  [(ngModel)]="activeRound" [interfaceOptions]="customPopoverOptions" interface="alert"
@@ -12,7 +12,7 @@
     </ion-item>
     <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" debounce="500"></ion-searchbar>
 </ion-toolbar>
-<ion-content>
+<ion-content #scrollArea scrollEvents="true">
     <ion-item *ngIf="!(isLoading | async) && stand === null">
     Er is nog geen stand bekend
     </ion-item>

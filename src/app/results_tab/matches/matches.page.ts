@@ -57,7 +57,7 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     updateMatchStand() {
-        concat([
+        forkJoin([
             this.standenService.createMatchesStand(this.competition.id, this.prediction.id).pipe(first()),
             this.standenService.createTotalStand(this.competition.id).pipe(first())
         ])

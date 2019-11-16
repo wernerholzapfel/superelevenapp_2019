@@ -5,10 +5,10 @@
   <ng-container *ngFor="let player of players">
     <ion-item (click)="player.showDetails = !player.showDetails">
       <img class="logo-avatar" [src]="player.team.logoUrl">
-      <ion-label>{{player.player.name}} <span>({{player.player.position.substring(0,1)}})</span></ion-label>
-      {{player.teamplayertotaalpunten.totaal}}
+      <ion-label>{{player?.player?.name}} <span>({{player?.player?.position?.substring(0,1)}})</span></ion-label>
+      {{player?.teamplayertotaalpunten?.totaal}}
     </ion-item>
-    <ng-container *ngIf="player.showDetails">
+    <ng-container *ngIf="player?.showDetails">
      <app-player-detail-score [player]="player"></app-player-detail-score>
     </ng-container>
   </ng-container>

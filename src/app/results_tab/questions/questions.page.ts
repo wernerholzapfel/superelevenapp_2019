@@ -68,11 +68,11 @@ export class QuestionsPage implements OnInit, OnDestroy {
     }
 
     save() {
-        concat([
+        forkJoin([
             this.standenService.createQuestionStand(this.competition.id, this.prediction.id).pipe(first()),
             this.standenService.createTotalStand(this.competition.id).pipe(first())
         ])
-            .subscribe((message) => {
+            .subscribe(([res1, res2]) => {
                 this.toastService.presentToast('Standen bijgewerkt');
             }, error => {
                 this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');

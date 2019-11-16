@@ -5,9 +5,10 @@ import {IonicModule} from '@ionic/angular';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {LoaderModule} from '../loader/loader.module';
+import {ScrollVanishDirective} from '../../directives/scroll-vanish.directive';
 
 @NgModule({
-    declarations: [HeaderComponent],
+    declarations: [HeaderComponent, ScrollVanishDirective],
     imports: [
         CommonModule,
         FormsModule,
@@ -16,7 +17,8 @@ import {LoaderModule} from '../loader/loader.module';
         RouterModule,
     ],
     exports: [
-        HeaderComponent
+        HeaderComponent,
+        ScrollVanishDirective
     ]
 })
 export class HeaderModule {

@@ -1,8 +1,8 @@
 <app-header></app-header>
-<ion-toolbar color="light">
+<ion-toolbar color="light" [myScrollVanish]="scrollArea" [elementHeight]="'68px'">
   <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" debounce="500"></ion-searchbar>
 </ion-toolbar>
-<ion-content>
+<ion-content #scrollArea scrollEvents="true">
   <ion-item *ngIf="!(isLoading | async) && stand === null">
     Er is nog geen stand bekend
   </ion-item>
