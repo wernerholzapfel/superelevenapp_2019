@@ -1,4 +1,6 @@
 :host{
+  --ion-grid-padding: 0;
+
   ion-card-title {
     font-size: 20px;
   }
@@ -8,5 +10,11 @@
 
   ion-card.match-card {
     display: block;
+    margin: 0;
+  }
+
+  ion-content {
+    --padding-left: 0;
+    --padding-right: 0;
   }
 }

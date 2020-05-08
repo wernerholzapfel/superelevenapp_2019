@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {AddPlayerPage} from './addplayer/add-player-page.component';
 import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {Formation, FormationPlayer} from '../../models/formation.model';
@@ -46,6 +46,7 @@ export class TeamPage implements OnInit, OnDestroy {
                 private teamService: TeamService,
                 private authService: AuthService,
                 private predictionService: PredictionService,
+                private routerOutlet: IonRouterOutlet,
                 private playerService: PlayerService) {
     }
 
@@ -129,6 +130,8 @@ export class TeamPage implements OnInit, OnDestroy {
         }
         const modal = await this.modalController.create({
             component: AddPlayerPage,
+            swipeToClose: true,
+            presentingElement: this.routerOutlet.nativeEl,
             componentProps: {
                 players: this.players.filter(p => {
                     return this.team.filter(formationPlayer => {

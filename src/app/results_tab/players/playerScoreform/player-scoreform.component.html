@@ -1,8 +1,7 @@
-<app-header [showMenu]="false"></app-header>
 <ion-content>
     <div class="main-content">
         <ion-card class="main-card">
-            <ion-card-header>
+            <ion-card-header color="primary">
                 <ion-card-title color="primary">
                     {{player.player.name}}
                 </ion-card-title>
@@ -68,18 +67,18 @@
     </div>
 </ion-content>
 <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button [disabled]="index === 0" color="secondary" (click)="previousPlayer()">
-        <ion-icon name="arrow-dropleft"></ion-icon>
+    <ion-fab-button [disabled]="index === 0" color="medium" (click)="previousPlayer()">
+        <ion-icon name="arrow-back"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button color="secondary" (click)="updatePlayer()">
+    <ion-fab-button color="medium" (click)="updatePlayer()">
         <ion-icon name="close"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [disabled]="index + 1 === players.length" color="secondary"
+    <ion-fab-button [disabled]="index + 1 === players.length" color="medium"
                     (click)="nextPlayer()">
-        <ion-icon name="arrow-dropright"></ion-icon>
+        <ion-icon name="arrow-forward"></ion-icon>
     </ion-fab-button>
 </ion-fab>

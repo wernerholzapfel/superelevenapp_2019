@@ -1,8 +1,8 @@
 <app-header></app-header>
 <ion-content>
-    <ion-grid no-padding>
+    <ion-grid>
         <ion-row>
-            <ion-col no-padding size="12" size-md="6" size-lg="6" size-xl="4" *ngIf="nummereen">
+            <ion-col size="12" size-md="6" size-lg="6" size-xl="4" *ngIf="nummereen">
                 <ion-card color="primary">
                     <ion-card-header>
                         <ion-card-title>1e {{nummereen?.displayName}}</ion-card-title>
@@ -15,7 +15,7 @@
                     </ion-card-content>
                 </ion-card>
             </ion-col>
-            <ion-col no-padding size="12" size-md="6" size-lg="6" size-xl="4" *ngIf="participantStand">
+            <ion-col size="12" size-md="6" size-lg="6" size-xl="4" *ngIf="participantStand">
                 <ion-card color="secondary">
                     <ion-card-header>
                         <ion-card-title>{{participantStand.displayName}} je staat {{participantStand.position}}e
@@ -29,7 +29,7 @@
                     </ion-card-content>
                 </ion-card>
             </ion-col>
-            <ion-col no-padding size="12" size-md="6" size-lg="6" size-xl="4">
+            <ion-col size="12" size-md="6" size-lg="6" size-xl="4">
                 <app-headline></app-headline>
             </ion-col>
         </ion-row>

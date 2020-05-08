@@ -9,7 +9,7 @@ Go to ~/Library/Android/sdk/build-tools/29.0.2/
 cd ~/Library/Android/sdk/build-tools/29.0.2/
 and run:
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore supereleven-key.jks app-release-unsigned.apk supereleven
-./zipalign -v 4 app-release-unsigned.apk super-eleven_4.6.2.apk
+./zipalign -v 4 app-release-unsigned.apk super-eleven_4.7.0.apk
 
 For IOS
 build project
