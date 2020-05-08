@@ -9,11 +9,16 @@
                         <ion-card-subtitle>{{lastUpdated}}</ion-card-subtitle>
                     </ion-card-header>
                     <ion-card-content>
-                        <ion-card-subtitle>Totaalpunten {{nummereen?.totalPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle>Teampunten {{nummereen?.totalTeamPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle>Wedstrijdpunten {{nummereen?.totalMatchPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle *ngIf="nummereen?.totalQuestionsPoints">Vragenpunten {{nummereen?.totalQuestionsPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle *ngIf="nummereen?.totalRankingPoints">Eindstandpunten {{nummereen?.totalRankingPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="nummereen?.totalPoints">
+                            Totaalpunten {{nummereen?.totalPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="nummereen?.totalTeamPoints">
+                            Teampunten {{nummereen?.totalTeamPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="nummereen?.totalMatchPoints">
+                            Wedstrijdpunten {{nummereen?.totalMatchPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="nummereen?.totalQuestionsPoints">
+                            Vragenpunten {{nummereen?.totalQuestionsPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="nummereen?.totalRankingPoints">
+                            Eindstandpunten {{nummereen?.totalRankingPoints}}</ion-card-subtitle>
                     </ion-card-content>
                 </ion-card>
             </ion-col>
@@ -25,11 +30,16 @@
                         <ion-card-subtitle>{{lastUpdated}}</ion-card-subtitle>
                     </ion-card-header>
                     <ion-card-content>
-                        <ion-card-subtitle>Totaalpunten {{participantStand.totalPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle>Teampunten {{participantStand.totalTeamPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle>Wedstrijdpunten {{participantStand.totalMatchPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle *ngIf="nummereen?.totalQuestionsPoints">Vragenpunten {{participantStand.totalQuestionsPoints}}</ion-card-subtitle>
-                        <ion-card-subtitle *ngIf="nummereen?.totalRankingPoints">Eindstandpunten {{participantStand.totalRankingPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="participantStand.totalPoints">
+                            Totaalpunten {{participantStand.totalPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="participantStand.totalTeamPoints">
+                            Teampunten {{participantStand.totalTeamPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="participantStand.totalMatchPoints">
+                            Wedstrijdpunten {{participantStand.totalMatchPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="participantStand.totalQuestionsPoints">
+                            Vragenpunten {{participantStand.totalQuestionsPoints}}</ion-card-subtitle>
+                        <ion-card-subtitle *ngIf="participantStand.totalRankingPoints">
+                            Eindstandpunten {{participantStand.totalRankingPoints}}</ion-card-subtitle>
                     </ion-card-content>
                 </ion-card>
             </ion-col>
