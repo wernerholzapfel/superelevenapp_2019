@@ -35,6 +35,7 @@ import {PlayerScoreformModule} from './results_tab/players/playerScoreform/playe
 import {OneSignal} from '@ionic-native/onesignal/ngx';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {RoundService} from './services/round.service';
+import { CodePush } from '@ionic-native/code-push/ngx';
 
 @NgModule({
     declarations: [
@@ -69,6 +70,7 @@ import {RoundService} from './services/round.service';
         PredictionService,
         RoundService,
         ToastService,
+        CodePush,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
             provide: HTTP_INTERCEPTORS,
