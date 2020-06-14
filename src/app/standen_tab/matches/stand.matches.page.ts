@@ -21,6 +21,8 @@ import {UiService} from '../../ui.service';
 export class StandMatchesPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
     stand: any[] = [];
+    isLoading: Subject<boolean> = this.loaderService.isLoading;
+    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     constructor(private standenService: StandenService,
                 private modalController: ModalController,
@@ -32,20 +34,11 @@ export class StandMatchesPage implements OnInit, OnDestroy {
                 private db: AngularFireDatabase) {
     }
 
-    isLoading: Subject<boolean> = this.loaderService.isLoading;
-    searchTerm$: BehaviorSubject<string> = new BehaviorSubject('');
 
     ngOnInit() {
-        this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap(competition => {
-            if (competition && competition.predictions) {
-                const predictionId = competition.predictions.find(prediction => prediction.predictionType === PredictionType.Matches).id;
-                return combineLatest([
+       combineLatest([
                     this.uiService.wedstrijdstand$,
-                    this.searchTerm$]);
-            } else {
-                return of([]);
-            }
-        }))
+                    this.searchTerm$])
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(([matches, searchTerm]) => {
                 if (matches) {

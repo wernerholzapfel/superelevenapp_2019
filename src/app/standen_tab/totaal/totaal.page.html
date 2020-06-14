@@ -1,8 +1,9 @@
-<app-header></app-header>
-<ion-toolbar color="light">
-    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" debounce="500"></ion-searchbar>
-</ion-toolbar>
-<ion-content>
+    <app-header></app-header>
+    <ion-toolbar color="light" [myScrollVanish]="scrollArea" [elementHeight]="'68px'">
+        <ion-searchbar (ionChange)="search($event)" placeholder="Zoek deelnemer" debounce="500"></ion-searchbar>
+    </ion-toolbar>
+
+<ion-content #scrollArea scrollEvents="true">
     <ion-item *ngIf="!(isLoading | async) && stand === null">
         Er is nog geen stand bekend
     </ion-item>
@@ -17,12 +18,21 @@
                 <ion-text color="medium" slot="start"> Teampunten</ion-text>
                 <ion-text color="medium" slot="end">{{item.totalTeamPoints}}</ion-text>
             </ion-item>
-            <ion-item lines="full" (click)="item.showdetail = !item.showdetail">
+            <ion-item lines="none" (click)="item.showdetail = !item.showdetail">
                 <ion-text color="medium" slot="start">
                     Wedstrijdpunten
                 </ion-text>
                 <ion-text color="medium" slot="end">
                     {{item.totalMatchPoints}}</ion-text>
+            </ion-item>
+            <ion-item lines="none" (click)="item.showdetail = !item.showdetail">
+                <ion-text color="medium" slot="start"> Vragenpunten</ion-text>
+                <ion-text color="medium"
+                          slot="end">{{item.totalQuestionsPoints ? item.totalQuestionsPoints : 0}}</ion-text>
+            </ion-item>
+            <ion-item lines="full" (click)="item.showdetail = !item.showdetail">
+                <ion-text color="medium" slot="start"> Eindstandpunten</ion-text>
+                <ion-text color="medium" slot="end">{{item.totalRankingPoints ? item.totalRankingPoints : 0}}</ion-text>
             </ion-item>
         </ng-container>
     </ng-container>

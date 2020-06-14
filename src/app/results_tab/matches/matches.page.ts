@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {getCompetition} from '../../store/competition/competition.reducer';
 import {first, mergeMap, takeUntil} from 'rxjs/operators';
 import {Competition, Prediction, PredictionType} from '../../models/competition.model';
-import {combineLatest, forkJoin, of, Subject} from 'rxjs';
+import {combineLatest, concat, forkJoin, of, Subject} from 'rxjs';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {PredictionService} from '../../services/prediction.service';
@@ -61,7 +61,7 @@ export class MatchesPage implements OnInit, OnDestroy {
             this.standenService.createMatchesStand(this.competition.id, this.prediction.id).pipe(first()),
             this.standenService.createTotalStand(this.competition.id).pipe(first())
         ])
-            .subscribe(([matchStand, totalStand]) => {
+            .subscribe((message) => {
                 this.toastService.presentToast('Wedstrijdenstand is bijgewerkt');
             }, error => {
                 this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');

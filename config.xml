@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.wernerholzapfel.supereleven" version="4.7.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.wernerholzapfel.supereleven" version="4.8.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Supereleven</name>
     <description>Supereleven 2020</description>
     <author email="werner.holzapfel@gmail.com" href="http://www.supereleven.nl/">Werner Holzapfel</author>
@@ -45,6 +45,12 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+    </platform>
+    <platform name="android">
+        <preference name="CodePushDeploymentKey" value="OqyXvi7rkXknw992IFxQp9Eo74lChrGTXDtMd2" />
+    </platform>
+    <platform name="ios">
+        <preference name="CodePushDeploymentKey" value="uP1WtxkGeXbnHscDK-P4Yb7OxnvjJBZ6de7CnA" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

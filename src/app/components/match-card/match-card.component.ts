@@ -48,10 +48,13 @@ export class MatchCardComponent implements OnInit {
     next() {
         this.index++;
         this.participant = this.participants[this.index];
+        this.matchPredictions = this.participants[this.index].matchPredictions;
+
     }
 
     previous() {
         this.index--;
         this.participant = this.participants[this.index];
+        this.matchPredictions = this.participants[this.index].matchPredictions;
     }
 }

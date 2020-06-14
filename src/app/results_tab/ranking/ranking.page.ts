@@ -1,14 +1,15 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IonReorderGroup} from '@ionic/angular';
-import {PredictionService} from '../../services/prediction.service';
 import {RankingTeam} from '../../models/prediction.model';
-import {combineLatest, from, of, Subject} from 'rxjs';
+import {concat, forkJoin, from, of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {mergeMap, switchMap, takeUntil} from 'rxjs/operators';
-import {Competition} from '../../models/competition.model';
+import {first, mergeMap, takeUntil} from 'rxjs/operators';
+import {Competition, Prediction, PredictionType} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
 import {getCompetition} from '../../store/competition/competition.reducer';
 import {ToastService} from '../../services/toast.service';
+import {ResultScoreService} from '../../services/result-score.service';
+import {StandenService} from '../../services/standen.service';
 
 @Component({
     selector: 'app-ranking',
@@ -20,31 +21,29 @@ export class RankingPage implements OnInit, OnDestroy {
 
     public isDirty = false;
     public items: RankingTeam[];
+    competition: Competition;
+    prediction: Prediction;
     unsubscribe = new Subject<void>();
 
     constructor(private store: Store<IAppState>,
-                private predictionsService: PredictionService,
+                private resultScoreService: ResultScoreService,
+                private standenService: StandenService,
                 private toastService: ToastService) {
     }
 
     ngOnInit() {
-
         this.store.select(getCompetition).pipe(takeUntil(this.unsubscribe), mergeMap((competition: Competition) => {
             if (competition && competition.id) {
-                return combineLatest([this.predictionsService.getRankingTeams(competition.id),
-                    this.predictionsService.getRankingTeamsPrediction(competition.id)]);
+                this.competition = competition;
+                this.prediction = competition.predictions.find(p => p.predictionType === PredictionType.Ranking);
+
+                return this.resultScoreService.getRankingTeamsResults(competition.id);
             } else {
                 return from([]);
             }
         })).pipe(takeUntil(this.unsubscribe)).subscribe(
-            ([rankingTeams, rankingPrediction]) => {
-                if (rankingPrediction && rankingPrediction.length > 0) {
-                    this.isDirty = false;
-                    this.items = rankingPrediction.map((item, index) => this.addPosition(item, index));
-                } else if (!rankingPrediction || rankingPrediction.length === 0 && rankingTeams) {
-                    console.log(rankingTeams);
-                    this.items = rankingTeams.map((item, index) => this.addPosition(item, index));
-                }
+            (rankingTeams) => {
+                this.items = rankingTeams.map((item, index) => this.addPosition(item, index));
             });
     }
 
@@ -57,17 +56,15 @@ export class RankingPage implements OnInit, OnDestroy {
         return Object.assign(item, {position: index + 1});
     }
 
-    canISaveForm() {
-        return false;
-        // return this.items && this.items.length > 0 && this.isDirty;
-    }
-
-    saveRankingPrediction() {
-        // todo
-        // this.predictionsService.saveRankingPredictions(this.items).subscribe(result => {
-        //     this.toastService.presentToast('Stand opgeslagen', 'primary');
-        //     this.isDirty = false;
-        // });
+    saveRankingResults() {
+        forkJoin([this.resultScoreService.postRankingResults(this.items).pipe(first()),
+            this.standenService.createRankingStand(this.competition.id, this.prediction.id).pipe(first()),
+            this.standenService.createTotalStand(this.competition.id).pipe(first())
+        ]).subscribe(([res1, res2, res3]) => {
+            this.toastService.presentToast('Standen bijgewerkt');
+        }, error => {
+            this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
+        });
     }
 
     canDeactivate() {
@@ -85,6 +82,4 @@ export class RankingPage implements OnInit, OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();
     }
-
-
 }

@@ -18,6 +18,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {UiService} from './ui.service';
 import {PredictionType} from './models/competition.model';
 import {ToastService} from './services/toast.service';
+import { CodePush, InstallMode } from '@ionic-native/code-push/ngx';
 
 @Component({
     selector: 'app-root',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 private db: AngularFireDatabase,
                 private uiService: UiService,
                 private authService: AuthService,
-                private toastService: ToastService
+                private toastService: ToastService,
+                private codePush: CodePush,
     ) {
         this.initializeApp();
 
@@ -54,6 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
             if (this.platform.is('cordova')) {
                 this.setupPush();
+                this.checkCodePush();
             }
         });
     }
@@ -81,6 +84,23 @@ export class AppComponent implements OnInit, OnDestroy {
         this.oneSignal.endInit();
     }
 
+    checkCodePush() {
+        this.codePush.sync({
+            updateDialog: {
+                appendReleaseDescription: true,
+                descriptionPrefix: '\n\nChange log:\n'
+            },
+            installMode: InstallMode.IMMEDIATE
+        }).subscribe(
+            (data) => {
+                console.log('CODE PUSH SUCCESSFUL: ' + data);
+            },
+            (err) => {
+                console.log('CODE PUSH ERROR: ' + err);
+            }
+        );
+    }
+
     ngOnInit(): void {
         this.uiService.lastUpdated$.pipe(takeUntil(this.unsubscribe), skip(2))
             .subscribe(lastupdated => {
@@ -102,20 +122,28 @@ export class AppComponent implements OnInit, OnDestroy {
             if (competition && competition.predictions) {
                 const matchPredictionId = competition.predictions.find(
                     prediction => prediction.predictionType === PredictionType.Matches).id;
+                const rankingPredictionId = competition.predictions.find(
+                    prediction => prediction.predictionType === PredictionType.Ranking).id;
+                const questionPredictionId = competition.predictions.find(
+                    prediction => prediction.predictionType === PredictionType.Questions).id;
 
                 return combineLatest([
                     this.db.list<any>(`${competition.id}/totaalstand/totaal`).valueChanges(),
                     this.db.list<any>(`${competition.id}/${matchPredictionId}/${PredictionType.Matches}/totaal`).valueChanges(),
+                    this.db.list<any>(`${competition.id}/${rankingPredictionId}/${PredictionType.Ranking}/totaal`).valueChanges(),
+                    this.db.list<any>(`${competition.id}/${questionPredictionId}/${PredictionType.Questions}/totaal`).valueChanges(),
                     this.db.object<any>(`${competition.id}/lastUpdated`).valueChanges()]);
             } else {
                 return of([]);
             }
         }))
             .pipe(takeUntil(this.unsubscribe))
-            .subscribe(([totaalstand, wedstrijdenstand, lastUpdated]) => {
+            .subscribe(([totaalstand, wedstrijdenstand, rankingStand, questionStand, lastUpdated]) => {
                 if (lastUpdated && totaalstand && wedstrijdenstand) {
                     this.uiService.totaalstand$.next(totaalstand);
                     this.uiService.wedstrijdstand$.next(wedstrijdenstand);
+                    this.uiService.rankingstand$.next(rankingStand);
+                    this.uiService.questionstand$.next(questionStand);
                     this.uiService.lastUpdated$.next(lastUpdated);
                 }
             });

@@ -3,77 +3,84 @@ import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
 import {PredictionService} from '../../services/prediction.service';
 import {ToastService} from '../../services/toast.service';
-import {getPredictions} from '../../store/competition/competition.reducer';
-import {mergeMap, switchMap, takeUntil} from 'rxjs/operators';
-import {Prediction, PredictionType} from '../../models/competition.model';
-import {combineLatest, from, Subject} from 'rxjs';
-import {MatchPrediction} from '../../models/match.model';
+import {getCompetition} from '../../store/competition/competition.reducer';
+import {first, mergeMap, takeUntil} from 'rxjs/operators';
+import {Competition, Prediction, PredictionType} from '../../models/competition.model';
+import {concat, forkJoin, from, Subject} from 'rxjs';
 import {QuestionPrediction} from '../../models/question.model';
+import {ModalController} from '@ionic/angular';
+import {QuestionResultFormComponent} from '../../components/question-result-form/question-result-form.component';
+import {StandenService} from '../../services/standen.service';
 
 @Component({
-  selector: 'app-questions',
-  templateUrl: './questions.page.html',
-  styleUrls: ['./questions.page.scss'],
+    selector: 'app-questions',
+    templateUrl: './questions.page.html',
+    styleUrls: ['./questions.page.scss'],
 })
 export class QuestionsPage implements OnInit, OnDestroy {
 
-  public isDirty = false;
-  public questionPredictions: QuestionPrediction[];
-  unsubscribe = new Subject<void>();
+    public isDirty = false;
+    public questions: QuestionPrediction[];
+    unsubscribe = new Subject<void>();
+    public competition: Competition;
+    public prediction: Prediction;
 
-  constructor(private store: Store<IAppState>,
-              private predictionsService: PredictionService,
-              private toastService: ToastService) { }
+    constructor(private store: Store<IAppState>,
+                private predictionsService: PredictionService,
+                private modalController: ModalController,
+                private standenService: StandenService,
+                private toastService: ToastService) {
+    }
 
-  ngOnInit() {
-    this.store.select(getPredictions).pipe(mergeMap((predictions: Prediction[]) => {
-      if (predictions && predictions.length > 0) {
-        return combineLatest([
-            this.predictionsService.getQuestions(
-                predictions.find(p => p.predictionType === PredictionType.Questions).id),
-            this.predictionsService.getQuestionPredictions(
-                predictions.find(p => p.predictionType === PredictionType.Questions).id)]);
-      } else {
-        return from([]);
-      }
-    })).pipe(takeUntil(this.unsubscribe))
-        .subscribe(
-        ([questions, questionsPredictions]) => {
-          if (questionsPredictions && questionsPredictions.length > 0) {
-            this.isDirty = false;
-            this.questionPredictions = [...questionsPredictions,
-              ...questions.filter(question => {
-                return !questionsPredictions.find(mp => mp.question.id === question.id);
-              })
-                  .map(i => {
-                    return this.transformQuestionToPrediction(i);
-                  })];
-          } else if (!questionsPredictions || questionsPredictions.length === 0 && questions) {
-            this.questionPredictions = questions.map(i => {
-              return this.transformQuestionToPrediction(i);
+    ngOnInit() {
+        this.store.select(getCompetition).pipe(mergeMap((competition: Competition) => {
+            this.competition = competition;
+            if (competition.predictions && competition.predictions.length > 0) {
+                this.prediction = competition.predictions.find(pred => pred.predictionType === PredictionType.Questions);
+                return this.predictionsService.getQuestions(this.prediction.id);
+            } else {
+                return from([]);
+            }
+        })).pipe(takeUntil(this.unsubscribe))
+            .subscribe(questions => {
+                this.questions = questions;
             });
-          }
+    }
+
+    async openDetails(index) {
+        const modal = await this.modalController.create({
+            component: QuestionResultFormComponent,
+            componentProps: {
+                index,
+                questions: this.questions,
+            }
         });
-  }
-  save() {
-    this.predictionsService.saveQuestionPredictions(this.questionPredictions).subscribe(result => {
-      this.questionPredictions = result; // todo store?
-      this.toastService.presentToast('Antwoorden opgeslagen');
-      this.isDirty = false;
-    });
-  }
 
-  canISaveForm() {
-    // todo logica
-    return true;
-  }
+        modal.onDidDismiss().then((event) => {
+            if (event.data.createQuestionstand) {
+                this.save();
+            } else {
+                this.save();
+            }
+        });
 
-  transformQuestionToPrediction(i): QuestionPrediction {
-    return {answer: null, question: i, competition: i.competition, prediction: i.prediction};
-  }
+        return await modal.present();
+    }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.unsubscribe();
-  }
+    save() {
+        forkJoin([
+            this.standenService.createQuestionStand(this.competition.id, this.prediction.id).pipe(first()),
+            this.standenService.createTotalStand(this.competition.id).pipe(first())
+        ])
+            .subscribe(([res1, res2]) => {
+                this.toastService.presentToast('Standen bijgewerkt');
+            }, error => {
+                this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');
+            });
+    }
+
+    ngOnDestroy(): void {
+        this.unsubscribe.next();
+        this.unsubscribe.unsubscribe();
+    }
 }

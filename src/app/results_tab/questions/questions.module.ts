@@ -8,6 +8,8 @@ import { IonicModule } from '@ionic/angular';
 import { QuestionsPage } from './questions.page';
 import {HeaderModule} from '../../components/header/header.module';
 import {CanDeactivateGuard} from '../../guards/candeactivate.guard';
+import {QuestionResultFormComponent} from '../../components/question-result-form/question-result-form.component';
+import {QuestionResultFormModule} from '../../components/question-result-form/question-result-form.module';
 
 const routes: Routes = [
   {
@@ -23,8 +25,10 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     HeaderModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    QuestionResultFormModule
   ],
-  declarations: [QuestionsPage]
+  declarations: [QuestionsPage],
+  entryComponents: [QuestionResultFormComponent]
 })
 export class QuestionsPageModule {}
