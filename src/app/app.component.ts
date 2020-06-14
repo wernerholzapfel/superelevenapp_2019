@@ -18,6 +18,7 @@ import {AngularFireDatabase} from '@angular/fire/database';
 import {UiService} from './ui.service';
 import {PredictionType} from './models/competition.model';
 import {ToastService} from './services/toast.service';
+import { CodePush, InstallMode } from '@ionic-native/code-push/ngx';
 
 @Component({
     selector: 'app-root',
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 private db: AngularFireDatabase,
                 private uiService: UiService,
                 private authService: AuthService,
-                private toastService: ToastService
+                private toastService: ToastService,
+                private codePush: CodePush,
     ) {
         this.initializeApp();
 
@@ -54,6 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
             if (this.platform.is('cordova')) {
                 this.setupPush();
+                this.checkCodePush();
             }
         });
     }
@@ -79,6 +82,23 @@ export class AppComponent implements OnInit, OnDestroy {
         });
 
         this.oneSignal.endInit();
+    }
+
+    checkCodePush() {
+        this.codePush.sync({
+            updateDialog: {
+                appendReleaseDescription: true,
+                descriptionPrefix: '\n\nChange log:\n'
+            },
+            installMode: InstallMode.IMMEDIATE
+        }).subscribe(
+            (data) => {
+                console.log('CODE PUSH SUCCESSFUL: ' + data);
+            },
+            (err) => {
+                console.log('CODE PUSH ERROR: ' + err);
+            }
+        );
     }
 
     ngOnInit(): void {
