@@ -5,6 +5,7 @@ branches:
   only:
   - master
   - firebase
+  - ionic5
 before_script:
 - npm install -g @angular/cli
 script:
