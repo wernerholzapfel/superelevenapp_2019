@@ -1,5 +1,17 @@
 <app-header></app-header>
+<ion-toolbar>
+    <ion-item>
+        <ion-label>Filter Team</ion-label>
+        <ion-select [interfaceOptions]="teamPopoverOptions" interface="popover"
+                    (ionChange)="filterPlayers($event)">
+            <ion-select-option *ngFor="let team of teams" value="{{team.name}}">
+                <img class="logo-avatar" [src]="team.logoUrl"> {{team.name}}</ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek speler" debounce="500"></ion-searchbar>
+</ion-toolbar>
 <ion-content>
+
     <ion-list>
         <ion-item *ngFor="let player of players">
             <span slot="start">
