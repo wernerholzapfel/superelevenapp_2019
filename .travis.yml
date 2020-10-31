@@ -6,6 +6,7 @@ branches:
   - master
   - firebase
   - ionic5
+  - transfer_optimaliseren
 before_script:
 - npm install -g @angular/cli
 script:

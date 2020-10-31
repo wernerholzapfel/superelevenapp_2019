@@ -21,4 +21,5 @@ export interface FormationPlayer {
     player: Player;
     team?: Team;
     captain?: boolean;
+    isNew?: boolean;
 }

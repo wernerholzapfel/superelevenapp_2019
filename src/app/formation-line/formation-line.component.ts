@@ -12,6 +12,7 @@ export class FormationLineComponent implements OnInit {
     }
 
     @Input() line: Formation;
+    @Input() isTransferPossible: boolean;
     @Output() playerAdd = new EventEmitter<{ formationIndex: number, position: string, player: any }>();
 
     ngOnInit() {
