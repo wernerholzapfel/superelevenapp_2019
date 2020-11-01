@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-- "10.10.0"
+- "10.13.0"
 branches:
   only:
   - master
   - firebase
+  - ionic5
+  - transfer_optimaliseren
 before_script:
 - npm install -g @angular/cli
 script:

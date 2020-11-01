@@ -1,6 +1,5 @@
-<app-header *ngIf="participant" [showMenu]="false"></app-header>
-<ion-toolbar color="light" *ngIf="participant">
-    <ion-item color="light" lines="full">
+<ion-toolbar color="primary" *ngIf="participant">
+    <ion-item color="primary" lines="full">
         <span slot="start"> {{participant.position}}</span>
         {{participant.displayName}}
         <span slot="end">{{participant.totalPoints}}</span>
@@ -70,19 +69,19 @@
 </ion-content>
 <ng-container *ngIf="participants && participants.length > 1">
     <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button [disabled]="index === 0" color="light" (click)="previous()">
-        <ion-icon name="arrow-dropleft"></ion-icon>
+    <ion-fab-button [disabled]="index === 0" color="medium" (click)="previous()">
+        <ion-icon name="arrow-back"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button color="light" (click)="close()">
+    <ion-fab-button color="medium" (click)="close()">
         <ion-icon name="close"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [disabled]="index + 1 === participants.length" color="light"
+    <ion-fab-button [disabled]="index + 1 === participants.length" color="medium"
                     (click)="next()">
-        <ion-icon name="arrow-dropright"></ion-icon>
+        <ion-icon name="arrow-forward"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 </ng-container>

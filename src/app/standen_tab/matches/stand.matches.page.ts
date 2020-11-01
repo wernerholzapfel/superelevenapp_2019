@@ -6,7 +6,7 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {PredictionType} from '../../models/competition.model';
 import {BehaviorSubject, combineLatest, of, Subject} from 'rxjs';
-import {ModalController} from '@ionic/angular';
+import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {MatchCardComponent} from '../../components/match-card/match-card.component';
 import {LoaderService} from '../../services/loader.service';
 import {ScoreformUiService} from '../../services/scoreform-ui.service';
@@ -29,7 +29,9 @@ export class StandMatchesPage implements OnInit, OnDestroy {
                 private store: Store<IAppState>,
                 private scoreformUiService: ScoreformUiService,
                 private uiService: UiService,
-                private loaderService: LoaderService) {
+                private loaderService: LoaderService,
+                private routerOutlet: IonRouterOutlet,
+                private db: AngularFireDatabase) {
     }
 
 
@@ -48,6 +50,8 @@ export class StandMatchesPage implements OnInit, OnDestroy {
     async openDetails(index) {
         const modal = await this.modalController.create({
             component: MatchCardComponent,
+            swipeToClose: true,
+            presentingElement: this.routerOutlet.nativeEl,
             componentProps: {
                 index,
                 participants: this.stand,

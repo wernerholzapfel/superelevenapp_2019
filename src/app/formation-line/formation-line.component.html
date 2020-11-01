@@ -3,13 +3,13 @@
         <ion-col *ngIf="!player.hide"
                  [ngClass]="player.class">
             <ion-chip [outline]="!player.selected"
-                      [color]="player.selected ? 'primary' : 'medium'"
-                      (click)="addPlayer(line.index, line.position, player)">
+                      [color]="player.selected ? player.isNew ? 'secondary' : 'primary' : 'medium'"
+                      (click)="isTransferPossible || player.isNew ? addPlayer(line.index, line.position, player): ''">
                 <img class="logo-avatar" *ngIf="player.selected" [src]="player.team.logoUrl">
                 <ion-icon *ngIf="!player.selected" [name]="player.selected ? 'person' : 'add'"></ion-icon>
                 <ion-label>{{player?.player?.name}} <span *ngIf="player?.player?.name !== 'Kies'"></span></ion-label>
                 <ion-icon *ngIf="player.captain" name="star"></ion-icon>
-                <ion-icon *ngIf="player.selected" color="danger" name="close-circle"></ion-icon>
+                <ion-icon *ngIf="player.selected && (isTransferPossible || player.isNew)" color="danger" name="close-circle"></ion-icon>
             </ion-chip>
         </ion-col>
     </ng-container>

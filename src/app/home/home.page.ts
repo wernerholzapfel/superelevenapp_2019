@@ -6,6 +6,7 @@ import {UiService} from '../ui.service';
 import {ParticipantService} from '../services/participant.service';
 import {IParticipant} from '../models/participant.model';
 import * as moment from 'moment';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -16,7 +17,8 @@ export class HomePage implements OnInit, OnDestroy {
 
     constructor(public authService: AuthService,
                 private participantService: ParticipantService,
-                private uiService: UiService) {
+                private uiService: UiService,
+                private router: Router) {
         moment.locale('nl');
     }
 
@@ -58,6 +60,10 @@ export class HomePage implements OnInit, OnDestroy {
         });
     }
 
+    navigateToStand(standType: string) {
+        this.router.navigate(['/standen/standen/' + standType]);
+
+    }
     ngOnDestroy(): void {
         this.unsubscribe.next();
         this.unsubscribe.unsubscribe();

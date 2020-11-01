@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
-import {BehaviorSubject, combineLatest, concat, forkJoin, of, Subject} from 'rxjs';
+import {IonRouterOutlet, ModalController} from '@ionic/angular';
+import {BehaviorSubject, combineLatest, forkJoin, of, Subject} from 'rxjs';
 import {Formation, FormationPlayer} from '../../models/formation.model';
 import {ToastService} from '../../services/toast.service';
 import {PlayerService} from '../../services/player.service';
@@ -56,6 +56,7 @@ export class PlayersPage implements OnInit, OnDestroy {
                 private loaderService: LoaderService,
                 private standenService: StandenService,
                 private statsService: StatsService,
+                private routerOutlet: IonRouterOutlet,
     ) {
     }
 
@@ -105,6 +106,8 @@ export class PlayersPage implements OnInit, OnDestroy {
     async openScoreForm(index) {
         const modal = await this.modalController.create({
             component: PlayerScoreformComponent,
+            swipeToClose: true,
+            presentingElement: this.routerOutlet.nativeEl,
             componentProps: {
                 index,
                 roundId: this.activeRoundId$.getValue(),
