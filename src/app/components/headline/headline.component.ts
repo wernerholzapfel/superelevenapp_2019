@@ -7,7 +7,7 @@ import {mergeMap, takeUntil} from 'rxjs/operators';
 import {of, Subject} from 'rxjs';
 import {Store} from '@ngrx/store';
 import * as moment from 'moment';
-import {ModalController} from '@ionic/angular';
+import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {EditHeadlineComponent} from '../edit-headline/edit-headline.component';
 import {AuthService} from '../../services/auth.service';
 import {Competition} from '../../models/competition.model';
@@ -32,6 +32,7 @@ export class HeadlineComponent implements OnInit, OnDestroy {
                 private authService: AuthService,
                 private headlineService: HeadlineService,
                 private modalController: ModalController,
+                private routerOutlet: IonRouterOutlet,
                 private angularFireAuth: AngularFireAuth) {
         moment.locale('nl');
     }
@@ -86,6 +87,8 @@ export class HeadlineComponent implements OnInit, OnDestroy {
     async editHeadline(headline: IHeadline) {
         const modal = await this.modalController.create({
             component: EditHeadlineComponent,
+            swipeToClose: true,
+            presentingElement: this.routerOutlet.nativeEl,
             componentProps: {
                 headline,
             }

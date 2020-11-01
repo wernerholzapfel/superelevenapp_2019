@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {BehaviorSubject, combineLatest, of, Subject} from 'rxjs';
 import {ToastService} from '../../services/toast.service';
 import {IAppState} from '../../store/store';
@@ -43,7 +43,8 @@ export class PlayersPage implements OnInit, OnDestroy {
                 private db: AngularFireDatabase,
                 private scoreformUiService: ScoreformUiService,
                 private roundService: RoundService,
-                private loaderService: LoaderService
+                private loaderService: LoaderService,
+                private routerOutlet: IonRouterOutlet
     ) {
     }
 
@@ -92,6 +93,8 @@ export class PlayersPage implements OnInit, OnDestroy {
     async openDetails(index) {
         const modal = await this.modalController.create({
             component: PlayerStandItemComponent,
+            swipeToClose: true,
+            presentingElement: this.routerOutlet.nativeEl,
             componentProps: {
                 index,
                 participants: this.stand,

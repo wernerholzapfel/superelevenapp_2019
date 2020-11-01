@@ -21,7 +21,7 @@
 <ng-container *ngIf="participants && participants.length > 1">
     <ion-fab vertical="bottom" horizontal="start" slot="fixed">
         <ion-fab-button [disabled]="index === 0" color="light" (click)="previous()">
-            <ion-icon name="arrow-dropleft"></ion-icon>
+            <ion-icon name="arrow-back-outline"></ion-icon>
         </ion-fab-button>
     </ion-fab>
     <ion-fab vertical="bottom" horizontal="center" slot="fixed">
@@ -32,7 +32,7 @@
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button [disabled]="index + 1 === participants.length" color="light"
                         (click)="next()">
-            <ion-icon name="arrow-dropright"></ion-icon>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
         </ion-fab-button>
     </ion-fab>
 </ng-container>

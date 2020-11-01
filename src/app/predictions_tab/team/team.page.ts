@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import {IonRouterOutlet, ModalController} from '@ionic/angular';
 import {AddPlayerPage} from './addplayer/add-player-page.component';
 import {combineLatest, from, Observable, of, Subject} from 'rxjs';
 import {Formation, FormationPlayer} from '../../models/formation.model';
@@ -11,11 +11,13 @@ import {mergeMap, takeUntil} from 'rxjs/operators';
 import {Competition, PredictionType} from '../../models/competition.model';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
-import {PositionType, Teamplayer} from '../../models/teamplayer.model';
+import {Player, PositionType, Teamplayer} from '../../models/teamplayer.model';
 import {TeamService} from '../../services/team.service';
 import {Team} from '../../models/team.model';
 import {PredictionService} from '../../services/prediction.service';
 import {AuthService} from '../../services/auth.service';
+import {RoundService} from '../../services/round.service';
+import {Round} from '../../models/prediction.model';
 
 @Component({
     selector: 'app-team',
@@ -27,10 +29,19 @@ import {AuthService} from '../../services/auth.service';
 export class TeamPage implements OnInit, OnDestroy {
 
     competition: any;
+    transferStatus: {
+        numberOfPossibleTransfers: number,
+        numberOfTransferInSession: number,
+        isTransferPossible: boolean,
+        idsCurrentActivePlayers: string[],
+        idCurrentCaptain: string
+    };
     prediction: any;
     isDirty = false;
     formation: Formation[];
     players: Teamplayer[];
+    activePlayerIds: string[];
+    nextRound: Round;
     teams: Team[];
     team: FormationPlayer[] = []; // todo check typedefintion
     unsubscribe = new Subject<void>();
@@ -46,6 +57,8 @@ export class TeamPage implements OnInit, OnDestroy {
                 private teamService: TeamService,
                 private authService: AuthService,
                 private predictionService: PredictionService,
+                private routerOutlet: IonRouterOutlet,
+                private roundService: RoundService,
                 private playerService: PlayerService) {
     }
 
@@ -59,17 +72,23 @@ export class TeamPage implements OnInit, OnDestroy {
                         this.playerService.getPlayersByPredictionId(this.prediction.id),
                         this.formationService.getFormation(),
                         this.teamService.getTeams(),
-                        this.predictionService.getTeamPrediction(this.prediction.id)]);
+                        this.predictionService.getTeamPrediction(this.prediction.id),
+                        this.predictionService.getPossibleTransferStatus(this.prediction.id)])
                 } else {
                     return from([]);
                 }
             })
         ).pipe(takeUntil(this.unsubscribe))
             .subscribe(
-                ([players, formation, teams, predictionTeam]) => {
+                ([players, formation, teams, predictionTeam, possibleTransferStatus]) => {
                     if (players && formation && teams && predictionTeam) {
+                        this.transferStatus = {
+                            ...possibleTransferStatus,
+                            numberOfTransferInSession: 0
+                        };
                         this.formation = formation;
                         this.players = players;
+                        this.activePlayerIds = possibleTransferStatus.idsCurrentActivePlayers;
                         this.teams = teams;
                         this.captainId = predictionTeam.find(player => player.captain)
                             ? predictionTeam.find(player => player.captain).teamPlayer.player.id
@@ -87,6 +106,9 @@ export class TeamPage implements OnInit, OnDestroy {
                                     {player: teamPlayer.teamPlayer.player},
                                     {team: teamPlayer.teamPlayer.team},
                                     {selected: true},
+                                    {
+                                        isNew: this.determineIsNew(teamPlayer.teamPlayer.player.id, teamPlayer.captain),
+                                    },
                                     {captain: teamPlayer.captain}) :
                                     player;
                             });
@@ -94,6 +116,10 @@ export class TeamPage implements OnInit, OnDestroy {
                         this.createTeam();
                     }
                 });
+    }
+
+    determineIsNew(playerId: string, captain: boolean = false) {
+        return captain ? this.transferStatus.idCurrentCaptain !== playerId : !this.activePlayerIds.includes(playerId);
     }
 
     save() {
@@ -129,6 +155,8 @@ export class TeamPage implements OnInit, OnDestroy {
         }
         const modal = await this.modalController.create({
             component: AddPlayerPage,
+            swipeToClose: true,
+            presentingElement: this.routerOutlet.nativeEl,
             componentProps: {
                 players: this.players.filter(p => {
                     return this.team.filter(formationPlayer => {
@@ -152,6 +180,7 @@ export class TeamPage implements OnInit, OnDestroy {
                         Object.assign({
                             ...player.data.formationPlayer,
                             selected: true,
+                            isNew: this.determineIsNew(player.data.player.player.id),
                             ...player.data.player
                         });
                 }
@@ -205,6 +234,26 @@ export class TeamPage implements OnInit, OnDestroy {
             ...this.formation[5].players,
             ...this.formation[6].players,
             ...this.formation[7].players).filter(player => player.selected) : [];
+
+        this.transferStatus =
+            {
+                ...this.transferStatus,
+                numberOfTransferInSession: this.setNumberOfTransferInSession(),
+                isTransferPossible: this.transferStatus.numberOfPossibleTransfers - this.setNumberOfTransferInSession() > 0
+            }
+    }
+
+
+    setNumberOfTransferInSession(): number {
+        return this.hasNewCaptain() ?
+            1 + this.team.filter(player => !this.activePlayerIds.includes(player.player.id)).length :
+            this.team.filter(player => !this.activePlayerIds.includes(player.player.id)).length
+    }
+
+    hasNewCaptain(): boolean {
+        const captain = this.team.find(player => player.captain)
+        return captain && this.team.find(player => player.captain)
+            && captain.player.id !== this.transferStatus.idCurrentCaptain
     }
 
     setCaptain(event) {
@@ -216,12 +265,15 @@ export class TeamPage implements OnInit, OnDestroy {
                     if (player.player.id === event.detail.value) {
                         return {
                             ...player,
-                            captain: true
+                            captain: true,
+                            isNew: this.determineIsNew(player.player.id, true)
                         };
                     } else {
                         return {
                             ...player,
-                            captain: false
+                            captain: false,
+                            isNew: this.determineIsNew(player.player.id, false)
+
                         };
                     }
                 })

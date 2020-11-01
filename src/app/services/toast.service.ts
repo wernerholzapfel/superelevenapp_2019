@@ -19,8 +19,15 @@ export class ToastService {
             color,
             message,
             duration,
-            showCloseButton,
-            closeButtonText
+            buttons: [
+                {
+                    text: closeButtonText,
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Close clicked');
+                    }
+                }
+            ]
         });
         toast.present();
     }

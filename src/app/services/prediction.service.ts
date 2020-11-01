@@ -65,6 +65,10 @@ export class PredictionService {
             .pipe(map(res => res as any));
     }
 
+    getPossibleTransferStatus(predictionId): Observable<{numberOfPossibleTransfers: number }> {
+        return this.http.get<{numberOfPossibleTransfers: number }>(`${environment.apiBaseUrl}/team-prediction/prediction/${predictionId}/isTransferPossible`)
+    }
+
     saveTeamPredictions(teamPredictions: any[]): Observable<any> {
         return this.http.post<any[]>(`${environment.apiBaseUrl}/team-prediction`, teamPredictions);
     }

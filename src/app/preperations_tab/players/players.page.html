@@ -1,35 +1,31 @@
 <app-header></app-header>
+<ion-toolbar>
+    <ion-item>
+        <ion-label>Filter Team</ion-label>
+        <ion-select [interfaceOptions]="teamPopoverOptions" interface="popover"
+                    (ionChange)="filterPlayers($event)">
+            <ion-select-option *ngFor="let team of teams" value="{{team.name}}">
+                <img class="logo-avatar" [src]="team.logoUrl"> {{team.name}}</ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-searchbar (ionChange)="search($event)" placeholder="Zoek speler" debounce="500"></ion-searchbar>
+</ion-toolbar>
 <ion-content>
-    <div cdkDropListGroup>
-        <ion-row>
-        <ng-container *ngFor="let club of clubs">
-            <ng-container *ngFor="let formation of club.formation">
-                <ion-card style="max-width: 150px;"
-                          cdkDropList
-                          [cdkDropListData]="formation.players"
-                          (cdkDropListDropped)="drop($event)">
-                    <ion-card-header>
-                        <ion-card-subtitle>
-                            {{club.name}} / {{formation.type}} ({{formation.players.length}})
-                        </ion-card-subtitle>
-                    </ion-card-header>
-<!--                    <ion-item *ngFor="let item of formation.players" cdkDrag>{{item}}</ion-item>-->
-<!--                    <ion-item *ngIf="formation.players.length === 0">drop place</ion-item>-->
-                </ion-card>
-            </ng-container>
-        </ng-container>
-        </ion-row>
-        <div class="example-container">
-            <h2>Done</h2>
-            <ion-card
-                    cdkDropList
-                    [cdkDropListData]="spelers"
-                    class="example-list"
-                    (cdkDropListDropped)="drop($event)">
-                <ion-item class="example-box" *ngFor="let item of spelers" cdkDrag>{{item}}</ion-item>
-                <ion-item>{{spelers.length}} Spelers</ion-item>
-            </ion-card>
-        </div>
-    </div>
-    <ion-button (click)="save()"></ion-button>
+
+    <ion-list>
+        <ion-item *ngFor="let player of players">
+            <span slot="start">
+                <img class="logo-avatar" [src]="player.team.logoUrl">
+            </span>
+            {{player.player.name}}
+            <ion-select slot="end" [(ngModel)]="player.position" [interfaceOptions]="customPopoverOptions" interface="alert"
+                        (ionChange)="savePositie($event, player)">
+                <ion-select-option value="Goalkeeper">Goalkeeper</ion-select-option>
+                <ion-select-option value="Defender">Defender</ion-select-option>
+                <ion-select-option value="Midfielder">Midfielder</ion-select-option>
+                <ion-select-option value="Attacker">Attacker</ion-select-option>
+            </ion-select>
+            <ion-button slot="end" color="danger" (click)="setPlayerInActive(player)">Delete</ion-button>
+        </ion-item>
+    </ion-list>
 </ion-content>

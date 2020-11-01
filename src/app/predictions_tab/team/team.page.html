@@ -6,21 +6,24 @@
             </ion-card-title>
             <ion-card-subtitle color="medium">Stel je team samen
             </ion-card-subtitle>
+            <ion-card-subtitle color="medium" *ngIf="transferStatus?.numberOfPossibleTransfers > 0">Je hebt nog {{transferStatus?.numberOfPossibleTransfers - transferStatus?.numberOfTransferInSession}} wissels over
+            </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
                 <app-formation-line *ngFor="let line of formation"
                                     (playerAdd)="addPlayer($event)"
+                                    [isTransferPossible]="transferStatus?.isTransferPossible"
                                     [line]="line"></app-formation-line>
             </ion-grid>
             <ion-item>
-                <ion-label>Aanvoerder</ion-label>
-                <ion-select [interfaceOptions]="customPopoverOptions" interface="alert" placeholder="Select One" (ionChange)="setCaptain($event)" [(ngModel)]="captainId">
+                <ion-label position="floating">Aanvoerder</ion-label>
+                <ion-select [disabled]="!transferStatus?.isTransferPossible && !hasNewCaptain()" [interfaceOptions]="customPopoverOptions" interface="alert" placeholder="Select One" (ionChange)="setCaptain($event)" [(ngModel)]="captainId">
                     <ion-select-option *ngFor="let player of this.team" value="{{player.player.id}}">{{player.player.name}}</ion-select-option>
                 </ion-select>
             </ion-item>
-            <ion-button expand="full" color="secondary" (click)="save()">
-                Opslaan
+            <ion-button expand="full" color="secondary" (click)="save()" [disabled]="transferStatus?.numberOfPossibleTransfers === 0">
+                {{transferStatus?.numberOfPossibleTransfers === 0 ? 'Je bent door je wissels heen' : 'Opslaan' }}
             </ion-button>
         </ion-card-content>
     </ion-card>

@@ -1,6 +1,5 @@
-<app-header [showMenu]="false"></app-header>
-<ion-toolbar color="light">
-    <ion-item color="light" lines="full">
+<ion-toolbar color="primary">
+    <ion-item color="primary" lines="full">
         <span slot="start"> {{participant.position}}</span>
         {{participant.displayName}}
         <span slot="end">{{participant.totaalpunten}}</span>
@@ -30,8 +29,8 @@
     </div>
 </ion-content>
 <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button [disabled]="index === 0" color="light" (click)="previous()">
-        <ion-icon name="arrow-dropleft"></ion-icon>
+    <ion-fab-button [disabled]="index === 0" color="medium" (click)="previous()">
+        <ion-icon name="arrow-back"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 <ion-fab vertical="bottom" horizontal="center" slot="fixed">
@@ -42,7 +41,7 @@
 <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button [disabled]="index + 1 === participants.length" color="light"
                     (click)="next()">
-        <ion-icon name="arrow-dropright"></ion-icon>
+        <ion-icon name="arrow-forward"></ion-icon>
     </ion-fab-button>
 </ion-fab>
 

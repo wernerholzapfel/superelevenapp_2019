@@ -50,7 +50,7 @@ export class MenuService {
         }, {
             title: 'Statistieken',
             url: '/stats',
-            icon: 'stats',
+            icon: 'stats-chart',
             active: false,
             onlyForAdmin: false,
             onlyForUser: false,
