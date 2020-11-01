@@ -33,11 +33,14 @@
     "@ngrx/router-store": "^8.6.0",
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
+    "code-push": "^3.0.1",
     "cordova": "^9.0.0",
-    "cordova-android": "8.1.0",
+    "cordova-android": "^8.1.0",
     "cordova-ios": "5.1.1",
     "cordova-plugin-code-push": "^1.12.5",
+    "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-device": "2.0.3",
+    "cordova-plugin-dialogs": "^2.0.2",
     "cordova-plugin-file": "^4.3.3",
     "cordova-plugin-file-transfer": "^1.6.3",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
@@ -98,8 +101,8 @@
       "cordova-plugin-zip": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

@@ -3,13 +3,13 @@ For android:
 build project:
 ionic cordova build android --prod --release
 copy project and key to
-cp /Users/Werner/projects/werner/supereleven_v2/superelevenapp/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ~/Library/Android/sdk/build-tools/29.0.2/
+cp /Users/wernerholzapfel/Projects/Prive/SuperEleven/superelevenapp_2019/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk ~/Library/Android/sdk/build-tools/30.0.1/
 
-Go to ~/Library/Android/sdk/build-tools/29.0.2/
-cd ~/Library/Android/sdk/build-tools/29.0.2/
+Go to ~/Library/Android/sdk/build-tools/30.0.1/
+cd ~/Library/Android/sdk/build-tools/30.0.1/
 and run:
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore supereleven-key.jks app-release-unsigned.apk supereleven
-./zipalign -v 4 app-release-unsigned.apk super-eleven_4.8.0.apk
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore werner-holzapfel-key.jks app-release-unsigned.apk supereleven
+./zipalign -v 4 app-release-unsigned.apk super-eleven_5.0.0.apk
 
 For IOS
 build project
