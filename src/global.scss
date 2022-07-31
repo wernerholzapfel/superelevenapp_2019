@@ -15,6 +15,23 @@
 
 :root {
   font-family: var(--ion-font-family) !important;
+  /* Set the background of the entire app */
+  ion-content {
+    --ion-background-color: #f4f5f8;
+  }
+
+  ion-card, ion-item {
+    --ion-background-color: #FFF;
+  }
+
+  ion-card.main-card {
+    --ion-background-color: #f4f5f8;
+  }
+
+  ion-item.transparent {
+    --ion-background-color: transparent;
+  }
+
 
   @each $size, $size-value in (
           xs: 0,
@@ -108,5 +125,9 @@
 
   ion-searchbar {
     margin-top: 15px;
+  }
+
+  ion-action-sheet {
+    --max-height: 50vh;
   }
 }

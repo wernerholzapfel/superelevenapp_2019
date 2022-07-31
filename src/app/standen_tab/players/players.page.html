@@ -2,7 +2,7 @@
 <ion-toolbar color="light" [myScrollVanish]="scrollArea" [elementHeight]="'112px'">
     <ion-item color="light">
         <ion-label>Kies ronde</ion-label>
-        <ion-select  [(ngModel)]="activeRound" [interfaceOptions]="customPopoverOptions" interface="alert"
+        <ion-select  [(ngModel)]="activeRound" [interfaceOptions]="customPopoverOptions" interface="action-sheet"
                      (ionChange)="filterRounds($event)">
             <ion-select-option value="Totaal">Totaal</ion-select-option>
             <ion-select-option *ngFor="let round of rounds" value="{{round.id}}">

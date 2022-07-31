@@ -4,7 +4,7 @@
         <ion-card-header>
             <ion-item>
                 <ion-label>Club</ion-label>
-                <ion-select [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select One" (ionChange)="filterPlayers($event)">
+                <ion-select [interfaceOptions]="customPopoverOptions" interface="action-sheet" placeholder="Select One" (ionChange)="filterPlayers($event)">
                     <ion-select-option *ngFor="let team of teams" value="{{team.name}}">{{team.name}}</ion-select-option>
                 </ion-select>
             </ion-item>

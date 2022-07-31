@@ -1,7 +1,7 @@
 <ion-toolbar color="primary">
     <ion-item color="primary">
         <ion-label>Filter Team</ion-label>
-        <ion-select [interfaceOptions]="customPopoverOptions" interface="popover"
+        <ion-select [interfaceOptions]="customPopoverOptions" interface="action-sheet"
                     (ionChange)="filterPlayers($event)">
             <ion-select-option *ngFor="let team of teams" value="{{team.name}}">
                 <img class="logo-avatar" [src]="team.logoUrl"> {{team.name}}</ion-select-option>

@@ -10,17 +10,16 @@
         <ion-card-content>
             <ion-item *ngFor="let questionPrediction of questionPredictions" class="match-card">
                 <ion-label position="floating" class="ion-text-wrap">{{questionPrediction.question.question}}</ion-label>
-                <ion-input
-                        [disabled]="!(isRegistrationOpen$ | async)"
+                <ion-input [disabled]="!(isRegistrationOpen$ | async)"
                         [(ngModel)]="questionPrediction.answer"
                         [value]="questionPrediction.answer"></ion-input>
             </ion-item>
         </ion-card-content>
     </ion-card>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="(isRegistrationOpen$ | async)">
     <ion-toolbar>
-        <ion-button *ngIf="(isRegistrationOpen$ | async)" expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="save()">
+        <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="save()">
             Opslaan
         </ion-button>
     </ion-toolbar>

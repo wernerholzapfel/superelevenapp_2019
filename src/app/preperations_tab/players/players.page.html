@@ -2,7 +2,7 @@
 <ion-toolbar>
     <ion-item>
         <ion-label>Filter Team</ion-label>
-        <ion-select [interfaceOptions]="teamPopoverOptions" interface="popover"
+        <ion-select [interfaceOptions]="teamPopoverOptions" interface="action-sheet"
                     (ionChange)="filterPlayers($event)">
             <ion-select-option *ngFor="let team of teams" value="{{team.name}}">
                 <img class="logo-avatar" [src]="team.logoUrl"> {{team.name}}</ion-select-option>
@@ -18,7 +18,8 @@
                 <img class="logo-avatar" [src]="player.team.logoUrl">
             </span>
             {{player.player.name}}
-            <ion-select slot="end" [(ngModel)]="player.position" [interfaceOptions]="customPopoverOptions" interface="alert"
+            <ion-select slot="end" [(ngModel)]="player.position" [interfaceOptions]="customPopoverOptions"
+                        interface="action-sheet"
                         (ionChange)="savePositie($event, player)">
                 <ion-select-option value="Goalkeeper">Goalkeeper</ion-select-option>
                 <ion-select-option value="Defender">Defender</ion-select-option>

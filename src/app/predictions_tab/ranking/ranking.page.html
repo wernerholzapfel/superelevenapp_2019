@@ -22,9 +22,9 @@
         </ion-card-content>
     </ion-card>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="(isRegistrationOpen$ | async)" >
     <ion-toolbar>
-        <ion-button *ngIf="(isRegistrationOpen$ | async)" expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="saveRankingPrediction()">
+        <ion-button expand="full" color="secondary" [disabled]="!canISaveForm()" (click)="saveRankingPrediction()">
             Opslaan
         </ion-button>
     </ion-toolbar>

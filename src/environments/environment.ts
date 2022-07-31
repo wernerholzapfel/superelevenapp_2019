@@ -18,7 +18,10 @@ export const environment = {
         appId: 'eb25a650-dde9-4137-9b48-e4e1323c93a7',
         // tslint:disable-next-line:max-line-length
         googleProjectNumber: 'AAAAPHn_vFg:APA91bErCBmvhhJvkOeUstTD1DsqtGpfm6vQ7rk7m-Tib1njLfa7fEVJj60LlN5PZL28c6ySe6xsJXLlpFMzihwmJFFVM1mw8QzmZSi0tQJnGlaucTdqC2v-2XUropTC0JAx3CWaD_uW'
-    }
+    },
+    iOSCodePush: 'Iy332H0VWAcfd1WT27HRJ7YQsQ19FgW-wDnm1',
+    androidCodePush: 'Gh_kxNwLFUvmh_exT87L6M-Qb2qgv-4nNxQgY'
+
 };
 /*
  * For easier debugging in development mode, you can import the following file

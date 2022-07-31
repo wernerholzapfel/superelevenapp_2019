@@ -19,3 +19,13 @@ check; general signing team: werner holzapfel
 build phases link with binaries. remove pods if any
 choose generic ios device.
 and create image in product -> archive?"
+
+For codepush:
+https://docs.microsoft.com/en-us/appcenter/distribution/codepush/cli
+
+IOS:
+appcenter login
+ionic cordova build ios --prod
+appcenter codepush release -a werner.holzapfel-gmail.com/supereleven-ios -c ./platforms/ios/www/ -t 5.0.0
+
+Android:

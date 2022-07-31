@@ -16,9 +16,15 @@
                                     [isTransferPossible]="transferStatus?.isTransferPossible"
                                     [line]="line"></app-formation-line>
             </ion-grid>
-            <ion-item>
+            <ion-item class="transparent">
                 <ion-label position="floating">Aanvoerder</ion-label>
-                <ion-select [disabled]="!transferStatus?.isTransferPossible && !hasNewCaptain()" [interfaceOptions]="customPopoverOptions" interface="alert" placeholder="Select One" (ionChange)="setCaptain($event)" [(ngModel)]="captainId">
+                <ion-select
+                        [disabled]="!transferStatus?.isTransferPossible && !hasNewCaptain()"
+                        [interfaceOptions]="customPopoverOptions"
+                        interface="action-sheet"
+                        placeholder="Kies captain"
+                        (ionChange)="setCaptain($event)"
+                        [(ngModel)]="captainId">
                     <ion-select-option *ngFor="let player of this.team" value="{{player.player.id}}">{{player.player.name}}</ion-select-option>
                 </ion-select>
             </ion-item>

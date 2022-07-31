@@ -17,33 +17,33 @@
                                     <ion-card-subtitle>{{matchPrediction.match.date}}</ion-card-subtitle>
                                     <ion-card-title color="primary">
                                         <ion-row>
-                                            <ion-col no-padding>
+                                            <ion-col  class="ion-no-padding">
                                                 {{matchPrediction.match.homeTeam}}
                                             </ion-col>
-                                            <ion-col no-padding size="1" text-right>
+                                            <ion-col  class="ion-no-padding ion-text-right" size="1">
                                                 {{matchPrediction.homeScore}}
                                             </ion-col>
                                         </ion-row>
                                     </ion-card-title>
                                     <ion-card-title color="primary">
                                         <ion-row>
-                                            <ion-col no-padding>
+                                            <ion-col  class="ion-no-padding">
                                                 {{matchPrediction.match.awayTeam}}
                                             </ion-col>
-                                            <ion-col no-padding size="1" text-right>
+                                            <ion-col  class="ion-no-padding ion-text-right" size="1">
                                                 {{matchPrediction.awayScore}}
                                             </ion-col>
                                         </ion-row>
                                     </ion-card-title>
                                 </ion-card-header>
                                 <ion-card-content class="padding-left">
-                                    <ion-item *ngIf="matchPrediction.punten !== null" lines="none" no-padding>
+                                    <ion-item *ngIf="matchPrediction.punten !== null" lines="none"  class="ion-no-padding">
                                         <ion-label>Uitslag {{matchPrediction.match.homeScore}}
                                             - {{matchPrediction.match.awayScore}}</ion-label>
                                         <ion-badge mode="md" slot="end">{{matchPrediction.punten}}</ion-badge>
                                     </ion-item>
                                     <ng-container *ngIf="(isRegistrationOpen$ | async)">
-                                        <ion-item no-padding lines="none">
+                                        <ion-item  class="ion-no-padding" lines="none">
                                             <ion-button size="large" color="light"
                                                         (click)="matchPrediction.homeScore = 0"
                                             >
@@ -66,7 +66,7 @@
                                                 +
                                             </ion-button>
                                         </ion-item>
-                                        <ion-item no-padding lines="none">
+                                        <ion-item  class="ion-no-padding" lines="none">
                                             <ion-button size="large" color="light"
                                                         (click)="matchPrediction.awayScore = 0"
                                             >
@@ -98,9 +98,9 @@
         </ion-card-content>
     </ion-card>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="(isRegistrationOpen$ | async)">
     <ion-toolbar>
-        <ion-button *ngIf="(isRegistrationOpen$ | async)" expand="full" color="secondary"
+        <ion-button expand="full" color="secondary"
                     (click)="save()">
             Opslaan
         </ion-button>

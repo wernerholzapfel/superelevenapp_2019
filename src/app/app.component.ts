@@ -12,13 +12,13 @@ import {OneSignal} from '@ionic-native/onesignal/ngx';
 import {environment} from '../environments/environment';
 import {AuthService} from './services/auth.service';
 import {combineLatest, Observable, of, Subject} from 'rxjs';
-import {mergeMap, skip, takeUntil} from 'rxjs/operators';
+import {mergeMap, skip, take, takeUntil} from 'rxjs/operators';
 import {getCompetition} from './store/competition/competition.reducer';
 import {AngularFireDatabase} from '@angular/fire/database';
 import {UiService} from './ui.service';
 import {PredictionType} from './models/competition.model';
 import {ToastService} from './services/toast.service';
-import { CodePush, InstallMode } from '@ionic-native/code-push/ngx';
+import {CodePush, InstallMode} from '@ionic-native/code-push/ngx';
 
 @Component({
     selector: 'app-root',
@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
 
     isLoggedIn$: Observable<firebase.User> = this.authService.user$;
+
 
     initializeApp() {
         this.platform.ready().then(() => {
@@ -85,23 +86,37 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     checkCodePush() {
+        const downloadProgress = (progress) => {
+            // this.uiService.isLoading$.next(progress.receivedBytes !== progress.totalBytes);
+            console.log(`Bezig met update, ${progress.receivedBytes} van ${progress.totalBytes} gedownload`);
+        };
+
         this.codePush.sync({
             updateDialog: {
-                appendReleaseDescription: true,
-                descriptionPrefix: '\n\nChange log:\n'
+                appendReleaseDescription: false,
+                updateTitle: 'Super eleven update',
+                mandatoryUpdateMessage: 'Er is een nieuwe update beschikbaar',
+                mandatoryContinueButtonLabel: 'Installeer update'
             },
+            deploymentKey: this.platform.is('ios') ? environment.iOSCodePush : environment.androidCodePush,
             installMode: InstallMode.IMMEDIATE
-        }).subscribe(
-            (data) => {
-                console.log('CODE PUSH SUCCESSFUL: ' + data);
+        }, downloadProgress).pipe(take(1)).subscribe(
+            (syncStatus) => {
+                console.log('CODE PUSH SYNCSTATUS: ' + syncStatus);
             },
-            (err) => {
-                console.log('CODE PUSH ERROR: ' + err);
-            }
-        );
+            (error) => {
+                console.error('CODE PUSH ERROR: ' + error);
+            });
     }
 
+
     ngOnInit(): void {
+        this.platform.resume.subscribe(() => {
+            if (this.platform.is('cordova')) {
+                this.checkCodePush();
+            }
+        });
+
         this.uiService.lastUpdated$.pipe(takeUntil(this.unsubscribe), skip(2))
             .subscribe(lastupdated => {
                 this.toastService.presentToast('De stand is geupdate');

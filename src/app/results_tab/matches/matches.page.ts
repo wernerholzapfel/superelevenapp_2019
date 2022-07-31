@@ -57,10 +57,10 @@ export class MatchesPage implements OnInit, OnDestroy {
     }
 
     updateMatchStand() {
-        forkJoin([
+        concat(
             this.standenService.createMatchesStand(this.competition.id, this.prediction.id).pipe(first()),
             this.standenService.createTotalStand(this.competition.id).pipe(first())
-        ])
+        )
             .subscribe((message) => {
                 this.toastService.presentToast('Wedstrijdenstand is bijgewerkt');
             }, error => {

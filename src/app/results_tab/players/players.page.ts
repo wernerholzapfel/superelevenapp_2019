@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {IonRouterOutlet, ModalController} from '@ionic/angular';
-import {BehaviorSubject, combineLatest, forkJoin, of, Subject} from 'rxjs';
+import {BehaviorSubject, combineLatest, concat, forkJoin, of, Subject} from 'rxjs';
 import {Formation, FormationPlayer} from '../../models/formation.model';
 import {ToastService} from '../../services/toast.service';
 import {PlayerService} from '../../services/player.service';
 import {FormationService} from '../../services/formation.service';
 import {getCompetition} from '../../store/competition/competition.reducer';
-import {first, mergeMap, takeUntil} from 'rxjs/operators';
+import {first, mergeMap, switchMap, takeUntil} from 'rxjs/operators';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {TeamplayerResponse} from '../../models/teamplayer.model';
@@ -96,6 +96,8 @@ export class PlayersPage implements OnInit, OnDestroy {
                     this.players = players;
                 }
             );
+        this.activeRound = this.roundService.previousRoundId$.value;
+
     }
 
 
@@ -132,14 +134,14 @@ export class PlayersPage implements OnInit, OnDestroy {
     }
 
     updatePlayerStand() {
-        forkJoin([
+        concat(
             this.standenService.createRoundTeamStand(this.competition.id, this.prediction.id, this.activeRound).pipe(first()),
             this.standenService.createTeamStand(this.competition.id, this.prediction.id).pipe(first()),
             this.statsService.createStatsForRound(this.competition.id, this.prediction.id, this.activeRound).pipe(first()),
             this.statsService.createStats(this.competition.id, this.prediction.id).pipe(first()),
             this.standenService.createTotalStand(this.competition.id).pipe(first())
-        ])
-            .subscribe(([res1, res2, res3, res4, res5]) => {
+        )
+            .subscribe((response) => {
                 this.toastService.presentToast('Standen en statistieken bijgewerkt');
             }, error => {
                 this.toastService.presentToast('er is iets misgegaan bij het opslaan', 'warning');

@@ -7,7 +7,7 @@
             <ion-card-subtitle color="medium">Vul de uitslag in
             </ion-card-subtitle>
         </ion-card-header>
-        <ion-card-content no-padding>
+        <ion-card-content class="ion-no-padding">
             <app-matches-card *ngFor="let match of matches" [match]="match" class="match-card" [rounds]="rounds"></app-matches-card>
         </ion-card-content>
     </ion-card>

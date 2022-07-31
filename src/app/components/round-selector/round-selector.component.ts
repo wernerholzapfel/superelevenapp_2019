@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {Subject} from 'rxjs';
 import {ScoreformUiService} from '../../services/scoreform-ui.service';
 import {RoundService} from '../../services/round.service';
@@ -14,14 +14,27 @@ export class RoundSelectorComponent implements OnInit, OnDestroy {
 
     @Input() showTotaal: boolean;
     @Input() color: string;
-    @Input() activeRound: string;
     @Output() roundChange = new EventEmitter();
-    @Input() rounds: Round[];
+
+    @Input()
+    public set rounds(rounds: Round[]) {
+        if (rounds && rounds.length > 0) {
+            this._rounds = rounds;
+        }
+    };
+
+    public get rounds(): Round[] {
+        return this._rounds;
+    }
+
+    public activeRound: string;
+
     unsubscribe = new Subject<void>();
 
     customPopoverOptions: any = {
-        header: 'speelronde',
+        header: 'Kies speelronde',
     };
+    private _rounds: Round[];
 
     constructor(private roundService: RoundService,
                 private scoreformUiService: ScoreformUiService) {
@@ -31,6 +44,7 @@ export class RoundSelectorComponent implements OnInit, OnDestroy {
         this.roundService.previousRoundId$
             .pipe(first(value => value !== ''), takeUntil(this.unsubscribe))
             .subscribe(activeRound => {
+                    console.log(activeRound)
                     this.activeRound = this.activeRound ? this.activeRound : activeRound;
                     this.roundChange.emit(this.activeRound);
                 }

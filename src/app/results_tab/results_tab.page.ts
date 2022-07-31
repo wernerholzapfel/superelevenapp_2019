@@ -23,7 +23,6 @@ export class ResultsTabPage implements OnInit, OnDestroy {
     unsubscribe = new Subject<void>();
 
     ngOnInit() {
-
         this.roundService.getPreviousRound().subscribe(round => {
             this.roundService.previousRoundId$.next(round.id);
         });
